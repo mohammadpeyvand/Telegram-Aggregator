@@ -1,0 +1,14 @@
+# Wrangler
+.wrangler/
+wrangler.toml
+
+# Dependencies
+node_modules/
+
+# Env
+.env
+.dev.vars
+
+# OS
+.DS_Store
+Thumbs.db

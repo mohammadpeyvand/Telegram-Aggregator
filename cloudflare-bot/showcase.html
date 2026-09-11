@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ربات تجمیع‌کننده محتوای تلگرام</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#06070d;color:#e4e7ec;line-height:1.7}
+.container{max-width:900px;margin:0 auto;padding:1.5rem}
+h1{font-size:2rem;background:linear-gradient(135deg,#22d3ee,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:.5rem}
+h2{font-size:1.3rem;color:#22d3ee;margin:2rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid #1e2433}
+h3{font-size:1.05rem;color:#a78bfa;margin:1.2rem 0 .6rem}
+p{margin:.5rem 0;color:#9ca3af}
+code{background:#0d1117;border:1px solid #1e2433;padding:.15rem .4rem;border-radius:4px;font-family:'Fira Code',monospace;font-size:.85rem;color:#22d3ee}
+blockquote{background:#0d1117;border-right:3px solid #22d3ee;padding:.8rem 1rem;margin:.8rem 0;border-radius:6px}
+ul{list-style:none;padding-right:1rem}
+li{margin:.4rem 0;color:#9ca3af}
+li::before{content:'▸ ';color:#22d3ee}
+.badge{display:inline-block;background:#22d3ee15;color:#22d3ee;padding:.2rem .6rem;border-radius:12px;font-size:.75rem;margin:.2rem}
+.hero{text-align:center;padding:2rem 0;background:radial-gradient(circle at 50% 50%,#22d3ee08,transparent);border-radius:12px;margin-bottom:1rem}
+.hero p{font-size:1.1rem;color:#9ca3af}
+.section{background:#0a0e1a;border:1px solid #1e2433;border-radius:10px;padding:1.2rem;margin:.8rem 0}
+.cmd-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.cmd-table td{padding:.4rem .6rem;border-bottom:1px solid #1e2433}
+.cmd-table td:first-child{color:#22d3ee;font-family:monospace;white-space:nowrap;width:35%}
+.cron-item{display:flex;gap:1rem;align-items:flex-start;padding:.8rem;background:#0d1117;border-radius:8px;margin:.5rem 0;border-right:3px solid #a78bfa}
+.cron-time{font-weight:bold;color:#a78bfa;min-width:120px}
+.footer{text-align:center;padding:2rem 0 1rem;color:#4b5563;font-size:.85rem;border-top:1px solid #1e2433;margin-top:2rem}
+a{color:#22d3ee;text-decoration:none}
+a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+<h1>🤖 ربات تجمیع‌کننده محتوای تلگرام</h1>
+<p>رباتی که کانال‌های عمومی تلگرام را می‌خواند، محتوای جدید را فیلتر می‌کند و به مقصد شما ارسال می‌کند. کاملاً رایگان، بدون سرور، مبتنی بر Cloudflare Workers.</p>
+<div style="margin-top:1rem">
+<span class="badge">Cloudflare Workers</span>
+<span class="badge">D1 Database</span>
+<span class="badge">Workers KV</span>
+<span class="badge">Gemini AI</span>
+<span class="badge">Telegram Bot API</span>
+</div>
+</div>
+
+<h2>✨ امکانات</h2>
+<div class="section">
+<h3>🤖 سیستم اسکن و جمع‌آوری محتوا</h3>
+<ul>
+<li>خواندن کانال‌های عمومی از طریق <code>t.me/s/</code> با سرعت بالا</li>
+<li>تکنیک حلقه‌ای — در هر اجرای Cron فقط <b>یک منبع</b> بررسی می‌شود (Round-Robin)</li>
+<li>تشخیص نوع رسانه (عکس، ویدیو، فایل، صوت، استیکر، نظرسنجی، متن)</li>
+<li>تشخیص تعداد بازدید پست‌ها</li>
+<li>سیستم ضدتکراری با <b>SHA-256</b> ذخیره‌شده در <b>D1</b> به مدت <b>۷ روز</b></li>
+<li>حفظ فرمت‌بندی متن تلگرام (bold، italic، spoiler، quote، code، لینک)</li>
+</ul>
+
+<h3>🎯 سه حالت فیلتر</h3>
+<ul>
+<li><b>فوروارد</b> — ارسال همه پست‌های جدید بدون فیلتر</li>
+<li><b>عمیق</b> — فیلتر با کلیدواژه مثبت/منفی + حالت <code>every</code> (AND)</li>
+<li><b>وایرال</b> — ارسال پست‌هایی با بازدید بالاتر از آستانه مشخص‌شده</li>
+</ul>
+
+<h3>🛡 سیستم ضد تبلیغات (۴ لایه)</h3>
+<ul>
+<li><b>لایه ۱</b>: الگوهای صریح (تخفیف N٪، کد تخفیف، فرصت محدود، لینک joinchat)</li>
+<li><b>لایه ۲</b>: امتیازگذاری — ۲+ نشانگر تبلیغاتی (فروش، خرید، رایگان، تضمین) = تبلیغ</li>
+<li><b>لایه ۳</b>: لینک‌های مشکوک (bit.ly، دامنه‌های .vip/.xyz/.shop)</li>
+<li><b>لایه ۴</b>: مولتی‌فوروارد (۲+ نام کانال در یک پست)</li>
+<li>قابل روشن/خاموش روی هر منبع به‌صورت جداگانه</li>
+</ul>
+
+<h3>🤖 هوش مصنوعی (Gemini + Workers AI)</h3>
+<ul>
+<li>تحلیل هوشمند کلیدواژه — ۳۰ پست اخیر کانال بررسی می‌شود</li>
+<li>پیشنهاد کلیدواژه مثبت + منفی به ادمین</li>
+<li>تأیید تک‌تک کلیدواژه‌ها با دکمه شیشه‌ای</li>
+<li>گزارش روزانه هوشمند با خلاصه AI</li>
+<li><b>Gemini API</b> به‌عنوان provider اصلی (رایگان، پایدار)</li>
+<li><b>Workers AI</b> به‌عنوان fallback خودکار</li>
+</ul>
+
+<h3>📊 پنل مدیریت تحت وب</h3>
+<ul>
+<li>داشبورد با نمودار (Chart.js) — ارسال، اسکن، رد، خطا</li>
+<li>مدیریت منابع — افزودن، ویرایش، حذف، ویرایش گروهی</li>
+<li>تب هوش مصنوعی — تحلیل دستی + تأیید کلیدواژه‌های pending</li>
+<li>تب لاگ‌ها — جستجو و فیلتر رویدادها</li>
+<li>تب فعالیت ادمین‌ها</li>
+<li>آمار ضد تبلیغات (مسدودشده‌های ۷ روز اخیر)</li>
+<li>بکاپ و بازیابی</li>
+</ul>
+
+<h3>🛡 سیستم ادمین</h3>
+<ul>
+<li>ادمین اصلی از متغیر <code>MAIN_ADMIN_ID</code></li>
+<li>ادمین‌های فرعی با دسترسی قابل تنظیم (۱۲ دستور محدود)</li>
+<li>ثبت فعالیت ادمین‌ها + اطلاع به ادمین اصلی</li>
+<li>ری‌اکشن خودکار 🫡 روی دستورات</li>
+</ul>
+
+<h3>💾 سایر امکانات</h3>
+<ul>
+<li>بکاپ و بازیابی با فایل JSON</li>
+<li>ارسال به گروه‌های تاپیک‌دار (Forum) — هر منبع به تاپیک مربوطه</li>
+<li>سه دستور ویزارد مرحله‌ای برای افزودن/ویرایش منبع</li>
+<li>پیام‌های فرمت‌بندی‌شده با blockquote و bold</li>
+</ul>
+</div>
+
+<h2>⏰ زمان‌بندی خودکار (Cron)</h2>
+<div class="section">
+<p>ربات ۳ کار خودکار دارد که در زمان‌های مشخص اجرا می‌شوند:</p>
+
+<div class="cron-item">
+<div class="cron-time">هر ۲ دقیقه<br><code>*/2 * * * *</code></div>
+<div>
+<b>۱. اسکن منابع</b><br>
+یک منبع به نوبت بررسی می‌شود (حلقه‌ای Round-Robin) — این روش از خطای <code>Exceeded CPU limit</code> کلادفلر جلوگیری می‌کند. با ۲۰ منبع، هر منبع هر ۴۰ دقیقه اسکن می‌شود.
+</div>
+</div>
+
+<div class="cron-item">
+<div class="cron-time">هر روز ۲ بامداد ایران<br><code>30 22 * * *</code></div>
+<div>
+<b>۲. تحلیل کلیدواژه با AI</b><br>
+یک منبع با موضوع انتخاب شده، به‌نوبت تحلیل می‌شود. ربات ۳۰ پست اخیر را با Gemini بررسی می‌کند و کلیدواژه‌های مثبت + منفی پیشنهاد می‌دهد. نتیجه به‌صورت pending به ادمین ارسال می‌شود تا تأیید کند.
+</div>
+</div>
+
+<div class="cron-item">
+<div class="cron-time">هر شب ۳ ایران<br><code>30 23 * * *</code></div>
+<div>
+<b>۳. گزارش روزانه</b><br>
+گزارش پست‌های ارسالی ۲۴ ساعت اخیر + گروه‌بندی بر اساس موضوع + پست‌های وایرال + خلاصه هوشمند با AI به ادمین اصلی ارسال می‌شود.
+</div>
+</div>
+
+<blockquote>💡 این زمان‌ها در فایل <code>wrangler.toml</code> در بخش <code>[triggers]</code> قابل تغییر هستند.</blockquote>
+</div>
+
+<h2>📋 دستورات تلگرام</h2>
+<div class="section">
+<h3>📡 مدیریت منابع</h3>
+<table class="cmd-table">
+<tr><td><code>/addsource</code></td><td>افزودن منبع جدید (ویزارد مرحله‌ای: کانال → حالت → کلیدواژه → مقصد)</td></tr>
+<tr><td><code>/settopic</code></td><td>تنظیم موضوع منبع (برای تحلیل AI)</td></tr>
+<tr><td><code>/settarget</code></td><td>تغییر مقصد منبع (چت + تاپیک)</td></tr>
+<tr><td><code>/delsource</code></td><td>حذف منبع</td></tr>
+<tr><td><code>/listsources</code></td><td>نمایش لیست منابع</td></tr>
+<tr><td><code>/scansingle</code></td><td>اسکن یک منبع خاص</td></tr>
+</table>
+
+<h3>🔍 اسکن و آمار</h3>
+<table class="cmd-table">
+<tr><td><code>/scan</code></td><td>اسکن فوری همه منابع</td></tr>
+<tr><td><code>/stats</code></td><td>نمایش آمار کلی (ارسال، رد، خطا، تبلیغ مسدود)</td></tr>
+<tr><td><code>/ping</code></td><td>تست فعال بودن ربات در این چت</td></tr>
+<tr><td><code>/check</code></td><td>بررسی وضعیت نصب و ادمین بودن ربات</td></tr>
+</table>
+
+<h3>🤖 هوش مصنوعی</h3>
+<table class="cmd-table">
+<tr><td><code>/aianalyze</code></td><td>تحلیل کلیدواژه با AI (Gemini یا Workers AI)</td></tr>
+<tr><td><code>/report</code></td><td>تولید گزارش روزانه هوشمند</td></tr>
+</table>
+
+<h3>🛡 مدیریت</h3>
+<table class="cmd-table">
+<tr><td><code>/adblock</code></td><td>مدیریت سیستم ضد تبلیغات + آمار مسدودشده‌ها</td></tr>
+<tr><td><code>/addadmin</code></td><td>افزودن ادمین فرعی</td></tr>
+<tr><td><code>/deladmin</code></td><td>حذف ادمین فرعی</td></tr>
+<tr><td><code>/admins</code></td><td>لیست ادمین‌ها</td></tr>
+<tr><td><code>/setpermissions</code></td><td>تنظیم دسترسی ادمین فرعی (۱۲ دستور)</td></tr>
+</table>
+
+<h3>💾 بکاپ و سایر</h3>
+<table class="cmd-table">
+<tr><td><code>/backup</code></td><td>دریافت فایل بکاپ JSON</td></tr>
+<tr><td><code>/restore</code></td><td>بازیابی از فایل بکاپ (فوروارد فایل)</td></tr>
+<tr><td><code>/cancel</code></td><td>لغو عملیات جاری</td></tr>
+<tr><td><code>/help</code></td><td>راهنمای دسته‌بندی‌شده</td></tr>
+<tr><td><code>/start</code></td><td>شروع و نمایش منو</td></tr>
+</table>
+</div>
+
+<h2>🚀 نصب</h2>
+<div class="section">
+<h3>پیش‌نیازها</h3>
+<ul>
+<li>حساب Cloudflare (رایگان)</li>
+<li>ربات تلگرام (از <a href="https://t.me/BotFather" target="_blank">@BotFather</a>)</li>
+<li>کلید API Gemini (رایگان از <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>)</li>
+<li>Node.js و Wrangler CLI</li>
+</ul>
+
+<h3>مراحل</h3>
+
+<h3>۱. کلون و پیکربندی</h3>
+<blockquote><code>git clone &lt;repo&gt;</code><br>
+<code>cd telegram-aggregator</code><br>
+<code>cp wrangler.toml.example wrangler.toml</code></blockquote>
+<p>فایل <code>wrangler.toml</code> را باز کنید و <code>MAIN_ADMIN_ID</code> را تنظیم کنید.</p>
+
+<h3>۲. ایجاد منابع Cloudflare</h3>
+<blockquote><code>wrangler d1 create aggregator</code><br>
+<code>wrangler kv namespace create AGGREGATOR</code></blockquote>
+<p>شناسه‌های دریافت‌شده را در <code>wrangler.toml</code> قرار دهید.</p>
+
+<h3>۳. ایجاد جداول دیتابیس</h3>
+<blockquote><code>wrangler d1 execute aggregator --file=./schema.sql</code></blockquote>
+
+<h3>۴. تنظیم متغیرهای حساس</h3>
+<blockquote><code>wrangler secret put BOT_TOKEN</code><br>
+<code>wrangler secret put PANEL_PASSWORD</code><br>
+<code>wrangler secret put GEMINI_API_KEY</code></blockquote>
+
+<h3>۵. دیپلوی</h3>
+<blockquote><code>wrangler deploy</code></blockquote>
+
+<h3>۶. ثبت دستورات در تلگرام</h3>
+<p>آدرس زیر را در مرورگر باز کنید:</p>
+<blockquote><code>https://your-worker.workers.dev/setup-commands</code></blockquote>
+
+<h3>۷. فعال‌سازی Webhook</h3>
+<p>آدرس زیر را در مرورگر باز کنید:</p>
+<blockquote><code>https://your-worker.workers.dev/set-webhook</code></blockquote>
+</div>
+
+<h2>🌐 پنل مدیریت</h2>
+<div class="section">
+<p>پس از دیپلوی، به آدرس زیر بروید:</p>
+<blockquote><code>https://your-worker.workers.dev/panel</code></blockquote>
+<p>با رمز عبوری که در <code>PANEL_PASSWORD</code> تنظیم کرده‌اید وارد شوید.</p>
+
+<h3>امکانات پنل:</h3>
+<ul>
+<li>📊 داشبورد با نمودار ۷ روزه</li>
+<li>📡 مدیریت منابع (افزودن، ویرایش، حذف، ویرایش گروهی)</li>
+<li>🤖 تب هوش مصنوعی (تحلیل دستی + تأیید کلیدواژه)</li>
+<li>🗂 تب لاگ‌ها (جستجو و فیلتر)</li>
+<li>👤 تب فعالیت ادمین‌ها</li>
+<li>💾 بکاپ و بازیابی</li>
+</ul>
+</div>
+
+<h2>📁 ساختار پروژه</h2>
+<div class="section">
+<blockquote>
+<code>worker.js</code> — کد اصلی ربات (Cloudflare Worker)<br>
+<code>panel/index.html</code> — پنل مدیریت تحت وب<br>
+<code>schema.sql</code> — جداول دیتابیس D1<br>
+<code>wrangler.toml.example</code> — نمونه پیکربندی<br>
+<code>README.md</code> — مستندات کامل<br>
+<code>README.fa.md</code> — مستندات فارسی<br>
+<code>README.en.md</code> — مستندات انگلیسی<br>
+<code>showcase.html</code> — این صفحه نمایش
+</blockquote>
+</div>
+
+<h2>🛠 تکنولوژی‌ها</h2>
+<div class="section">
+<ul>
+<li><b>Cloudflare Workers</b> — محیط اجرای Edge (بدون سرور)</li>
+<li><b>D1</b> — دیتابیس SQLite کلادفلر (منابع، لاگ‌ها، ادمین‌ها)</li>
+<li><b>Workers KV</b> — کش و سشن (هش ضدتکراری، انتخاب AI)</li>
+<li><b>Cron Triggers</b> — زمان‌بندی خودکار (هر ۲ دقیقه + ۲ کار روزانه)</li>
+<li><b>Gemini API</b> — هوش مصنوعی (تحلیل کلیدواژه + خلاصه گزارش)</li>
+<li><b>Workers AI</b> — fallback هوش مصنوعی</li>
+<li><b>Telegram Bot API</b> — ربات (webhook + inline keyboard)</li>
+<li><b>Chart.js</b> — نمودارهای پنل</li>
+</ul>
+</div>
+
+<h2>📄 لایسنس</h2>
+<div class="section">
+<p>MIT License — استفاده رایگان برای شخصی و تجاری.</p>
+</div>
+
+<div class="footer">
+<p>ساخته‌شده با ❤️ برای جامعه تلگرام</p>
+<p>© ۲۰۲۵ — Telegram Content Aggregator Bot</p>
+</div>
+
+</div>
+</body>
+</html>

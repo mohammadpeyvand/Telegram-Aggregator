@@ -1,0 +1,58 @@
+# ============================================================================
+#  Telegram Aggregator Bot — Wrangler Configuration (نمونه)
+#  این فایل را به wrangler.toml تغییر نام دهید و مقادیر را پر کنید.
+# ============================================================================
+
+name = "telegram-aggregator"
+main = "worker.js"
+compatibility_date = "2024-09-23"
+
+# ─── زمان‌بندی Cron ───
+# ۱. هر ۲ دقیقه: اسکن منظم (یکی‌به‌یکی)
+# ۲. هر روز ۲۲:۳۰ UTC (۲ بامداد ایران): تحلیل AI کلیدواژه
+# ۳. هر روز ۲۳:۳۰ UTC (۳ بامداد ایران): گزارش روزانه
+[triggers]
+crons = ["*/2 * * * *", "30 22 * * *", "30 23 * * *"]
+
+# ─── متغیرهای عمومی (غیر حساس) ───
+[vars]
+MAIN_ADMIN_ID = "123456789"          # آیدی عددی ادمین اصلی تلگرام
+
+# ⚠️ متغیرهای حساس را با wrangler secret set کنید:
+#   wrangler secret put BOT_TOKEN
+#   wrangler secret put PANEL_PASSWORD
+# (در این فایل قرار ندهید)
+
+# ─── دیتابیس D1 ───
+[[d1_databases]]
+binding = "DB"
+database_name = "aggregator"
+database_id = "REPLACE_WITH_YOUR_D1_ID"   # پس از wrangler d1 create گرفته می‌شود
+
+# ─── فضای KV (برای هش ضدتکراری و سشن) ───
+[[kv_namespaces]]
+binding = "KV"
+id = "REPLACE_WITH_YOUR_KV_ID"
+
+# ─── هوش مصنوعی (۲ گزینه — یکی کافی است) ───
+
+# گزینه ۱: Gemini API (پیشنهادی — رایگان، پایدار، فارسی بهتر)
+# کلید رایگان از: https://aistudio.google.com/app/apikey
+# سپس اجرا کنید: wrangler secret put GEMINI_API_KEY
+# (در این فایل قرار ندهید — secret هست)
+
+# گزینه ۲: Workers AI (Cloudflare — اگه Gemini نمی‌خواهید)
+[ai]
+binding = "AI"
+
+# ============================================================================
+#  نکته: پس از ایجاد منابع:
+#    wrangler d1 create aggregator          → database_id
+#    wrangler kv namespace create AGGREGATOR → id
+#    wrangler d1 execute aggregator --file=./schema.sql
+#    wrangler secret put BOT_TOKEN
+#    wrangler secret put PANEL_PASSWORD
+#    wrangler secret put GEMINI_API_KEY     # (پیشنهادی — کلید Gemini رایگان)
+#    wrangler deploy
+#    سپس آدرس /setup-commands را در مرورگر باز کنید
+# ============================================================================

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telegram Aggregator Bot — Architecture Flowchart</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --text: #111827;
+  --text-sub: #6B7280;
+  --text-muted: #9CA3AF;
+  --bg: #FFFFFF;
+  --surface: #F9FAFB;
+  --border: #E5E7EB;
+  --blue: #3B82F6;
+  --cyan: #06B6D4;
+  --purple: #8B5CF6;
+  --amber: #F59E0B;
+  --red: #EF4444;
+  --green: #10B981;
+  --connector: #94A3B8;
+  --node-bg: #EFF6FF;
+  --node-border: #3B82F6;
+  --node-decision-bg: #FFF7ED;
+  --node-decision-border: #F59E0B;
+  --node-success-bg: #F0FDF4;
+  --node-success-border: #10B981;
+  --node-end-bg: #F5F3FF;
+  --node-end-border: #8B5CF6;
+  --group-bg: #F8FAFC;
+  --group-border: #E2E8F0;
+  --phase-1-bg: #F0F4F8;
+  --phase-1-border: #64748B;
+  --phase-2-bg: #E8EDF2;
+  --phase-2-border: #5B7A99;
+  --phase-3-bg: #E0E7EF;
+  --phase-3-border: #4A6B8A;
+  --phase-4-bg: #D8E0EA;
+  --phase-4-border: #3A5C7A;
+  --phase-5-bg: #D0DAE5;
+  --phase-5-border: #2A4E6B;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'SimHei', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  width: fit-content;
+  min-width: 1000px;
+  margin: 0 auto;
+  padding: 48px 40px;
+}
+
+/* Title */
+.flow-title {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.flow-subtitle {
+  font-size: 14px;
+  color: var(--text-sub);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Phase groups */
+.phase-group {
+  background: var(--group-bg);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.phase-title {
+  font-size: 16px;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+.phase-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 12px;
+}
+.phase-step {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text);
+  padding: 10px 14px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.phase-step:hover {
+  border-color: var(--blue);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+.phase-step.active {
+  border-color: var(--blue);
+  background: var(--node-bg);
+}
+.step-num {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+/* Phase colors */
+.phase-1 .phase-title { background: var(--phase-1-bg); color: #334155; border-right: 4px solid var(--phase-1-border); }
+.phase-1 .step-num { background: #E2E8F0; color: #475569; }
+.phase-2 .phase-title { background: var(--phase-2-bg); color: #1E3A5F; border-right: 4px solid var(--phase-2-border); }
+.phase-2 .step-num { background: #DBEAFE; color: #1E3A5F; }
+.phase-3 .phase-title { background: var(--phase-3-bg); color: #1E3050; border-right: 4px solid var(--phase-3-border); }
+.phase-3 .step-num { background: #D0D9E4; color: #1E3050; }
+.phase-4 .phase-title { background: var(--phase-4-bg); color: #172540; border-right: 4px solid var(--phase-4-border); }
+.phase-4 .step-num { background: #C7D2E0; color: #172540; }
+.phase-5 .phase-title { background: var(--phase-5-bg); color: #0F1E30; border-right: 4px solid var(--phase-5-border); }
+.phase-5 .step-num { background: #BFC9D8; color: #0F1E30; }
+
+/* Phase arrow */
+.phase-arrow {
+  text-align: center;
+  color: var(--connector);
+  font-size: 24px;
+  margin: 4px 0;
+}
+
+/* Detail panel */
+.detail-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 420px;
+  height: 100vh;
+  background: white;
+  border-left: 1px solid var(--border);
+  box-shadow: -4px 0 24px rgba(0,0,0,0.1);
+  padding: 32px 28px;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 100;
+}
+.detail-panel.open {
+  transform: translateX(0);
+}
+.detail-close {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--text-sub);
+}
+.detail-close:hover { background: #F3F4F6; }
+.detail-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  font-size: 28px;
+}
+.detail-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.detail-section {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.detail-section h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-sub);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.detail-section p {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.6;
+}
+.detail-tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin: 2px;
+  font-weight: 500;
+}
+.detail-tag.does { background: #F0FDF4; color: #065F46; border: 1px solid #BBF7D0; }
+.detail-tag.doesnt { background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; }
+.detail-tag.func { background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; }
+
+/* Backdrop */
+.detail-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 99;
+}
+.detail-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Legend */
+.flow-legend {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-top: 40px;
+  padding: 16px 24px;
+  background: #F9FAFB;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+}
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #4B5563; }
+.legend-dot { width: 12px; height: 12px; border-radius: 3px; border: 2px solid; }
+</style>
+</head>
+<body>
+
+<div id="root">
+  <div class="flow-title">Telegram Content Aggregator Bot — Architecture</div>
+  <div class="flow-subtitle">Click any step to see detailed description</div>
+
+  <!-- Phase 1: Entry Points -->
+  <div class="phase-group phase-1">
+    <div class="phase-title">۱. ورودی‌ها (Entry Points)</div>
+    <div class="phase-steps">
+      <div class="phase-step" data-id="webhook"><span class="step-num">۱</span>Webhook تلگرام (/webhook) — دریافت پیام‌ها و دکمه‌های شیشه‌ای</div>
+      <div class="phase-step" data-id="cron"><span class="step-num">۲</span>Cron Triggers — ۳ کار خودکار زمان‌بندی‌شده</div>
+      <div class="phase-step" data-id="api"><span class="step-num">۳</span>API پنل (/api/*) — مدیریت از مرورگر</div>
+      <div class="phase-step" data-id="panel"><span class="step-num">۴</span>پنل HTML (/panel) — فایل استاتیک تحت وب</div>
+    </div>
+  </div>
+
+  <div class="phase-arrow">↓</div>
+
+  <!-- Phase 2: Scan Pipeline -->
+  <div class="phase-group phase-2">
+    <div class="phase-title">۲. خط لوله اسکن (Scan Pipeline)</div>
+    <div class="phase-steps">
+      <div class="phase-step" data-id="runcron"><span class="step-num">۵</span>runCron() — انتخاب یک منبع (Round-Robin)</div>
+      <div class="phase-step" data-id="scrape"><span class="step-num">۶</span>scrapeChannel() — خواندن HTML از t.me/s/{channel}</div>
+      <div class="phase-step" data-id="parse"><span class="step-num">۷</span>parsePosts() → parsePostBlock() — استخراج متن، رسانه، بازدید</div>
+      <div class="phase-step" data-id="convert"><span class="step-num">۸</span>convertTelegramHtml() — حفظ فرمت‌بندی (bold, italic, spoiler, quote)</div>
+      <div class="phase-step" data-id="dedup"><span class="step-num">۹</span>hashPost() → isDuplicate() — ضدتکراری SHA-256 در D1 (۷ روز TTL)</div>
+      <div class="phase-step" data-id="modefilter"><span class="step-num">۱۰</span>matchDeep() / matchViral() — فیلتر حالت (کلیدواژه / بازدید)</div>
+    </div>
+  </div>
+
+  <div class="phase-arrow">↓</div>
+
+  <!-- Phase 3: Anti-Ad System -->
+  <div class="phase-group phase-3">
+    <div class="phase-title">۳. سیستم ضد تبلیغات (۴ لایه امتیازدهی)</div>
+    <div class="phase-steps">
+      <div class="phase-step" data-id="score"><span class="step-num">۱۱</span>scoreAdPost() — امتیازدهی ۰-۱۰۰ با ۴ لایه</div>
+      <div class="phase-step" data-id="layer1"><span class="step-num">۱۲</span>لایه ۱: کلمات (HEAVY_AD_WORDS + MEDIUM_AD_WORDS) — وزن ۱۵-۴۰</div>
+      <div class="phase-step" data-id="layer2"><span class="step-num">۱۳</span>لایه ۲: لینک‌های مشکوک + اموجی تبلیغاتی + آیدی ربات‌ها</div>
+      <div class="phase-step" data-id="layer3"><span class="step-num">۱۴</span>لایه ۳: سیگنال پیش‌درآمد (KV با TTL ۵ دقیقه) — ضریب ×۱.۵</div>
+      <div class="phase-step" data-id="layer4"><span class="step-num">۱۵</span>لایه ۴: ساختار + امتیاز منفی (ریپلای، متن طولانی، دامنه معتبر)</div>
+      <div class="phase-step" data-id="block"><span class="step-num">۱۶</span>verdict ≥ ۷۰ → 🚫 مسدود قطعی + لاگ</div>
+      <div class="phase-step" data-id="quarantine"><span class="step-num">۱۷</span>verdict ۴۰-۶۹ → ⚠️ sendToQuarantine() + دکمه‌های ❌✅🤖</div>
+      <div class="phase-step" data-id="clean"><span class="step-num">۱۸</span>verdict < ۴۰ → ✅ عبور → deliverPost()</div>
+    </div>
+  </div>
+
+  <div class="phase-arrow">↓</div>
+
+  <!-- Phase 4: AI System -->
+  <div class="phase-group phase-4">
+    <div class="phase-title">۴. سیستم هوش مصنوعی (Gemini + Workers AI)</div>
+    <div class="phase-steps">
+      <div class="phase-step" data-id="aifallback"><span class="step-num">۱۹</span>runAIWithFallback() — Gemini اول، Workers AI fallback</div>
+      <div class="phase-step" data-id="gemini"><span class="step-num">۲۰</span>callGemini() — fetch به Google AI (gemini-2.0-flash → 2.5-flash → 1.5)</div>
+      <div class="phase-step" data-id="cfai"><span class="step-num">۲۱</span>callWorkersAI() — env.AI.run (llama-3.3-70b → 3-8b)</div>
+      <div class="phase-step" data-id="analyze"><span class="step-num">۲۲</span>analyzeSourceWithAI() — تحلیل ۳۰ پست اخیر + استخراج کلیدواژه</div>
+      <div class="phase-step" data-id="report"><span class="step-num">۲۳</span>runDailyReport() — خلاصه هوشمند ۲۴ ساعت با AI</div>
+      <div class="phase-step" data-id="qai"><span class="step-num">۲۴</span>q_ai callback — تحلیل پست قرنطینه‌شده با AI (درخواستی)</div>
+    </div>
+  </div>
+
+  <div class="phase-arrow">↓</div>
+
+  <!-- Phase 5: Learning & Feedback -->
+  <div class="phase-group phase-5">
+    <div class="phase-title">۵. چرخه یادگیری و بازخورد</div>
+    <div class="phase-steps">
+      <div class="phase-step" data-id="bump"><span class="step-num">۲۵</span>bumpPostWeights() — افزایش وزن کلمات (هر ۳ hit → +۵ وزن)</div>
+      <div class="phase-step" data-id="deleted"><span class="step-num">۲۶</span>checkDeletedPosts() — تشخیص حذف پست از منبع (۲ ساعت بعد)</div>
+      <div class="phase-step" data-id="reportad"><span class="step-num">۲۷</span>دکمه 🚫 گزارش تبلیغ — روی پست ارسالی (popup + AI extraction)</div>
+      <div class="phase-step" data-id="balancad"><span class="step-num">۲۸</span>/balancad — گزارش پست پاک (کاهش وزن هر توکن −۱۰)</div>
+      <div class="phase-step" data-id="adweights"><span class="step-num">۲۹</span>ad_weights table — وزن‌های پویا در D1 (قابل ویرایش از پنل)</div>
+      <div class="phase-step" data-id="userreports"><span class="step-num">۳۰</span>user_reports table — ذخیره گزارش‌های کاربران</div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="flow-legend">
+    <div class="legend-item"><div class="legend-dot" style="border-color:#64748B;background:#F0F4F8;"></div>ورودی</div>
+    <div class="legend-item"><div class="legend-dot" style="border-color:#5B7A99;background:#E8EDF2;"></div>اسکن</div>
+    <div class="legend-item"><div class="legend-dot" style="border-color:#4A6B8A;background:#E0E7EF;"></div>ضد تبلیغات</div>
+    <div class="legend-item"><div class="legend-dot" style="border-color:#3A5C7A;background:#D8E0EA;"></div>هوش مصنوعی</div>
+    <div class="legend-item"><div class="legend-dot" style="border-color:#2A4E6B;background:#D0DAE5;"></div>یادگیری</div>
+  </div>
+</div>
+
+<!-- Detail Panel -->
+<div class="detail-backdrop" id="backdrop"></div>
+<div class="detail-panel" id="detailPanel">
+  <div class="detail-close" onclick="closeDetail()">✕</div>
+  <div id="detailContent"></div>
+</div>
+
+<script>
+const details = {
+  webhook: {
+    icon: '📡', iconBg: '#EFF6FF', iconColor: '#3B82F6',
+    title: 'Webhook تلگرام',
+    desc: 'دریافت همه پیام‌ها و دکمه‌های شیشه‌ای از تلگرام',
+    does: ['دریافت پیام‌های متنی', 'دریافت callback دکمه‌های شیشه‌ای', 'تشخیص اضافه/حذف ربات در گروه‌ها'],
+    doesnt: ['اسکن خودکار (آن cron هست)', 'ارسال پیام‌های زمان‌بندی‌شده'],
+    func: ['handleWebhook() → handleCallback() / handleMessage() / handleMyChatMember()'],
+  },
+  cron: {
+    icon: '⏰', iconBg: '#EFF6FF', iconColor: '#3B82F6',
+    title: 'Cron Triggers',
+    desc: '۳ کار خودکار زمان‌بندی‌شده در Cloudflare',
+    does: ['هر ۲ دقیقه: اسکن یک منبع (Round-Robin)', 'هر روز ۲ بامداد: تحلیل کلیدواژه AI', 'هر شب ۳ ایران: گزارش روزانه'],
+    doesnt: ['پاسخ به دستورات کاربر', 'اسکن همه منابع همزمان'],
+    func: ['scheduled() → runCron() / runAIAnalysis() / runDailyReport()'],
+  },
+  api: {
+    icon: '🔌', iconBg: '#EFF6FF', iconColor: '#3B82F6',
+    title: 'API پنل',
+    desc: 'مدیریت ربات از مرورگر با احراز هویت',
+    does: ['مدیریت منابع (CRUD)', 'آمار و نمودار', 'قرنطینه و وزن‌ها', 'بکاپ و بازیابی', 'مدیریت ادمین‌ها'],
+    doesnt: ['ارسال پیام مستقیم به تلگرام', 'اسکن منابع'],
+    func: ['handleApi() → /api/sources, /api/stats, /api/quarantine, /api/ad-weights, ...'],
+  },
+  panel: {
+    icon: '📊', iconBg: '#EFF6FF', iconColor: '#3B82F6',
+    title: 'پنل HTML',
+    desc: 'فایل استاتیک تحت وب (panel/index.html)',
+    does: ['۱۰ تب مدیریت', 'نمودار Chart.js', 'مدیریت کامل از مرورگر'],
+    doesnt: ['منطق سمت سرور (همه API هست)'],
+    func: ['سرو شده توسط Worker در مسیر /panel'],
+  },
+  runcron: {
+    icon: '🔄', iconBg: '#E8EDF2', iconColor: '#5B7A99',
+    title: 'runCron()',
+    desc: 'انتخاب یک منبع و اسکن آن (هر ۲ دقیقه)',
+    does: ['خواندن scan_index از D1', 'انتخاب یک منبع به‌ترتیب', 'فراخوانی scanSource()'],
+    doesnt: ['اسکن همه منابع همزمان (جلوگیری از Exceeded CPU)'],
+    func: ['kv_meta.scan_index → Round-Robin → scanSource()'],
+  },
+  scrape: {
+    icon: '🌐', iconBg: '#E8EDF2', iconColor: '#5B7A99',
+    title: 'scrapeChannel()',
+    desc: 'خواندن HTML کانال عمومی از t.me/s/',
+    does: ['fetch با User-Agent مرورگر', 'timeout ۱۲ ثانیه', 'برگرداندن لیست پست‌ها'],
+    doesnt: ['نیاز به عضویت ربات در کانال', 'استفاده از Telegram Bot API برای خواندن'],
+    func: ['fetch https://t.me/s/{channel} → parsePosts(html)'],
+  },
+  parse: {
+    icon: '📝', iconBg: '#E8EDF2', iconColor: '#5B7A99',
+    title: 'parsePosts() → parsePostBlock()',
+    desc: 'پارس HTML و استخراج اطلاعات پست',
+    does: ['استخراج متن', 'تشخیص نوع رسانه (۷ نوع)', 'تشخیص ریپلای', 'استخراج بازدید + لینک + زمان'],
+    doesnt: ['پارس HTML پیچیده (regex-based)', 'پشتیبانی از Markdown'],
+    func: ['parsePostBlock(block) → {text, mediaType, views, link, datetime, isReply, ...}'],
+  },
+  convert: {
+    icon: '🎨', iconBg: '#E8EDF2', iconColor: '#5B7A99',
+    title: 'convertTelegramHtml()',
+    desc: 'حفظ فرمت‌بندی تلگرام در پست‌های فوروارد‌شده',
+    does: ['bold، italic، spoiler، quote، code، لینک', 'پاکسازی tag‌های غیرمجاز', 'بالانس کردن tag‌های باز/بسته'],
+    doesnt: ['تغییر ساختار HTML', 'اضافه‌کردن فرمت جدید'],
+    func: ['convertTelegramHtml(html) → balanceHtmlTags(html)'],
+  },
+  dedup: {
+    icon: '🔒', iconBg: '#E8EDF2', iconColor: '#5B7A99',
+    title: 'ضدتکراری SHA-256',
+    desc: 'هش پست‌ها ۷ روز در D1 ذخیره می‌شود',
+    does: ['SHA-256 از dataPost', 'ذخیره در جدول dedup', 'پاکسازی خودکار هش‌های قدیمی'],
+    doesnt: ['ذخیره در KV (قبلاً بود، الان D1)', 'مقایسه محتوایی'],
+    func: ['hashPost() → isDuplicate() → markSeen() → cleanupOldHashes()'],
+  },
+  modefilter: {
+    icon: '🎯', iconBg: '#E8EDF2', iconColor: '#5B7A99',
+    title: 'فیلتر حالت',
+    desc: 'سه حالت اسکن: forward، deep، viral',
+    does: ['forward: ارسال همه پست‌ها', 'deep: کلیدواژه مثبت/منفی + every', 'viral: آستانه بازدید'],
+    doesnt: ['ترکیب حالت‌ها', 'فیلتر AI (آن جداگانه)'],
+    func: ['matchDeep(post, source) → {match, found} / matchViral(post, source)'],
+  },
+  score: {
+    icon: '🛡️', iconBg: '#E0E7EF', iconColor: '#4A6B8A',
+    title: 'scoreAdPost()',
+    desc: 'امتیازدهی ۰-۱۰۰ با ۴ لایه — خروجی verdict: block/quarantine/clean',
+    does: ['تحلیل ۴ لایه', 'امتیاز منفی (خنثی‌کننده)', 'ضریب حساسیت (KV signal)'],
+    doesnt: ['استفاده از AI (آن درخواستی)', 'ذخیره نتیجه (آن در sendToQuarantine)'],
+    func: ['tokenizePost() → ۴ لایه → {score, verdict, reasons, tokens}'],
+  },
+  layer1: {
+    icon: '📝', iconBg: '#E0E7EF', iconColor: '#4A6B8A',
+    title: 'لایه ۱: کلمات',
+    desc: '۸۰+ کلمه با وزن ۱۵-۴۰ — HEAVY_AD_WORDS + MEDIUM_AD_WORDS',
+    does: ['بونوس(+۴۰)، شارژ حساب(+۴۰)', 'تخفیف(+۲۰)، فروش(+۲۰)، خرید(+۲۰)', 'فرصت محدود(+۳۵)، فقط امروز(+۳۰)'],
+    doesnt: ['استفاده از regex (indexOf سریع‌تر)', 'پشتیبانی از کلمات ترکیبی پیچیده'],
+    func: ['tokenizePost(text) → words[] → score += word.s'],
+  },
+  layer2: {
+    icon: '🔗', iconBg: '#E0E7EF', iconColor: '#4A6B8A',
+    title: 'لایه ۲: لینک‌ها + اموجی',
+    desc: 'لینک‌های مشکوک، آیدی ربات‌ها، اموجی‌های تبلیغاتی',
+    does: ['t.me/+ یا joinchat → +۳۵', '@bot_id → +۳۰', 'bit.ly، albb.ir → +۲۵', '🎁🚀⚡️💙⚽ → +۵ هر کدام'],
+    doesnt: ['بررسی اعتبار دامنه (DNS)', 'استخراج لینک از متن کوتاه‌شده'],
+    func: ['SUSPICIOUS_DOMAINS + AD_EMOJIS → score'],
+  },
+  layer3: {
+    icon: '⚡', iconBg: '#E0E7EF', iconColor: '#4A6B8A',
+    title: 'لایه ۳: سیگنال پیش‌درآمد',
+    desc: 'KV با TTL ۵ دقیقه — اگه کانال استیکر/کوتاه فرستاده باشد',
+    does: ['ذخیره ad_signal:{channel} در KV', 'ضریب ×۱.۵ روی امتیاز پست بعدی'],
+    doesnt: ['ذخیره دائمی', 'تشخیص محتوای استیکر'],
+    func: ['setAdSignal() → KV.put(TTL 300s) → score × 1.5'],
+  },
+  layer4: {
+    icon: '📐', iconBg: '#E0E7EF', iconColor: '#4A6B8A',
+    title: 'لایه ۴: ساختار + امتیاز منفی',
+    desc: 'ساختار ظاهری + خنثی‌کننده (جلوگیری از حذف اشتباه)',
+    does: ['نسبت لینک/متن > ۰.۳ → +۱۵', 'جداکننده ━━━ → +۱۰', 'مولتی‌فوروارد ۲+ کانال → +۲۵'],
+    doesnt: ['تحلیل معنایی', 'تشخیص اسپم پیشرفته'],
+    func: ['امتیاز منفی: ریپلای طولانی −۱۵، متن >۵۰۰ −۲۰، TRUSTED_DOMAINS −۳۰'],
+  },
+  block: {
+    icon: '🚫', iconBg: '#FEF2F2', iconColor: '#EF4444',
+    title: 'مسدود قطعی (≥۷۰)',
+    desc: 'امتیاز ≥ ۷۰ → رد پست + لاگ',
+    does: ['markSeen (جلوگیری از ارسال مجدد)', 'logAction skipped با دلیل'],
+    doesnt: ['ارسال به قرنطینه (قطعی)', 'استفاده از AI'],
+    func: ['verdict === "block" → markSeen + logAction'],
+  },
+  quarantine: {
+    icon: '⚠️', iconBg: '#FFF7ED', iconColor: '#F59E0B',
+    title: 'قرنطینه (۴۰-۶۹)',
+    desc: 'ارسال به مقصد قرنطینه با دکمه‌های ❌✅🤖',
+    does: ['INSERT INTO quarantine', 'ارسال به مقصد (قابل تنظیم)', '۳ دکمه: تبلیغ/پاک/AI'],
+    doesnt: ['ارسال به مقصد اصلی', 'حذف خودکار'],
+    func: ['sendToQuarantine() → kv_meta.quarantine_config → sendMessage'],
+  },
+  clean: {
+    icon: '✅', iconBg: '#F0FDF4', iconColor: '#10B981',
+    title: 'عبور (<۴۰)',
+    desc: 'امتیاز < ۴۰ → ارسال به مقصد اصلی',
+    does: ['deliverPost با دکمه 🔗 + 🚫', 'logAction sent'],
+    doesnt: ['قرنطینه یا بررسی اضافی'],
+    func: ['verdict === "clean" → deliverPost()'],
+  },
+  aifallback: {
+    icon: '🤖', iconBg: '#D8E0EA', iconColor: '#3A5C7A',
+    title: 'runAIWithFallback()',
+    desc: 'Gemini اول، Workers AI fallback — کش مدل موفق در KV',
+    does: ['امتحان ۴ مدل Gemini', 'fallback به ۳ مدل Workers AI', 'کش در KV (ai_provider_cache)'],
+    doesnt: ['AI خودکار در اسکن (فقط درخواستی)', 'AI در چرخه cron'],
+    func: ['callGemini() || callWorkersAI() → KV.put(provider)'],
+  },
+  gemini: {
+    icon: '💎', iconBg: '#D8E0EA', iconColor: '#3A5C7A',
+    title: 'callGemini()',
+    desc: 'فراخوانی Gemini REST API با fetch',
+    does: ['۴ مدل: 2.0-flash → 2.5-flash → 1.5-flash → 1.5-pro', 'کش مدل موفق', 'JSON extraction'],
+    doesnt: ['نیاز به npm package (مستقیم fetch)', 'کار بدون GEMINI_API_KEY'],
+    func: ['fetch googleapis.com → {candidates[0].content.parts[0].text}'],
+  },
+  cfai: {
+    icon: '☁️', iconBg: '#D8E0EA', iconColor: '#3A5C7A',
+    title: 'callWorkersAI()',
+    desc: 'Fallback — Cloudflare Workers AI',
+    does: ['۳ مدل: llama-3.3-70b → 3.3-70b → 3-8b', 'کش مدل موفق'],
+    doesnt: ['پایداری (مدل‌ها deprecated می‌شن)', 'سرعت (کندتر از Gemini)'],
+    func: ['env.AI.run(model, {messages}) → response/result'],
+  },
+  analyze: {
+    icon: '🔍', iconBg: '#D8E0EA', iconColor: '#3A5C7A',
+    title: 'analyzeSourceWithAI()',
+    desc: 'تحلیل ۳۰ پست اخیر + استخراج کلیدواژه',
+    does: ['scrapeChannel → ۳۰ پست', 'فراخوانی AI با prompt', 'پیشنهاد کلیدواژه مثبت + منفی', 'ذخیره به‌عنوان pending'],
+    doesnt: ['اعمال خودکار (نیاز به تأیید ادمین)', 'AI در اسکن خودکار'],
+    func: ['runAIWithFallback → JSON.parse → pending_keywords_positive/negative'],
+  },
+  report: {
+    icon: '📋', iconBg: '#D8E0EA', iconColor: '#3A5C7A',
+    title: 'runDailyReport()',
+    desc: 'گزارش روزانه هوشمند — هر شب ۳ ایران',
+    does: ['جمع‌آوری پست‌های ۲۴ ساعت اخیر', 'گروه‌بندی بر اساس موضوع + کانال', 'خلاصه با AI', 'ارسال به ادمین اصلی'],
+    doesnt: ['گزارش هفتگی/ماهانه', 'ارسال به کاربران عادی'],
+    func: ['SELECT logs → byTopic → runAIWithFallback → sendMessage'],
+  },
+  qai: {
+    icon: '🤖', iconBg: '#D8E0EA', iconColor: '#3A5C7A',
+    title: 'q_ai callback',
+    desc: 'تحلیل پست قرنطینه‌شده با AI (درخواستی)',
+    does: ['فراخوانی runAIWithFallback', 'پاسخ JSON: {is_ad, confidence, reason}', 'دکمه‌های تأیید بعد از تحلیل'],
+    doesnt: ['AI خودکار در قرنطینه (فقط با کلیک)', 'تغییر خودکار وزن'],
+    func: ['case "q_ai" → runAIWithFallback → JSON → sendMessage'],
+  },
+  bump: {
+    icon: '⚖️', iconBg: '#D0DAE5', iconColor: '#2A4E6B',
+    title: 'bumpPostWeights()',
+    desc: 'افزایش وزن کلمات — هر ۳ hit → وزن +۵ (حداکثر ۵۰)',
+    does: ['استخراج توکن از متن', 'اگه کلمه موجود: hits+1، weight+5', 'اگه جدید: insert با وزن ۲۵'],
+    doesnt: ['کاهش وزن (آن در /balancad)', 'حذف کلمه'],
+    func: ['tokenizePost → SELECT/INSERT ad_weights → UPDATE'],
+  },
+  deleted: {
+    icon: '🗑️', iconBg: '#D0DAE5', iconColor: '#2A4E6B',
+    title: 'checkDeletedPosts()',
+    desc: 'تشخیص حذف پست از منبع — ۲ ساعت بعد از قرنطینه',
+    does: ['SELECT quarantine WHERE status=pending AND age > 2h', 'HEAD request به t.me/channel/msgId', '۴۰۴ → نشانه‌گذاری به‌عنوان تبلیغ + bumpPostWeights'],
+    doesnt: ['بررسی پست‌های ارسال‌شده (فقط قرنطینه)', 'بررسی فوری'],
+    func: ['after scanSource → checkDeletedPosts → HEAD fetch'],
+  },
+  reportad: {
+    icon: '🚫', iconBg: '#D0DAE5', iconColor: '#2A4E6B',
+    title: 'دکمه 🚫 گزارش تبلیغ',
+    desc: 'دکمه شیشه‌ای روی هر پست ارسالی — فقط ادمین‌ها',
+    does: ['popup (show_alert) — پنجره هشدار', 'tokenizePost + bumpPostWeights', 'اگه AI فعال: استخراج کلمات + وزن پیشنهادی', 'نمایش امتیاز جدید'],
+    doesnt: ['حذف پست ارسالی', 'ارسال به قرنطینه'],
+    func: ['case "report_ad" → answerCb(show_alert) → AI extraction → scoreAdPost'],
+  },
+  balancad: {
+    icon: '✅', iconBg: '#D0DAE5', iconColor: '#2A4E6B',
+    title: '/balancad',
+    desc: 'گزارش پست پاک — کاهش وزن (برعکس report_ad)',
+    does: ['Reply روی پست + /balancad', 'یا Forward + /balancad', 'کاهش وزن هر توکن −۱۰', 'اگه وزن ۰ → حذف از ad_weights'],
+    doesnt: ['افزایش وزن', 'فوروارد خودکار (حذف شد — جلوگیری از اشتباه)'],
+    func: ['cmdBalancAd → tokenizePost → UPDATE/DELETE ad_weights'],
+  },
+  adweights: {
+    icon: '⚖️', iconBg: '#D0DAE5', iconColor: '#2A4E6B',
+    title: 'ad_weights table',
+    desc: 'وزن‌های پویا در D1 — قابل ویرایش از پنل',
+    does: ['۱۲۵+ وزن پیش‌فرض (migration)', 'افزودن/ویرایش/حذف از پنل', 'خودکار: bumpPostWeights'],
+    doesnt: ['وزن دستی در تلگرام (فقط پنل)'],
+    func: ['D1 table: token(PK), type, weight, hits, auto, created_at'],
+  },
+  userreports: {
+    icon: '📝', iconBg: '#D0DAE5', iconColor: '#2A4E6B',
+    title: 'user_reports table',
+    desc: 'ذخیره گزارش‌های کاربران',
+    does: ['ذخیره متن پست + توکن‌های استخراج‌شده', 'آیدی کاربر گزارش‌دهنده'],
+    doesnt: ['تحلیل خودکار', 'اعمال وزن (آن در bumpPostWeights)'],
+    func: ['INSERT INTO user_reports → bumpPostWeights'],
+  },
+};
+
+function showDetail(id) {
+  const d = details[id];
+  if (!d) return;
+  const panel = document.getElementById('detailPanel');
+  const backdrop = document.getElementById('backdrop');
+  const content = document.getElementById('detailContent');
+
+  let html = `
+    <div class="detail-icon" style="background:${d.iconBg};color:${d.iconColor};">${d.icon}</div>
+    <div class="detail-title">${d.title}</div>
+    <p style="font-size:14px;color:var(--text-sub);line-height:1.6;">${d.desc}</p>
+  `;
+
+  if (d.func) {
+    html += `<div class="detail-section"><h4>توابع</h4><p style="font-family:monospace;font-size:12px;background:#F9FAFB;padding:10px;border-radius:6px;border:1px solid #E5E7EB;">${d.func.join('<br>')}</p></div>`;
+  }
+  if (d.does) {
+    html += `<div class="detail-section"><h4>کاری می‌کند</h4>${d.does.map(x => `<span class="detail-tag does">${x}</span>`).join('')}</div>`;
+  }
+  if (d.doesnt) {
+    html += `<div class="detail-section"><h4>کاری نمی‌کند</h4>${d.doesnt.map(x => `<span class="detail-tag doesnt">${x}</span>`).join('')}</div>`;
+  }
+
+  content.innerHTML = html;
+  panel.classList.add('open');
+  backdrop.classList.add('open');
+
+  // Highlight active step
+  document.querySelectorAll('.phase-step').forEach(s => s.classList.remove('active'));
+  document.querySelector(`[data-id="${id}"]`)?.classList.add('active');
+}
+
+function closeDetail() {
+  document.getElementById('detailPanel').classList.remove('open');
+  document.getElementById('backdrop').classList.remove('open');
+  document.querySelectorAll('.phase-step').forEach(s => s.classList.remove('active'));
+}
+
+document.querySelectorAll('.phase-step').forEach(step => {
+  step.addEventListener('click', () => showDetail(step.dataset.id));
+});
+
+document.getElementById('backdrop').addEventListener('click', closeDetail);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDetail(); });
+</script>
+
+</body>
+</html>

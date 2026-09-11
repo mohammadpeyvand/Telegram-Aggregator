@@ -1,0 +1,6 @@
+{
+  "name": "Telegram Aggregator Bot",
+  "description": "Telegram content aggregator and filter bot running on Cloudflare Workers with D1 database and web admin panel",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
