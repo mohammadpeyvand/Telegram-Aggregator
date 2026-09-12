@@ -974,7 +974,15 @@ async function api(path, opts={}) {
 function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function fmtDate(ts){if(!ts)return '—';return new Date(ts).toLocaleString('fa-IR',{hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'})}
 function safeJson(s, def){if(s===null||s===undefined||s==='')return def;if(typeof s==='object')return s;try{return JSON.parse(s)}catch{return def}}
-function modeBadge(m){const n={forward:'فوروارد',deep:'عمیق',viral:'وایرال'}[m]||m;return `<span class="badge b-${m}">${n}</span>`}
+function modeBadge(m, deepScoring = null){
+  if(m === 'deep'){
+    if(deepScoring === 1 || deepScoring === true || deepScoring === '1') return '<span class="badge b-deep">📊 Deep Scoring</span>';
+    if(deepScoring === 0 || deepScoring === false || deepScoring === '0') return '<span class="badge b-deep">📋 Deep Classic</span>';
+    return '<span class="badge b-deep">🔎 عمیق</span>';
+  }
+  const n={forward:'📤 فوروارد',viral:'👁 وایرال'}[m]||m;
+  return `<span class="badge b-${m}">${n}</span>`;
+}
 
 // ─── آیکون‌های SVG ───
 const ICONS = {
@@ -1151,26 +1159,27 @@ async function loadSources(){
 
 function formatKwList(s){
   if(s.mode === 'deep'){
-    const isScoring = s.deep_scoring == 1;
+    const main = Array.isArray(s.keywords_main) ? s.keywords_main : safeJson(s.keywords_main, []);
+    const comp = Array.isArray(s.keywords_complementary) ? s.keywords_complementary : safeJson(s.keywords_complementary, []);
+    const periph = Array.isArray(s.keywords_peripheral) ? s.keywords_peripheral : safeJson(s.keywords_peripheral, []);
+    const pos = Array.isArray(s.keywords_positive) ? s.keywords_positive : safeJson(s.keywords_positive, []);
+    const neg = Array.isArray(s.keywords_negative) ? s.keywords_negative : safeJson(s.keywords_negative, []);
+
+    const isScoring = Number(s.deep_scoring) === 1 || s.deep_scoring === true || s.mode === 'deep_scoring' || (main.length > 0 || comp.length > 0 || periph.length > 0);
     if(isScoring){
-      const main = safeJson(s.keywords_main, []);
-      const comp = safeJson(s.keywords_complementary, []);
-      const periph = safeJson(s.keywords_peripheral, []);
       let html = `<div style="font-size:.75rem">✅ اصلی (${main.length}): ${esc(main.join('، '))||'—'}</div>`;
       if(comp.length) html += `<div style="font-size:.75rem;color:var(--purple)">➕ مکمل (${comp.length}): ${esc(comp.join('، '))}</div>`;
       if(periph.length) html += `<div style="font-size:.75rem;color:var(--yellow)">⚠️ پیرامونی (${periph.length}): ${esc(periph.join('، '))}</div>`;
       html += `<div style="font-size:.7rem;color:var(--muted);margin-top:.2rem">📊 آستانه: ${s.deep_threshold||50}</div>`;
       return html;
     } else {
-      const pos = safeJson(s.keywords_positive, []);
-      const neg = safeJson(s.keywords_negative, []);
       let html = `<div style="font-size:.75rem">✅ مثبت‌کننده (${pos.length}): ${esc(pos.join('، '))||'—'}</div>`;
       if(neg.length) html += `<div style="font-size:.75rem;color:var(--red)">🚫 منفی‌کننده (${neg.length}): ${esc(neg.join('، '))}</div>`;
-      if(s.every_mode) html += `<span class="badge b-warn" style="margin-top:.2rem">every</span>`;
+      if(s.every_mode) html += `<span class="badge b-warn" style="margin-top:.2rem">every (AND)</span>`;
       return html;
     }
   } else if(s.mode === 'viral'){
-    const rules = safeJson(s.viral_reactions, []);
+    const rules = Array.isArray(s.viral_reactions) ? s.viral_reactions : safeJson(s.viral_reactions, []);
     if(rules.length){
       return rules.map(r=>`<div style="font-size:.75rem">${esc(r.emoji)} ≥ ${r.threshold}</div>`).join('') +
         `<div style="font-size:.7rem;color:var(--muted);margin-top:.2rem">مجموع ری‌اکشن fallback: ≥ ${s.viral_threshold||1000}</div>`;
@@ -1195,7 +1204,7 @@ function renderSources(){
       <td><strong>${s.id}</strong></td>
       <td><a href="https://t.me/${(s.channel||'').replace('@','')}" target="_blank">@${esc(s.channel)}</a></td>
       <td style="font-size:.75rem">${esc(s.topic||'—')}${pendingBadge}</td>
-      <td>${modeBadge(s.mode)}</td>
+      <td>${modeBadge(s.mode, s.deep_scoring)}</td>
       <td>${formatKwList(s)}</td>
       <td style="font-size:.7rem">${esc(s.target_chat_id)}${s.target_topic_id?':'+esc(s.target_topic_id):''}</td>
       <td><button class="icon-btn ${s.block_ads!==0?'success':''}" title="${adTitle}" onclick="toggleAdBlock(${s.id},${s.block_ads===0?1:0})">${adIcon}</button></td>
@@ -1224,16 +1233,16 @@ function openAddModal(){
   $('#modalContent').innerHTML = `
     <div class="field"><label>کانال(ها) — با کاما</label><input id="m_channel" placeholder="@chan1,@chan2" /></div>
     <div class="field"><label>موضوع (برای AI)</label><input id="m_topic_name" placeholder="اخبار رمزارز، تکنولوژی..." /></div>
-    <div class="field"><label>حالت</label><select id="m_mode" onchange="toggleModeFields()">
-      <option value="forward">📤 فوروارد</option>
-      <option value="deep">🔎 عمیق</option>
-      <option value="viral">👁 وایرال</option>
+    <div class="field"><label>حالت اسکن</label><select id="m_mode" onchange="toggleModeFields()">
+      <option value="forward">📤 فوروارد (ارسال همه)</option>
+      <option value="deep">🔎 عمیق (Deep Classic / Deep Scoring)</option>
+      <option value="viral">👁 وایرال (ری‌اکشن)</option>
     </select></div>
 
     <div id="deepFields" style="display:none">
-      <div class="field"><label>نوع Deep</label><select id="m_deep_type" onchange="toggleDeepFields()">
-        <option value="classic">📋 Deep Classic (مثبت‌کننده/منفی‌کننده)</option>
-        <option value="scoring">📊 Deep Scoring (اصلی/مکمل/پیرامونی)</option>
+      <div class="field"><label>نوع حالت عمیق</label><select id="m_deep_type" onchange="toggleDeepFields()">
+        <option value="classic">📋 عمیق کلاسیک — Deep Classic (مثبت‌کننده / منفی‌کننده)</option>
+        <option value="scoring">📊 عمیق امتیازی — Deep Scoring (اصلی / مکمل / پیرامونی)</option>
       </select></div>
       <div id="deepClassicFields">
         <div class="field"><label>کلیدواژه مثبت‌کننده — +score (با کاما)</label><input id="m_pos" placeholder="بیت کوین, ارز دیجیتال" /></div>
@@ -1241,10 +1250,10 @@ function openAddModal(){
         <div class="field"><label><input type="checkbox" id="m_every" /> every — همه کلیدواژه‌های مثبت باید باشند (AND)</label></div>
       </div>
       <div id="deepScoringFields" style="display:none">
-        <div class="field"><label>کلیدواژه اصلی — +۴۰ (با کاما)</label><input id="m_main" placeholder="بیت کوین, ارز دیجیتال" /></div>
-        <div class="field"><label>کلیدواژه مکمل — +۱۵ (با کاما)</label><input id="m_comp" placeholder="بازار, تحلیل, قیمت" /></div>
-        <div class="field"><label>کلیدواژه پیرامونی — -۳۰ (با کاما)</label><input id="m_periph" placeholder="تبلیغ, فروش" /></div>
-        <div class="field"><label>آستانه امتیاز Deep</label><input id="m_deep_threshold" type="number" value="50" /></div>
+        <div class="field"><label>کلیدواژه‌های اصلی (+۴۰ امتیاز) — با کاما</label><input id="m_main" placeholder="بیت کوین, اتریوم" /></div>
+        <div class="field"><label>کلیدواژه‌های مکمل (+۱۵ امتیاز) — با کاما</label><input id="m_comp" placeholder="بازار, تحلیل, قیمت" /></div>
+        <div class="field"><label>کلیدواژه‌های پیرامونی (-۳۰ امتیاز) — با کاما</label><input id="m_periph" placeholder="تبلیغ, ثبت نام, صرافی" /></div>
+        <div class="field"><label>آستانه امتیاز Deep Scoring (پیش‌فرض: ۵۰)</label><input id="m_deep_threshold" type="number" value="50" /></div>
       </div>
     </div>
 
@@ -1398,6 +1407,15 @@ function getViralRules(prefix){
   return rules;
 }
 
+function parseKwInput(val){
+  if(!val) return [];
+  if(Array.isArray(val)) return val.map(s=>String(s).trim()).filter(Boolean);
+  return String(val)
+    .split(/[,،؛;\n\r]+/)
+    .map(s => s.trim().replace(/^["'«»“”]/, '').replace(/["'«»“”]$/, '').trim())
+    .filter(Boolean);
+}
+
 async function saveAddSource(){
   try{
     const body = {
@@ -1413,13 +1431,13 @@ async function saveAddSource(){
       const dt = $('#m_deep_type').value;
       body.deep_scoring = dt === 'scoring' ? 1 : 0;
       if(dt === 'scoring'){
-        body.keywords_main = $('#m_main').value.split(',').map(s=>s.trim()).filter(Boolean);
-        body.keywords_complementary = $('#m_comp').value.split(',').map(s=>s.trim()).filter(Boolean);
-        body.keywords_peripheral = $('#m_periph').value.split(',').map(s=>s.trim()).filter(Boolean);
+        body.keywords_main = parseKwInput($('#m_main').value);
+        body.keywords_complementary = parseKwInput($('#m_comp').value);
+        body.keywords_peripheral = parseKwInput($('#m_periph').value);
         body.deep_threshold = parseInt($('#m_deep_threshold').value, 10) || 50;
       } else {
-        body.keywords_positive = $('#m_pos').value.split(',').map(s=>s.trim()).filter(Boolean);
-        body.keywords_negative = $('#m_neg').value.split(',').map(s=>s.trim()).filter(Boolean);
+        body.keywords_positive = parseKwInput($('#m_pos').value);
+        body.keywords_negative = parseKwInput($('#m_neg').value);
         body.every_mode = $('#m_every').checked;
       }
     }
@@ -1437,39 +1455,40 @@ async function saveAddSource(){
 // ─── Edit Modal ───
 function openEditModal(id){
   const s = SOURCES.find(x=>x.id===id); if(!s) return;
-  const isScoring = s.deep_scoring == 1;
-  const pos = safeJson(s.keywords_positive, []);
-  const neg = safeJson(s.keywords_negative, []);
-  const main = safeJson(s.keywords_main, []);
-  const comp = safeJson(s.keywords_complementary, []);
-  const periph = safeJson(s.keywords_peripheral, []);
-  const viralRules = safeJson(s.viral_reactions, []);
+  const main = Array.isArray(s.keywords_main) ? s.keywords_main : safeJson(s.keywords_main, []);
+  const comp = Array.isArray(s.keywords_complementary) ? s.keywords_complementary : safeJson(s.keywords_complementary, []);
+  const periph = Array.isArray(s.keywords_peripheral) ? s.keywords_peripheral : safeJson(s.keywords_peripheral, []);
+  const pos = Array.isArray(s.keywords_positive) ? s.keywords_positive : safeJson(s.keywords_positive, []);
+  const neg = Array.isArray(s.keywords_negative) ? s.keywords_negative : safeJson(s.keywords_negative, []);
+  const viralRules = Array.isArray(s.viral_reactions) ? s.viral_reactions : safeJson(s.viral_reactions, []);
+
+  const isScoring = Number(s.deep_scoring) === 1 || s.deep_scoring === true || s.mode === 'deep_scoring' || (main.length > 0 || comp.length > 0 || periph.length > 0);
 
   $('#modalTitle').textContent = `✏️ ویرایش منبع #${s.id}`;
   $('#modalContent').innerHTML = `
     <div class="field"><label>کانال</label><input id="e_channel" value="${esc(s.channel)}" /></div>
     <div class="field"><label>موضوع (برای AI)</label><input id="e_topic_name" value="${esc(s.topic||'')}" placeholder="اخبار رمزارز..." /></div>
-    <div class="field"><label>حالت</label><select id="e_mode" onchange="toggleEMode()">
-      <option value="forward" ${s.mode==='forward'?'selected':''}>📤 فوروارد</option>
-      <option value="deep" ${s.mode==='deep'?'selected':''}>🔎 عمیق</option>
-      <option value="viral" ${s.mode==='viral'?'selected':''}>👁 وایرال</option>
+    <div class="field"><label>حالت اسکن</label><select id="e_mode" onchange="toggleEMode()">
+      <option value="forward" ${s.mode==='forward'?'selected':''}>📤 فوروارد (ارسال همه)</option>
+      <option value="deep" ${s.mode==='deep'?'selected':''}>🔎 عمیق (Deep Classic / Deep Scoring)</option>
+      <option value="viral" ${s.mode==='viral'?'selected':''}>👁 وایرال (ری‌اکشن)</option>
     </select></div>
 
     <div id="eDeep" style="display:${s.mode==='deep'?'block':'none'}">
-      <div class="field"><label>نوع Deep</label><select id="e_deep_type" onchange="toggleEDeepFields()">
-        <option value="classic" ${!isScoring?'selected':''}>📋 Deep Classic</option>
-        <option value="scoring" ${isScoring?'selected':''}>📊 Deep Scoring</option>
+      <div class="field"><label>نوع حالت عمیق</label><select id="e_deep_type" onchange="toggleEDeepFields()">
+        <option value="classic" ${!isScoring?'selected':''}>📋 عمیق کلاسیک — Deep Classic (مثبت‌کننده / منفی‌کننده)</option>
+        <option value="scoring" ${isScoring?'selected':''}>📊 عمیق امتیازی — Deep Scoring (اصلی / مکمل / پیرامونی)</option>
       </select></div>
       <div id="eDeepClassicFields" style="display:${!isScoring?'block':'none'}">
-        <div class="field"><label>کلیدواژه مثبت‌کننده (با کاما)</label><input id="e_pos" value="${esc(pos.join(', '))}" /></div>
-        <div class="field"><label>کلیدواژه منفی‌کننده (با کاما)</label><input id="e_neg" value="${esc(neg.join(', '))}" /></div>
-        <div class="field"><label><input type="checkbox" id="e_every" ${s.every_mode?'checked':''} /> every (AND)</label></div>
+        <div class="field"><label>کلیدواژه مثبت‌کننده (با کاما)</label><input id="e_pos" value="${esc(pos.join(', '))}" placeholder="مثلاً: بیت کوین, اتریوم" /></div>
+        <div class="field"><label>کلیدواژه منفی‌کننده (با کاما)</label><input id="e_neg" value="${esc(neg.join(', '))}" placeholder="مثلاً: تبلیغ, اسپانسر" /></div>
+        <div class="field"><label><input type="checkbox" id="e_every" ${s.every_mode?'checked':''} /> every — همه کلیدواژه‌های مثبت باید باشند (AND)</label></div>
       </div>
       <div id="eDeepScoringFields" style="display:${isScoring?'block':'none'}">
-        <div class="field"><label>کلیدواژه اصلی — +۴۰</label><input id="e_main" value="${esc(main.join(', '))}" /></div>
-        <div class="field"><label>کلیدواژه مکمل — +۱۵</label><input id="e_comp" value="${esc(comp.join(', '))}" /></div>
-        <div class="field"><label>کلیدواژه پیرامونی — -۳۰</label><input id="e_periph" value="${esc(periph.join(', '))}" /></div>
-        <div class="field"><label>آستانه امتیاز Deep</label><input id="e_deep_threshold" type="number" value="${s.deep_threshold||50}" /></div>
+        <div class="field"><label>کلیدواژه‌های اصلی (+۴۰ امتیاز) — با کاما</label><input id="e_main" value="${esc(main.join(', '))}" placeholder="مثلاً: بیت کوین, اتریوم" /></div>
+        <div class="field"><label>کلیدواژه‌های مکمل (+۱۵ امتیاز) — با کاما</label><input id="e_comp" value="${esc(comp.join(', '))}" placeholder="مثلاً: تحلیل, بازار, قیمت" /></div>
+        <div class="field"><label>کلیدواژه‌های پیرامونی (-۳۰ امتیاز) — با کاما</label><input id="e_periph" value="${esc(periph.join(', '))}" placeholder="مثلاً: تبلیغ, ثبت نام, صرافی" /></div>
+        <div class="field"><label>آستانه امتیاز Deep Scoring (پیش‌فرض: ۵۰)</label><input id="e_deep_threshold" type="number" value="${s.deep_threshold||50}" /></div>
       </div>
     </div>
 
@@ -1484,7 +1503,7 @@ function openEditModal(id){
     </div>
 
     <div class="field"><label>مقصد (chat_id)</label><input id="e_target" value="${esc(s.target_chat_id)}" /></div>
-    <div class="field"><label>تاپیک</label><input id="e_topic" value="${esc(s.target_topic_id||'')}" /></div>
+    <div class="field"><label>تاپیک مقصد (اختیاری)</label><input id="e_topic" value="${esc(s.target_topic_id||'')}" /></div>
     <div class="field"><label>آستانه Anti-Ad</label><input id="e_ad_threshold" type="number" value="${s.ad_threshold||70}" /></div>
     <div class="field"><label><input type="checkbox" id="e_block_ads" ${s.block_ads!==0?'checked':''} /> 🛡 ضد تبلیغات</label></div>
     <div class="field"><label><input type="checkbox" id="e_active" ${s.active?'checked':''} /> فعال</label></div>
@@ -1536,15 +1555,15 @@ async function saveEditSource(id){
       const dt = $('#e_deep_type').value;
       body.deep_scoring = dt === 'scoring' ? 1 : 0;
       if(dt === 'scoring'){
-        body.keywords_main = $('#e_main').value.split(',').map(s=>s.trim()).filter(Boolean);
-        body.keywords_complementary = $('#e_comp').value.split(',').map(s=>s.trim()).filter(Boolean);
-        body.keywords_peripheral = $('#e_periph').value.split(',').map(s=>s.trim()).filter(Boolean);
+        body.keywords_main = parseKwInput($('#e_main').value);
+        body.keywords_complementary = parseKwInput($('#e_comp').value);
+        body.keywords_peripheral = parseKwInput($('#e_periph').value);
         body.deep_threshold = parseInt($('#e_deep_threshold').value, 10) || 50;
         body.keywords_positive = [];
         body.keywords_negative = [];
       } else {
-        body.keywords_positive = $('#e_pos').value.split(',').map(s=>s.trim()).filter(Boolean);
-        body.keywords_negative = $('#e_neg').value.split(',').map(s=>s.trim()).filter(Boolean);
+        body.keywords_positive = parseKwInput($('#e_pos').value);
+        body.keywords_negative = parseKwInput($('#e_neg').value);
         body.every_mode = $('#e_every').checked;
         body.keywords_main = [];
         body.keywords_complementary = [];
@@ -1577,15 +1596,15 @@ function openBulkEdit(){
   $('#modalContent').innerHTML = `
     <div class="field">
       <label>انتخاب منابع</label>
-      <div class="check-list">${SOURCES.map(s=>`<label class="check-item"><input type="checkbox" value="${s.id}" class="bulk-chk" /> #${s.id} @${esc(s.channel)} (${s.mode})</label>`).join('')}</div>
+      <div class="check-list">${SOURCES.map(s=>`<label class="check-item"><input type="checkbox" value="${s.id}" class="bulk-chk" /> #${s.id} @${esc(s.channel)} (${s.mode === 'deep' ? (s.deep_scoring == 1 ? 'Deep Scoring' : 'Deep Classic') : s.mode})</label>`).join('')}</div>
     </div>
     <div class="field"><label>حالت جدید (اختیاری)</label><select id="b_mode"><option value="">— تغییر نده —</option><option value="forward">فوروارد</option><option value="deep">عمیق</option><option value="viral">وایرال</option></select></div>
     <div class="field"><label>Deep Classic — مثبت‌کننده (اختیاری)</label><input id="b_pos" placeholder="با کاما" /></div>
     <div class="field"><label>Deep Classic — منفی‌کننده (اختیاری)</label><input id="b_neg" placeholder="با کاما" /></div>
-    <div class="field"><label>Deep Scoring — اصلی (اختیاری)</label><input id="b_main" placeholder="با کاما" /></div>
-    <div class="field"><label>Deep Scoring — مکمل (اختیاری)</label><input id="b_comp" placeholder="با کاما" /></div>
-    <div class="field"><label>Deep Scoring — پیرامونی (اختیاری)</label><input id="b_periph" placeholder="با کاما" /></div>
-    <div class="field"><label>آستانه Deep (اختیاری)</label><input id="b_deep_threshold" type="number" placeholder="50" /></div>
+    <div class="field"><label>Deep Scoring — اصلی (+۴۰) (اختیاری)</label><input id="b_main" placeholder="با کاما" /></div>
+    <div class="field"><label>Deep Scoring — مکمل (+۱۵) (اختیاری)</label><input id="b_comp" placeholder="با کاما" /></div>
+    <div class="field"><label>Deep Scoring — پیرامونی (-۳۰) (اختیاری)</label><input id="b_periph" placeholder="با کاما" /></div>
+    <div class="field"><label>آستانه Deep Scoring (اختیاری)</label><input id="b_deep_threshold" type="number" placeholder="50" /></div>
     <div class="field"><label>آستانه مجموع ری‌اکشن‌ها (اختیاری)</label><input id="b_viral" type="number" placeholder="مثلا 1000" />
     <div class="hint">اگه rule خاص تنظیم نکنید، مجموع ری‌اکشن‌ها از این عدد عبور کند → ارسال.</div></div>
     <div class="field"><label>آستانه Anti-Ad (اختیاری)</label><input id="b_ad_threshold" type="number" placeholder="70" /></div>
@@ -1601,11 +1620,16 @@ async function applyBulk(){
   if(!ids.length){toast('هیچ منبعی انتخاب نشد', false);return}
   const body = {ids};
   if($('#b_mode').value) body.mode = $('#b_mode').value;
-  if($('#b_pos').value) body.keywords_positive = $('#b_pos').value.split(',').map(s=>s.trim()).filter(Boolean);
-  if($('#b_neg').value) body.keywords_negative = $('#b_neg').value.split(',').map(s=>s.trim()).filter(Boolean);
-  if($('#b_main').value) body.keywords_main = $('#b_main').value.split(',').map(s=>s.trim()).filter(Boolean);
-  if($('#b_comp').value) body.keywords_complementary = $('#b_comp').value.split(',').map(s=>s.trim()).filter(Boolean);
-  if($('#b_periph').value) body.keywords_peripheral = $('#b_periph').value.split(',').map(s=>s.trim()).filter(Boolean);
+  if($('#b_pos').value) body.keywords_positive = parseKwInput($('#b_pos').value);
+  if($('#b_neg').value) body.keywords_negative = parseKwInput($('#b_neg').value);
+  if($('#b_main').value) body.keywords_main = parseKwInput($('#b_main').value);
+  if($('#b_comp').value) body.keywords_complementary = parseKwInput($('#b_comp').value);
+  if($('#b_periph').value) body.keywords_peripheral = parseKwInput($('#b_periph').value);
+  if($('#b_main').value || $('#b_comp').value || $('#b_periph').value) {
+    body.deep_scoring = 1;
+  } else if($('#b_pos').value || $('#b_neg').value) {
+    body.deep_scoring = 0;
+  }
   if($('#b_deep_threshold').value) body.deep_threshold = parseInt($('#b_deep_threshold').value, 10);
   if($('#b_viral').value) body.viral_threshold = parseInt($('#b_viral').value, 10);
   if($('#b_ad_threshold').value) body.ad_threshold = parseInt($('#b_ad_threshold').value, 10);
@@ -1724,10 +1748,15 @@ async function triggerAIAnalyze(){
 
 function togglePendingKw(sourceId, type, idx, el){
   const key = `${sourceId}_${type}_${idx}`;
-  if(!pendingSelection[key]) pendingSelection[key] = true;
+  if(pendingSelection[key] === undefined) pendingSelection[key] = true;
   pendingSelection[key] = !pendingSelection[key];
-  if(pendingSelection[key]) el.classList.replace('deselected','selected');
-  else el.classList.replace('selected','deselected');
+  if(pendingSelection[key]){
+    el.classList.remove('deselected');
+    el.classList.add('selected');
+  } else {
+    el.classList.remove('selected');
+    el.classList.add('deselected');
+  }
 }
 
 async function applyAI(id, mode){

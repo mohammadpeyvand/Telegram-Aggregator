@@ -633,11 +633,15 @@ function normalizeText(text) {
  * خروجی: { match, reason, found_positive, found_negative, breakdown }
  */
 function matchDeep(post, source, normalizedText) {
-  const text = (normalizedText || post.text || '').toLowerCase();
-  const pos = safeJson(source.keywords_positive, []);
-  const neg = safeJson(source.keywords_negative, []);
+  const norm = normalizedText ? normalizedText : normalizeText(post.text || '');
+  const text = norm.toLowerCase();
+  const pos = safeKeywords(source.keywords_positive);
+  const neg = safeKeywords(source.keywords_negative);
 
-  const foundNegative = neg.filter(kw => text.includes(String(kw).toLowerCase()));
+  const foundNegative = neg.filter(kw => {
+    const k = normalizeText(kw).toLowerCase();
+    return k && text.includes(k);
+  });
   // ⚠️ Negative Match → همیشه Reject (حتی با وجود Positive)
   if (foundNegative.length > 0) {
     return {
@@ -654,7 +658,10 @@ function matchDeep(post, source, normalizedText) {
     };
   }
 
-  const foundPositive = pos.filter(kw => text.includes(String(kw).toLowerCase()));
+  const foundPositive = pos.filter(kw => {
+    const k = normalizeText(kw).toLowerCase();
+    return k && text.includes(k);
+  });
   let match = false;
   let logic = '';
   if (source.every_mode) {
@@ -697,18 +704,19 @@ function matchDeep(post, source, normalizedText) {
  * خروجی: { match, score, threshold, breakdown }
  */
 function matchDeepScoring(post, source, normalizedText) {
-  const text = (normalizedText || post.text || '').toLowerCase();
-  const main = safeJson(source.keywords_main, []);
-  const comp = safeJson(source.keywords_complementary, []);
-  const periph = safeJson(source.keywords_peripheral, []);
+  const norm = normalizedText ? normalizedText : normalizeText(post.text || '');
+  const text = norm.toLowerCase();
+  const main = safeKeywords(source.keywords_main);
+  const comp = safeKeywords(source.keywords_complementary);
+  const periph = safeKeywords(source.keywords_peripheral);
 
   let score = 0;
   const breakdown = [];
 
   // ── کلیدواژه‌های اصلی — +۴۰ هر کلمه + ۱۵ position bonus ──
   for (const kw of main) {
-    const k = String(kw).toLowerCase();
-    if (text.includes(k)) {
+    const k = normalizeText(kw).toLowerCase();
+    if (k && text.includes(k)) {
       score += 40;
       breakdown.push({ kw, type: 'main', value: 40 });
       if (text.indexOf(k) < 50) {
@@ -720,8 +728,8 @@ function matchDeepScoring(post, source, normalizedText) {
 
   // ── کلیدواژه‌های مکمل — +۱۵ هر کلمه ──
   for (const kw of comp) {
-    const k = String(kw).toLowerCase();
-    if (text.includes(k)) {
+    const k = normalizeText(kw).toLowerCase();
+    if (k && text.includes(k)) {
       score += 15;
       breakdown.push({ kw, type: 'complementary', value: 15 });
     }
@@ -729,8 +737,8 @@ function matchDeepScoring(post, source, normalizedText) {
 
   // ── کلیدواژه‌های پیرامونی — -۳۰ هر کلمه ──
   for (const kw of periph) {
-    const k = String(kw).toLowerCase();
-    if (text.includes(k)) {
+    const k = normalizeText(kw).toLowerCase();
+    if (k && text.includes(k)) {
       score -= 30;
       breakdown.push({ kw, type: 'peripheral', value: -30 });
     }
@@ -1152,7 +1160,7 @@ function formatPost(post, source, ctx = {}) {
   info += `${mediaLabel} نوع: ${mediaName(post.mediaType)}`;
   if (viewsLabel) info += `  •  ${viewsLabel}`;
   if (timeLabel) info += `  •  ${timeLabel}`;
-  info += `\n🧭 حالت: ${modeName(source.mode)}`;
+  info += `\n🧭 حالت: ${modeName(source.mode, source.deep_scoring)}`;
 
   // ─── اطلاعات mode-specific (طبق سند — قسمت ارسال پست) ───
   // Forward: چیزی اضافه نمی‌شود
@@ -1225,8 +1233,17 @@ function formatPost(post, source, ctx = {}) {
 function mediaName(t) {
   return { photo: 'عکس', video: 'ویدیو', file: 'فایل', audio: 'صوت', sticker: 'استیکر', poll: 'نظرسنجی', text: 'متن' }[t] || 'متن';
 }
-function modeName(m) {
-  return { forward: 'فوروارد', deep: 'عمیق', viral: 'وایرال' }[m] || m;
+function modeName(m, deepScoring = 0) {
+  if (typeof m === 'object' && m !== null) {
+    deepScoring = m.deep_scoring;
+    m = m.mode;
+  }
+  if (m === 'forward') return '📤 فوروارد (Forward)';
+  if (m === 'viral') return '👁 وایرال (Viral)';
+  if (m === 'deep') {
+    return Number(deepScoring) === 1 ? '📊 عمیق هوشمند (Deep Scoring)' : '📋 عمیق کلاسیک (Deep Classic)';
+  }
+  return m || '—';
 }
 function formatViews(v) {
   if (v >= 1000000) return (v / 1000000).toFixed(1) + 'M';
@@ -2592,12 +2609,12 @@ async function handleStateMessage(message, state, env) {
     }
     // ── Deep Classic: کلیدواژه‌های مثبت‌کننده ──
     case 'add_keywords_pos': {
-      const kw = text.split(',').map(s => s.trim()).filter(Boolean);
+      const kw = parseKeywordsInput(text);
       await setState(userId, { ...state, step: 'add_keywords_neg', keywords_positive: kw }, env);
       return sendWizardPrompt(chatId, '🚫 <b>کلیدواژه‌های منفی‌کننده</b>\n\n<blockquote>کلماتی که اگر در پست باشند، محتوا ارسال نشود (حتی اگه کلیدواژه مثبت هم داشته باشد).\nبا کاما جدا کنید.\n\nبرای رد شدن بفرستید: <code>-</code></blockquote>', env, threadId);
     }
     case 'add_keywords_neg': {
-      const neg = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
+      const neg = text.trim() === '-' ? [] : parseKeywordsInput(text);
       // ⚠️ حذف مرحله مقصد — مستقیماً finalize با مقصد = همین چت
       await finalizeAddSource(userId, { ...state, keywords_negative: neg, target_chat_id: String(chatId), target_topic_id: threadId || null }, env);
       return;
@@ -2605,17 +2622,17 @@ async function handleStateMessage(message, state, env) {
 
     // ── Deep Scoring: کلیدواژه‌های اصلی ──
     case 'add_keywords_main': {
-      const kw = text.split(',').map(s => s.trim()).filter(Boolean);
+      const kw = parseKeywordsInput(text);
       await setState(userId, { ...state, step: 'add_keywords_comp', keywords_main: kw }, env);
-      return sendWizardPrompt(chatId, '➕ <b>کلیدواژه‌های مکمل</b>\n\n<blockquote>کلماتی که موضوع اصلی را تقویت می‌کنند.\nبا کاما جدا کنید.\n\n<b>امتیاز:</b> +۱۵ هر کلمه\n\nبرای رد شدن بفرستید: <code>-</code></blockquote>', env, threadId);
+      return sendWizardPrompt(chatId, '➕ <b>کلیدواژه‌های مکمل</b>\n\n<blockquote>کلماتی که موضوع اصلی را تقویت می‌کنند.\nبا کاما یا ویرگول جدا کنید (تعداد نامحدود).\n\n<b>امتیاز:</b> +۱۵ هر کلمه\n\nبرای رد شدن بفرستید: <code>-</code></blockquote>', env, threadId);
     }
     case 'add_keywords_comp': {
-      const comp = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
+      const comp = text.trim() === '-' ? [] : parseKeywordsInput(text);
       await setState(userId, { ...state, step: 'add_keywords_periph', keywords_complementary: comp }, env);
-      return sendWizardPrompt(chatId, '⚠️ <b>کلیدواژه‌های پیرامونی</b>\n\n<blockquote>کلماتی که در اطراف موضوع دیده می‌شوند اما ارزش اصلی را نشان نمی‌دهند — باعث کاهش امتیاز می‌شوند.\nبا کاما جدا کنید.\n\n<b>امتیاز:</b> -۳۰ هر کلمه\n\nبرای رد شدن بفرستید: <code>-</code></blockquote>', env, threadId);
+      return sendWizardPrompt(chatId, '⚠️ <b>کلیدواژه‌های پیرامونی</b>\n\n<blockquote>کلماتی که در اطراف موضوع دیده می‌شوند اما ارزش اصلی را نشان نمی‌دهند — باعث کاهش امتیاز می‌شوند.\nبا کاما یا ویرگول جدا کنید (تعداد نامحدود).\n\n<b>امتیاز:</b> -۳۰ هر کلمه\n\nبرای رد شدن بفرستید: <code>-</code></blockquote>', env, threadId);
     }
     case 'add_keywords_periph': {
-      const periph = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
+      const periph = text.trim() === '-' ? [] : parseKeywordsInput(text);
       await setState(userId, { ...state, step: 'add_deep_threshold', keywords_peripheral: periph }, env);
       return sendWizardPrompt(chatId, '📊 <b>آستانه امتیاز Deep Scoring</b>\n\n<blockquote>حداقل امتیاز لازم برای ارسال پست.\nپیش‌فرض: <code>50</code>\n\nیک عدد بفرستید:</blockquote>', env, threadId);
     }
@@ -2675,27 +2692,32 @@ async function handleStateMessage(message, state, env) {
       return sendMsg(chatId, '🔧 چه فیلدی را ویرایش کنیم؟', env, editFieldKb(), 'HTML', threadId);
     }
     case 'edit_keywords_pos': {
-      const kw = text.split(',').map(s => s.trim()).filter(Boolean);
+      const kw = text.trim() === '-' ? [] : parseKeywordsInput(text);
       await setState(userId, { ...state, step: 'edit_keywords_neg', keywords_positive: kw }, env);
-      return sendWizardPrompt(chatId, '🚫 کلیدواژه‌های منفی جدید (یا - برای خالی):', env, threadId);
+      return sendWizardPrompt(chatId, '🚫 <b>کلیدواژه‌های منفی جدید</b>\n\n<blockquote>کلماتی که نباید در محتوا باشند (یا <code>-</code> برای خالی):</blockquote>', env, threadId);
     }
     case 'edit_keywords_neg': {
-      const neg = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
+      const neg = text.trim() === '-' ? [] : parseKeywordsInput(text);
       await setState(userId, { ...state, step: 'edit_confirm', keywords_negative: neg }, env);
-      return showEditConfirm(userId, { ...state, threadId }, env);
+      return showEditConfirm(userId, { ...state, keywords_negative: neg, threadId }, env);
+    }
+    case 'edit_keywords_main': {
+      const kw = text.trim() === '-' ? [] : parseKeywordsInput(text);
+      await setState(userId, { ...state, step: 'edit_keywords_comp', keywords_main: kw }, env);
+      return sendWizardPrompt(chatId, '➕ <b>کلیدواژه‌های مکمل جدید</b>\n\n<blockquote>کلماتی که امتیاز مثبت دارند (+۱۵) (یا <code>-</code> برای خالی):</blockquote>', env, threadId);
     }
     case 'edit_keywords_comp': {
-      const kw = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
-      await setState(userId, { ...state, step: 'edit_confirm', keywords_complementary: kw }, env);
-      return showEditConfirm(userId, { ...state, keywords_complementary: kw, threadId }, env);
+      const comp = text.trim() === '-' ? [] : parseKeywordsInput(text);
+      await setState(userId, { ...state, step: 'edit_keywords_periph', keywords_complementary: comp }, env);
+      return sendWizardPrompt(chatId, '⚠️ <b>کلیدواژه‌های پیرامونی جدید</b>\n\n<blockquote>کلماتی که امتیاز منفی دارند (-۳۰) (یا <code>-</code> برای خالی):</blockquote>', env, threadId);
     }
     case 'edit_keywords_periph': {
-      const kw = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
-      await setState(userId, { ...state, step: 'edit_confirm', keywords_peripheral: kw }, env);
-      return showEditConfirm(userId, { ...state, keywords_peripheral: kw, threadId }, env);
+      const periph = text.trim() === '-' ? [] : parseKeywordsInput(text);
+      await setState(userId, { ...state, step: 'edit_deep_threshold_input', keywords_peripheral: periph }, env);
+      return sendWizardPrompt(chatId, '📊 <b>آستانه امتیاز جدید</b>\n\n<blockquote>حداقل امتیاز برای ارسال (مثلاً <code>50</code> یا <code>-</code> برای بدون تغییر):</blockquote>', env, threadId);
     }
     case 'edit_deep_threshold_input': {
-      const n = parseInt(text, 10);
+      const n = text.trim() === '-' ? (state.deep_threshold || 50) : parseInt(text, 10);
       if (isNaN(n) || n <= 0) return sendWizardPrompt(chatId, '⚠️ عدد معتبر بفرستید.', env, threadId);
       await setState(userId, { ...state, step: 'edit_confirm', deep_threshold: n }, env);
       return showEditConfirm(userId, { ...state, deep_threshold: n, threadId }, env);
@@ -2917,7 +2939,7 @@ async function finalizeAddSource(userId, state, env) {
 
 async function showEditConfirm(userId, state, env) {
   const fields = [];
-  if (state.mode) fields.push(`حالت: ${modeName(state.mode)}`);
+  if (state.mode) fields.push(`حالت: ${modeName(state.mode, state.deep_scoring)}`);
   // Deep Classic
   if (state.keywords_positive) fields.push(`مثبت‌کننده: ${state.keywords_positive.join(', ')}`);
   if (state.keywords_negative) fields.push(`منفی‌کننده: ${state.keywords_negative.join(', ')}`);
@@ -3104,34 +3126,13 @@ async function handleCallback(query, env) {
       await setState(userId, { ...state, deep_scoring: isScoring ? 1 : 0, step: isScoring ? 'edit_keywords_main' : 'edit_keywords_pos', threadId }, env);
       if (isScoring) {
         let msg = '📊 <b>Deep Scoring — کلیدواژه‌های اصلی جدید</b>\n\n';
-        msg += '<blockquote>با کاما بفرستید. <b>امتیاز:</b> +۴۰ هر کلمه (+۱۵ position bonus)\n\nبرای پاک‌کردن: <code>-</code></blockquote>';
+        msg += '<blockquote>کلماتی که مستقیماً موضوع اصلی هستند (+۴۰ امتیاز).\nبا کاما یا ویرگول بفرستید (یا <code>-</code> برای پاک‌کردن):</blockquote>';
         return editMsg(chatId, messageId, msg, env, null, 'HTML');
       } else {
         let msg = '📋 <b>Deep Classic — کلیدواژه‌های مثبت‌کننده جدید</b>\n\n';
-        msg += '<blockquote>با کاما بفرستید.\n\nبرای پاک‌کردن: <code>-</code></blockquote>';
+        msg += '<blockquote>با کاما یا ویرگول بفرستید (یا <code>-</code> برای پاک‌کردن):</blockquote>';
         return editMsg(chatId, messageId, msg, env, null, 'HTML');
       }
-    }
-    // ─── Deep Scoring keywords در ویرایش گروهی ───
-    case 'edit_keywords_main': {
-      const kw = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
-      await setState(userId, { ...state, step: 'edit_keywords_comp', keywords_main: kw }, env);
-      return sendWizardPrompt(chatId, '➕ کلیدواژه‌های مکمل جدید (یا -):', env, threadId);
-    }
-    case 'edit_keywords_comp': {
-      const comp = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
-      await setState(userId, { ...state, step: 'edit_keywords_periph', keywords_complementary: comp }, env);
-      return sendWizardPrompt(chatId, '⚠️ کلیدواژه‌های پیرامونی جدید (یا -):', env, threadId);
-    }
-    case 'edit_keywords_periph': {
-      const periph = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
-      await setState(userId, { ...state, step: 'edit_deep_threshold_input', keywords_peripheral: periph }, env);
-      return sendWizardPrompt(chatId, '📊 آستانه امتیاز Deep (عدد، پیش‌فرض ۵۰):', env, threadId);
-    }
-    case 'edit_deep_threshold_input': {
-      const n = parseInt(text, 10) || 50;
-      await setState(userId, { ...state, step: 'edit_confirm', deep_threshold: n }, env);
-      return showEditConfirm(userId, { ...state, threadId }, env);
     }
 
     // ─── انتخاب ری‌اکشن از picker (هم برای addsource و هم editsource) ───
@@ -4343,7 +4344,7 @@ async function showSourcesList(chatId, messageId, env, page = 0, threadId = null
     const periph = safeJson(s.keywords_peripheral, []);
     const viralRules = safeJson(s.viral_reactions, []);
     text += `🆔 ${s.id} | @${s.channel}\n`;
-    text += `   ${modeName(s.mode)}${s.active ? '' : ' (غیرفعال)'} → ${s.target_chat_id}${s.target_topic_id ? ':' + s.target_topic_id : ''}\n`;
+    text += `   ${modeName(s.mode, s.deep_scoring)}${s.active ? '' : ' (غیرفعال)'} → ${s.target_chat_id}${s.target_topic_id ? ':' + s.target_topic_id : ''}\n`;
     if (s.mode === 'deep') {
       // ⚠️ نمایش بر اساس نوع Deep (Classic یا Scoring)
       const isScoring = s.deep_scoring == 1;
@@ -4378,14 +4379,14 @@ async function showSourcesList(chatId, messageId, env, page = 0, threadId = null
 }
 
 async function showSourcePicker(chatId, messageId, env, callbackAction, threadId = null) {
-  const res = await env.DB.prepare('SELECT id, channel, mode FROM sources ORDER BY id DESC LIMIT 20').all();
+  const res = await env.DB.prepare('SELECT id, channel, mode, deep_scoring FROM sources ORDER BY id DESC LIMIT 20').all();
   if (!res.results.length) {
     const t = '📋 منبعی وجود ندارد.';
     return messageId ? editMsg(chatId, messageId, t, env, mainMenuKb()) : sendMsg(chatId, t, env, mainMenuKb(), 'HTML', threadId);
   }
   const kb = { inline_keyboard: [] };
   for (const s of res.results) {
-    kb.inline_keyboard.push([{ text: `#${s.id} @${s.channel} (${modeName(s.mode)})`, callback_data: `${callbackAction}:${s.id}` }]);
+    kb.inline_keyboard.push([{ text: `#${s.id} @${s.channel} (${modeName(s.mode, s.deep_scoring)})`, callback_data: `${callbackAction}:${s.id}` }]);
   }
   kb.inline_keyboard.push([{ text: '🏠 منو', callback_data: 'menu' }]);
   const t = '🔍 یک منبع را انتخاب کنید:';
@@ -4562,6 +4563,32 @@ function safeJson(s, def) {
   if (s === null || s === undefined || s === '') return def;
   if (typeof s === 'object') return s;
   try { return JSON.parse(s); } catch { return def; }
+}
+
+function parseKeywordsInput(input) {
+  if (!input) return [];
+  if (Array.isArray(input)) {
+    return input.map(s => String(s).trim()).filter(Boolean);
+  }
+  if (typeof input === 'string') {
+    const trimmed = input.trim();
+    if (trimmed === '-' || !trimmed) return [];
+    if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (Array.isArray(parsed)) return parsed.map(s => String(s).trim()).filter(Boolean);
+      } catch {}
+    }
+    return trimmed
+      .split(/[,،؛;\n\r]+/)
+      .map(s => s.trim().replace(/^["'«»“”]/, '').replace(/["'«»“”]$/, '').trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+function safeKeywords(s) {
+  return parseKeywordsInput(s);
 }
 
 // ===========================================================================
@@ -4888,6 +4915,7 @@ async function apiAddSource(request, env) {
 }
 
 async function apiUpdateSource(request, env, id) {
+  await getSourceColumns(env);
   const b = await request.json();
   // ⚠️ Patch-based update: فقط فیلدهای ارسال‌شده را تغییر بده
   // این کار باعث می‌شود اگه ستونی وجود نداشت، بقیه ذخیره شوند
@@ -4968,11 +4996,12 @@ async function apiBulkDelete(request, env) {
 }
 
 async function apiBulkEdit(request, env) {
+  await getSourceColumns(env);
   const {
     ids, mode,
     keywords_positive, keywords_negative,
     keywords_main, keywords_complementary, keywords_peripheral,
-    every_mode, deep_threshold,
+    deep_scoring, every_mode, deep_threshold,
     viral_threshold, viral_reactions,
     active, block_ads, ad_threshold,
   } = await request.json();
@@ -4985,6 +5014,7 @@ async function apiBulkEdit(request, env) {
   if (keywords_main !== undefined) { sets.push('keywords_main=?'); binds.push(JSON.stringify(keywords_main || [])); }
   if (keywords_complementary !== undefined) { sets.push('keywords_complementary=?'); binds.push(JSON.stringify(keywords_complementary || [])); }
   if (keywords_peripheral !== undefined) { sets.push('keywords_peripheral=?'); binds.push(JSON.stringify(keywords_peripheral || [])); }
+  if (deep_scoring !== undefined) { sets.push('deep_scoring=?'); binds.push(deep_scoring ? 1 : 0); }
   if (every_mode !== undefined) { sets.push('every_mode=?'); binds.push(every_mode ? 1 : 0); }
   if (deep_threshold !== undefined) { sets.push('deep_threshold=?'); binds.push(deep_threshold); }
   // Viral
@@ -5395,6 +5425,7 @@ async function apiApproveAIKeywords(request, env) {
 
 // ─── API: اعمال دستی کلیدواژه‌های انتخاب‌شده از پنل ───
 async function apiApplyManualAIKeywords(request, env) {
+  await getSourceColumns(env);
   const { source_id, mode, positive, negative, main, complementary, peripheral } = await request.json();
   const src = await env.DB.prepare('SELECT * FROM sources WHERE id=?').bind(source_id).first();
   if (!src) return json({ error: 'منبع یافت نشد' }, 404);
