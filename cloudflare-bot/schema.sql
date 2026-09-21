@@ -76,6 +76,8 @@ CREATE TABLE IF NOT EXISTS admins (
   id           INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id      TEXT    UNIQUE NOT NULL,
   added_by     TEXT,
+  name         TEXT    DEFAULT '',     -- نام ادمین در تلگرام
+  username     TEXT    DEFAULT '',     -- یوزرنیم @ تلگرام
   permissions  TEXT    DEFAULT '{}',   -- JSON: {addsource, editsource, ...}
   created_at   INTEGER
 );

@@ -19,6 +19,10 @@
  * ============================================================================
  */
 
+// Auto-generated panel HTML export
+const PANEL_HTML = "<!DOCTYPE html>\n<html lang=\"fa\" dir=\"rtl\">\n<head>\n<meta charset=\"UTF-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n<title>پنل مدیریت ربات تجمیع‌کننده</title>\n<script src=\"https://telegram.org/js/telegram-web-app.js\"></script>\n<script src=\"https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js\"></script>\n<style>\n  /* ─── متغیرهای رنگ ─── */\n  :root{\n    --bg: #0a0e1a;\n    --bg2: #0f172a;\n    --bg3: #131c33;\n    --card: rgba(22, 28, 45, 0.7);\n    --card-solid: #161c2d;\n    --card-hover: rgba(34, 211, 238, 0.08);\n    --border: rgba(99, 102, 241, 0.15);\n    --border-strong: rgba(99, 102, 241, 0.35);\n    --text: #f1f5f9;\n    --muted: #94a3b8;\n    --accent: #06b6d4;\n    --accent2: #a78bfa;\n    --accent-glow: rgba(6, 182, 212, 0.4);\n    --green: #10b981;\n    --red: #ef4444;\n    --yellow: #f59e0b;\n    --blue: #3b82f6;\n    --purple: #a855f7;\n    --pink: #ec4899;\n    --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);\n    --shadow: 0 4px 16px rgba(0,0,0,0.3);\n    --shadow-lg: 0 12px 32px rgba(0,0,0,0.4);\n    --radius-sm: 8px;\n    --radius: 12px;\n    --radius-lg: 16px;\n    --gradient: linear-gradient(135deg, #06b6d4 0%, #a78bfa 100%);\n    --gradient-card: linear-gradient(135deg, rgba(6,182,212,0.05) 0%, rgba(167,139,250,0.05) 100%);\n  }\n\n  *{box-sizing:border-box;margin:0;padding:0}\n  html,body{height:100%}\n  body{\n    font-family:'Vazirmatn',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;\n    background: var(--bg);\n    background-image:\n      radial-gradient(at 20% 0%, rgba(6,182,212,0.12) 0px, transparent 50%),\n      radial-gradient(at 80% 100%, rgba(167,139,250,0.12) 0px, transparent 50%),\n      radial-gradient(at 100% 0%, rgba(236,72,153,0.08) 0px, transparent 50%);\n    background-attachment: fixed;\n    color: var(--text);\n    min-height: 100vh;\n    line-height: 1.6;\n    -webkit-font-smoothing: antialiased;\n  }\n  a{color:var(--accent);text-decoration:none}\n  ::selection{background:var(--accent);color:#fff}\n\n  /* ─── Scrollbar ─── */\n  ::-webkit-scrollbar{width:10px;height:10px}\n  ::-webkit-scrollbar-track{background:transparent}\n  ::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:5px}\n  ::-webkit-scrollbar-thumb:hover{background:var(--accent)}\n\n  /* ─── Login ─── */\n  .login-wrap{\n    display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem;\n    background: radial-gradient(at center, rgba(6,182,212,0.15), transparent 70%);\n  }\n  .login-card{\n    background: rgba(22, 28, 45, 0.85);\n    backdrop-filter: blur(20px);\n    border:1px solid var(--border-strong);\n    border-radius: var(--radius-lg);\n    padding:2.5rem 2rem;\n    width:100%;max-width:400px;\n    box-shadow: var(--shadow-lg);\n    text-align:center;\n  }\n  .login-logo{\n    width:64px;height:64px;margin:0 auto 1.5rem;\n    background:var(--gradient);\n    border-radius:16px;\n    display:flex;align-items:center;justify-content:center;\n    box-shadow:0 0 40px var(--accent-glow);\n  }\n  .login-card h1{font-size:1.25rem;margin-bottom:.5rem}\n  .login-card p{color:var(--muted);font-size:.85rem;margin-bottom:1.5rem}\n  .login-card .field{margin-bottom:1rem;text-align:right}\n  .login-card .field label{display:block;font-size:.8rem;color:var(--muted);margin-bottom:.4rem;font-weight:500}\n  .login-card .field input{width:100%}\n\n  /* ─── Layout ─── */\n  .app{display:none;flex-direction:column;min-height:100vh}\n  .app.active{display:flex}\n\n  /* Header */\n  .header{\n    position:sticky;top:0;z-index:50;\n    background: rgba(10,14,26,0.85);\n    backdrop-filter: blur(20px);\n    border-bottom:1px solid var(--border);\n    padding:.75rem 1.25rem;\n    display:flex;align-items:center;justify-content:space-between;\n    gap:1rem;\n  }\n  .header-left{display:flex;align-items:center;gap:.75rem}\n  .logo-mini{\n    width:36px;height:36px;\n    background:var(--gradient);\n    border-radius:10px;\n    display:flex;align-items:center;justify-content:center;\n    box-shadow:0 0 20px var(--accent-glow);\n  }\n  .header h1{font-size:1rem;font-weight:700}\n  .header h1 .sub{color:var(--muted);font-weight:400;font-size:.7rem;display:block}\n  .header-right{display:flex;align-items:center;gap:.5rem}\n  .worker-url-input{\n    background:var(--bg2);border:1px solid var(--border);color:var(--text);\n    padding:.4rem .6rem;border-radius:var(--radius-sm);font-size:.75rem;width:200px;\n    font-family:inherit;\n  }\n  .icon-btn{\n    width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;\n    background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);\n    color:var(--muted);cursor:pointer;transition:all .2s;\n  }\n  .icon-btn:hover{color:var(--accent);border-color:var(--border-strong);background:var(--card-hover)}\n  .icon-btn svg{width:18px;height:18px}\n  .icon-btn.del:hover{color:var(--red);border-color:var(--red)}\n  .icon-btn.success:hover{color:var(--green);border-color:var(--green)}\n\n  /* Nav */\n  .nav{\n    background: rgba(15,23,42,0.6);\n    border-bottom:1px solid var(--border);\n    padding:.5rem 1.25rem;\n    display:flex;gap:.25rem;overflow-x:auto;\n  }\n  .nav-btn{\n    padding:.5rem 1rem;border:none;background:transparent;\n    color:var(--muted);cursor:pointer;border-radius:var(--radius-sm);\n    font-family:inherit;font-size:.85rem;font-weight:500;\n    display:flex;align-items:center;gap:.4rem;white-space:nowrap;\n    transition: all .2s;\n  }\n  .nav-btn:hover{color:var(--text);background:var(--card-hover)}\n  .nav-btn.active{color:var(--accent);background:rgba(6,182,212,0.12)}\n  .nav-btn svg{width:16px;height:16px}\n\n  /* Main */\n  .main{padding:1.5rem;flex:1;max-width:1400px;margin:0 auto;width:100%}\n  .page{display:none;animation:fadeIn .3s ease}\n  .page.active{display:block}\n  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}\n\n  .page-header{\n    display:flex;align-items:center;justify-content:space-between;\n    margin-bottom:1.25rem;flex-wrap:wrap;gap:.5rem;\n  }\n  .page-title{font-size:1.5rem;font-weight:700}\n  .page-title .count{color:var(--muted);font-size:.85rem;font-weight:400;margin-inline-start:.5rem}\n\n  /* ─── Components ─── */\n  .btn{\n    display:inline-flex;align-items:center;justify-content:center;gap:.4rem;\n    padding:.55rem 1rem;border-radius:var(--radius-sm);font-family:inherit;\n    font-size:.85rem;font-weight:500;cursor:pointer;border:1px solid transparent;\n    transition: all .2s;white-space:nowrap;\n  }\n  .btn svg{width:16px;height:16px}\n  .btn-primary{background:var(--gradient);color:#fff;box-shadow:0 4px 12px var(--accent-glow)}\n  .btn-primary:hover{opacity:.9;transform:translateY(-1px)}\n  .btn-ghost{background:var(--bg2);color:var(--text);border:1px solid var(--border)}\n  .btn-ghost:hover{border-color:var(--border-strong);background:var(--card-hover)}\n  .btn-danger{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.3)}\n  .btn-danger:hover{background:rgba(239,68,68,0.2)}\n  .btn-sm{padding:.35rem .65rem;font-size:.75rem}\n  .btn:disabled{opacity:.5;cursor:not-allowed}\n\n  .field{margin-bottom:1rem}\n  .field label{display:block;font-size:.8rem;color:var(--muted);margin-bottom:.4rem;font-weight:500}\n  .field input,.field select,.field textarea{\n    width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);\n    padding:.55rem .75rem;border-radius:var(--radius-sm);font-family:inherit;font-size:.85rem;\n    transition:all .2s;\n  }\n  .field input:focus,.field select:focus,.field textarea:focus{\n    outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(6,182,212,0.15);\n  }\n  .field input[type=checkbox]{width:auto;margin-inline-start:.4rem}\n  .field .hint{font-size:.7rem;color:var(--muted);margin-top:.3rem}\n\n  .search{\n    background:var(--bg2);border:1px solid var(--border);color:var(--text);\n    padding:.55rem .75rem .55rem 2rem;border-radius:var(--radius-sm);\n    font-family:inherit;font-size:.85rem;width:100%;transition:all .2s;\n    background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='m21 21-4.35-4.35'%3E%3C/path%3E%3C/svg%3E\");\n    background-repeat:no-repeat;background-position:right .75rem center;\n  }\n  .search:focus{outline:none;border-color:var(--accent)}\n\n  /* Cards */\n  .card{\n    background:var(--card);\n    backdrop-filter:blur(10px);\n    border:1px solid var(--border);\n    border-radius:var(--radius);\n    padding:1.25rem;\n    transition:all .2s;\n  }\n  .card:hover{border-color:var(--border-strong)}\n  .grid{display:grid;gap:1rem}\n  .grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}\n  .grid-3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}\n  .grid-4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}\n\n  /* Stats */\n  .stat-card{\n    background:var(--gradient-card);\n    border:1px solid var(--border);\n    border-radius:var(--radius);\n    padding:1.25rem;\n    position:relative;overflow:hidden;\n  }\n  .stat-card::before{\n    content:'';position:absolute;top:0;right:0;width:60px;height:60px;\n    background:var(--gradient);opacity:.15;border-radius:50%;\n    transform:translate(20px,-20px);\n  }\n  .stat-card .stat-icon{\n    width:36px;height:36px;border-radius:10px;\n    display:flex;align-items:center;justify-content:center;\n    margin-bottom:.75rem;\n  }\n  .stat-card .stat-icon svg{width:20px;height:20px}\n  .stat-card .stat-label{font-size:.75rem;color:var(--muted);margin-bottom:.25rem}\n  .stat-card .stat-value{font-size:1.75rem;font-weight:700}\n  .stat-card .stat-sub{font-size:.7rem;color:var(--muted);margin-top:.25rem}\n\n  /* Table */\n  .table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}\n  table{width:100%;border-collapse:collapse;font-size:.85rem}\n  th{background:var(--bg2);padding:.75rem 1rem;text-align:right;font-weight:600;color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}\n  td{padding:.75rem 1rem;border-top:1px solid var(--border);vertical-align:middle}\n  tr:hover td{background:var(--card-hover)}\n  td.empty{text-align:center;color:var(--muted);padding:2rem}\n\n  /* Badges */\n  .badge{\n    display:inline-flex;align-items:center;gap:.25rem;\n    padding:.2rem .55rem;border-radius:999px;font-size:.7rem;font-weight:500;\n  }\n  .b-forward{background:rgba(59,130,246,.15);color:var(--blue)}\n  .b-deep{background:rgba(168,85,247,.15);color:var(--purple)}\n  .b-viral{background:rgba(245,158,11,.15);color:var(--yellow)}\n  .b-on{background:rgba(16,185,129,.15);color:var(--green)}\n  .b-off{background:rgba(239,68,68,.15);color:var(--red)}\n  .b-warn{background:rgba(245,158,11,.15);color:var(--yellow)}\n\n  .check-list{max-height:300px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-sm);padding:.5rem}\n  .check-item{display:flex;align-items:center;gap:.5rem;padding:.5rem;border-radius:6px;cursor:pointer;transition:background .15s}\n  .check-item:hover{background:var(--card-hover)}\n  .check-item input{margin:0}\n\n  /* Modal */\n  .modal-overlay{\n    position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);\n    display:none;align-items:flex-start;justify-content:center;z-index:100;\n    padding:2rem 1rem;overflow-y:auto;\n  }\n  .modal-overlay.active{display:flex}\n  .modal{\n    background:var(--card-solid);border:1px solid var(--border-strong);\n    border-radius:var(--radius-lg);width:100%;max-width:560px;margin:auto;\n    box-shadow:var(--shadow-lg);animation:modalIn .2s ease;\n  }\n  @keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}\n  .modal-header{\n    padding:1rem 1.25rem;border-bottom:1px solid var(--border);\n    display:flex;align-items:center;justify-content:space-between;\n  }\n  .modal-header h2{font-size:1.05rem;font-weight:600}\n  .modal-body{padding:1.25rem;max-height:60vh;overflow-y:auto}\n  .modal-actions{\n    padding:1rem 1.25rem;border-top:1px solid var(--border);\n    display:flex;justify-content:flex-end;gap:.5rem;\n  }\n\n  /* Toast */\n  .toast{\n    position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);\n    background:var(--card-solid);border:1px solid var(--border-strong);\n    padding:.75rem 1.25rem;border-radius:var(--radius);\n    box-shadow:var(--shadow-lg);color:var(--text);font-size:.85rem;\n    z-index:1000;opacity:0;pointer-events:none;transition:all .3s;\n  }\n  .toast.show{opacity:1;bottom:2rem}\n  .toast.ok{border-color:var(--green)}\n  .toast.err{border-color:var(--red)}\n\n  /* Empty state */\n  .empty{\n    text-align:center;padding:2rem;color:var(--muted);\n    display:flex;flex-direction:column;align-items:center;gap:.5rem;\n  }\n  .empty svg{width:32px;height:32px;opacity:.5}\n\n  /* Log entries */\n  .log-entry{\n    background:var(--card);border:1px solid var(--border);\n    border-radius:var(--radius-sm);padding:.75rem 1rem;margin-bottom:.5rem;\n    transition:all .15s;\n  }\n  .log-entry.expandable{cursor:pointer}\n  .log-entry.no-expand{cursor:default;opacity:.65}\n  .log-entry:hover{border-color:var(--border-strong)}\n  .log-entry.expanded{border-color:var(--accent)}\n  .log-entry .log-header{display:flex;justify-content:space-between;align-items:start;gap:.5rem;margin-bottom:.3rem;flex-wrap:wrap}\n  .log-entry .log-action{font-weight:600;font-size:.8rem}\n  .log-entry .log-time{font-size:.7rem;color:var(--muted);white-space:nowrap}\n  .log-entry .log-detail{font-size:.8rem;color:var(--text);opacity:.85}\n  .log-entry .log-breakdown{\n    background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);\n    padding:.5rem .75rem;margin-top:.5rem;\n    font-family:'Vazirmatn',monospace;font-size:.75rem;\n    white-space:pre-wrap;color:var(--accent);\n    display:none;\n  }\n  .log-entry.expanded .log-breakdown{display:block}\n  .log-entry .log-ai-raw{\n    background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.3);\n    border-radius:var(--radius-sm);padding:.5rem .75rem;margin-top:.5rem;\n    font-family:monospace;font-size:.7rem;\n    color:var(--yellow);direction:ltr;text-align:left;\n    max-height:200px;overflow-y:auto;display:none;\n  }\n  .log-entry.expanded .log-ai-raw{display:block}\n  .log-badge{display:inline-block;padding:.1rem .4rem;border-radius:4px;font-size:.65rem;margin-inline-start:.3rem}\n  .log-badge.sent{background:rgba(16,185,129,.2);color:var(--green)}\n  .log-badge.skipped{background:rgba(245,158,11,.2);color:var(--yellow)}\n  .log-badge.error{background:rgba(239,68,68,.2);color:var(--red)}\n  .log-badge.ai_raw{background:rgba(168,85,247,.2);color:var(--purple)}\n  .log-badge.ai_analyze{background:rgba(6,182,212,.2);color:var(--accent)}\n  .log-badge.scanned{background:rgba(59,130,246,.2);color:var(--blue)}\n\n  /* AI Pending */\n  .ai-pending-card{\n    background:var(--card);border:1px solid var(--border-strong);\n    border-radius:var(--radius);padding:1rem;margin-bottom:.75rem;\n  }\n  .ai-pending-card .kw-grid{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem}\n  .kw-badge{\n    display:inline-flex;align-items:center;gap:.2rem;\n    padding:.25rem .5rem;border-radius:6px;font-size:.75rem;cursor:pointer;\n    transition:all .15s;border:1px solid transparent;\n  }\n  .kw-badge:hover{transform:translateY(-1px)}\n  .kw-badge.selected{opacity:1}\n  .kw-badge.deselected{opacity:.35;text-decoration:line-through}\n  .kw-main{background:rgba(16,185,129,.15);color:var(--green);border-color:rgba(16,185,129,.3)}\n  .kw-comp{background:rgba(168,85,247,.15);color:var(--purple);border-color:rgba(168,85,247,.3)}\n  .kw-periph{background:rgba(245,158,11,.15);color:var(--yellow);border-color:rgba(245,158,11,.3)}\n  .kw-pos{background:rgba(16,185,129,.15);color:var(--green);border-color:rgba(16,185,129,.3)}\n  .kw-neg{background:rgba(239,68,68,.15);color:var(--red);border-color:rgba(239,68,68,.3)}\n\n  /* Reaction rule editor */\n  .reaction-rules{display:flex;flex-direction:column;gap:.5rem}\n  .reaction-rule{\n    display:flex;align-items:center;gap:.5rem;\n    background:var(--bg2);border:1px solid var(--border);\n    border-radius:var(--radius-sm);padding:.5rem;\n  }\n  .reaction-rule select{\n    min-width:140px;background:var(--bg);border:1px solid var(--border);color:var(--text);\n    padding:.4rem;border-radius:6px;font-size:.9rem;font-family:inherit;\n    max-width:200px;\n  }\n  .reaction-rule input[type=text]{\n    width:50px;text-align:center;font-size:1.1rem;\n    background:var(--bg);border:1px solid var(--border);color:var(--text);\n    padding:.4rem;border-radius:6px;\n  }\n  .reaction-rule input[type=number]{\n    flex:1;min-width:90px;background:var(--bg);border:1px solid var(--border);color:var(--text) !important;\n    padding:.45rem .6rem;border-radius:6px;font-family:inherit;font-size:.9rem;\n    direction:ltr;text-align:left;\n  }\n  .reaction-rule .remove-rule{\n    background:transparent;border:none;color:var(--red);cursor:pointer;\n    width:28px;height:28px;display:flex;align-items:center;justify-content:center;\n    border-radius:6px;font-size:1rem;\n  }\n\n  /* Responsive */\n  @media (max-width: 768px){\n    .header{padding:.5rem .75rem}\n    .worker-url-input{width:120px}\n    .main{padding:1rem}\n    .page-title{font-size:1.25rem}\n    .stat-card .stat-value{font-size:1.4rem}\n    .nav{padding:.4rem .75rem}\n    .nav-btn{font-size:.78rem;padding:.4rem .7rem}\n  }\n</style>\n</head>\n<body>\n\n<!-- ─── Login ─── -->\n<div class=\"login-wrap\" id=\"login\">\n  <div class=\"login-card\">\n    <div class=\"login-logo\">\n      <svg width=\"32\" height=\"32\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n        <path d=\"M22 2 11 13\"/><path d=\"m22 2-7 20-4-9-9-4Z\"/>\n      </svg>\n    </div>\n    <h1>پنل مدیریت ربات</h1>\n    <p>برای ورود، آدرس Worker و رمز عبور را وارد کنید</p>\n    <div class=\"field\">\n      <label>آدرس Worker</label>\n      <input id=\"loginWorker\" placeholder=\"https://your-worker.workers.dev\" />\n    </div>\n    <div class=\"field\">\n      <label>رمز عبور</label>\n      <input id=\"loginPass\" type=\"password\" placeholder=\"••••••••\" onkeydown=\"if(event.key==='Enter')doLogin()\" />\n    </div>\n    <button class=\"btn btn-primary\" style=\"width:100%\" onclick=\"doLogin()\">ورود</button>\n  </div>\n</div>\n\n<!-- ─── App ─── -->\n<div class=\"app\" id=\"app\">\n  <!-- Header -->\n  <header class=\"header\">\n    <div class=\"header-left\">\n      <div class=\"logo-mini\">\n        <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n          <path d=\"M22 2 11 13\"/><path d=\"m22 2-7 20-4-9-9-4Z\"/>\n        </svg>\n      </div>\n      <h1>پنل مدیریت ربات <span class=\"sub\" id=\"hdrWorker\">...</span></h1>\n    </div>\n    <div class=\"header-right\">\n      <input class=\"worker-url-input\" id=\"workerUrl\" placeholder=\"Worker URL\" onchange=\"updateWorker()\" />\n      <button class=\"icon-btn\" title=\"به‌روزرسانی\" onclick=\"loadAll()\">\n        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8\"/><path d=\"M21 3v5h-5\"/><path d=\"M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16\"/><path d=\"M8 16H3v5\"/></svg>\n      </button>\n      <button class=\"icon-btn del\" title=\"خروج\" onclick=\"logout()\">\n        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\"/><polyline points=\"16 17 21 12 16 7\"/><line x1=\"21\" y1=\"12\" x2=\"9\" y2=\"12\"/></svg>\n      </button>\n    </div>\n  </header>\n\n  <!-- Nav -->\n  <nav class=\"nav\" id=\"nav\">\n    <button class=\"nav-btn active\" data-page=\"dashboard\" onclick=\"showPage('dashboard',this)\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"7\" height=\"9\" x=\"3\" y=\"3\" rx=\"1\"/><rect width=\"7\" height=\"5\" x=\"14\" y=\"3\" rx=\"1\"/><rect width=\"7\" height=\"9\" x=\"14\" y=\"12\" rx=\"1\"/><rect width=\"7\" height=\"5\" x=\"3\" y=\"16\" rx=\"1\"/></svg>\n      داشبورد\n    </button>\n    <button class=\"nav-btn\" data-page=\"sources\" onclick=\"showPage('sources',this)\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 11a9 9 0 0 1 9 9\"/><path d=\"M4 4a16 16 0 0 1 16 16\"/><circle cx=\"5\" cy=\"19\" r=\"1\"/></svg>\n      منابع\n    </button>\n    <button class=\"nav-btn\" data-page=\"ai\" onclick=\"showPage('ai',this)\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 8V4H8\"/><rect width=\"16\" height=\"12\" x=\"4\" y=\"8\" rx=\"2\"/><path d=\"M2 14h2\"/><path d=\"M20 14h2\"/><path d=\"M15 13v2\"/><path d=\"M9 13v2\"/></svg>\n      هوش مصنوعی\n    </button>\n    <button class=\"nav-btn\" data-page=\"report\" onclick=\"showPage('report',this)\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\"/><path d=\"M14 2v6h6\"/><path d=\"M16 13H8\"/><path d=\"M16 17H8\"/><path d=\"M10 9H8\"/></svg>\n      گزارش\n    </button>\n    <button class=\"nav-btn\" data-page=\"logs\" onclick=\"showPage('logs',this)\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\"/><path d=\"M14 2v6h6\"/><path d=\"M12 18v-6\"/><path d=\"M9 15h6\"/></svg>\n      لاگ‌ها\n    </button>\n    <button class=\"nav-btn\" data-page=\"quarantine\" onclick=\"showPage('quarantine',this)\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/></svg>\n      قرنطینه\n    </button>\n    <button class=\"nav-btn\" data-page=\"adblock\" onclick=\"showPage('adblock',this)\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 4a14 14 0 0 0 0 16\"/><path d=\"M18 4a14 14 0 0 1 0 16\"/><path d=\"M4 12h16\"/></svg>\n      ضد تبلیغات\n    </button>\n    <button class=\"nav-btn\" data-page=\"admins\" onclick=\"showPage('admins',this)\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/></svg>\n      ادمین‌ها\n    </button>\n    <button class=\"nav-btn\" data-page=\"backup\" onclick=\"showPage('backup',this)\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><ellipse cx=\"12\" cy=\"5\" rx=\"9\" ry=\"3\"/><path d=\"M3 5V19A9 3 0 0 0 21 19V5\"/><path d=\"M3 12A9 3 0 0 0 21 12\"/></svg>\n      بکاپ\n    </button>\n  </nav>\n\n  <main class=\"main\">\n    <!-- ─── Dashboard ─── -->\n    <div class=\"page active\" id=\"page-dashboard\">\n      <div class=\"page-header\"><h2 class=\"page-title\">داشبورد</h2></div>\n      <div class=\"grid grid-4\" id=\"statsGrid\"></div>\n      <div class=\"grid grid-2\" style=\"margin-top:1rem\">\n        <div class=\"card\">\n          <h3 style=\"font-size:.9rem;margin-bottom:1rem;color:var(--muted)\">📈 ارسال روزانه (۷ روز)</h3>\n          <canvas id=\"dailyChart\" height=\"120\"></canvas>\n        </div>\n        <div class=\"card\">\n          <h3 style=\"font-size:.9rem;margin-bottom:1rem;color:var(--muted)\">⚡ عملکردها</h3>\n          <canvas id=\"actionChart\" height=\"120\"></canvas>\n        </div>\n      </div>\n    </div>\n\n    <!-- ─── Sources ─── -->\n    <div class=\"page\" id=\"page-sources\">\n      <div class=\"page-header\">\n        <h2 class=\"page-title\">منابع <span class=\"count\" id=\"sourcesCount\"></span></h2>\n        <div style=\"display:flex;gap:.5rem;flex-wrap:wrap\">\n          <input class=\"search\" id=\"srcSearch\" placeholder=\"جستجوی کانال...\" style=\"width:200px\" oninput=\"renderSources()\" />\n          <button class=\"btn btn-ghost\" onclick=\"openBulkEdit()\">🔧 ویرایش گروهی</button>\n          <button class=\"btn btn-primary\" onclick=\"openAddModal()\">➕ افزودن منبع</button>\n        </div>\n      </div>\n      <div class=\"table-wrap\">\n        <table>\n          <thead>\n            <tr>\n              <th>#</th><th>کانال</th><th>موضوع</th><th>حالت</th><th>کلیدواژه‌ها</th><th>مقصد</th><th>ضد تبلیغ</th><th>وضعیت</th><th>عملیات</th>\n            </tr>\n          </thead>\n          <tbody id=\"sourcesBody\"></tbody>\n        </table>\n      </div>\n    </div>\n\n    <!-- ─── AI ─── -->\n    <div class=\"page\" id=\"page-ai\">\n      <div class=\"page-header\">\n        <h2 class=\"page-title\">هوش مصنوعی</h2>\n        <button class=\"btn btn-ghost\" onclick=\"loadAIPending()\">🔄 به‌روزرسانی</button>\n      </div>\n      <div class=\"card\" style=\"margin-bottom:1rem\">\n        <h3 style=\"font-size:.95rem;margin-bottom:.75rem\">🤖 تحلیل دستی کلیدواژه</h3>\n        <p style=\"color:var(--muted);font-size:.8rem;margin-bottom:.75rem\">\n          یک منبع را انتخاب کنید. هوش مصنوعی ۳۰ پست اخیر را تحلیل کرده و کلیدواژه‌های پیشنهادی (بر اساس حالت Deep) ارائه می‌دهد.\n        </p>\n        <div id=\"aiAnalyzeSources\"></div>\n        <button class=\"btn btn-primary\" style=\"margin-top:.75rem\" onclick=\"triggerAIAnalyze()\">🤖 شروع تحلیل</button>\n        <div id=\"aiAnalyzeStatus\" style=\"margin-top:.75rem\"></div>\n      </div>\n      <h3 style=\"font-size:1rem;margin:1rem 0 .75rem\">📋 کلیدواژه‌های pending</h3>\n      <div id=\"aiPendingBody\"></div>\n    </div>\n\n    <!-- ─── Report ─── -->\n    <div class=\"page\" id=\"page-report\">\n      <div class=\"page-header\">\n        <h2 class=\"page-title\">گزارش روزانه</h2>\n        <button class=\"btn btn-ghost\" onclick=\"loadReport()\">🔄 به‌روزرسانی</button>\n      </div>\n      <div class=\"card\" style=\"margin-bottom:1rem\">\n        <div style=\"display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem\">\n          <div>\n            <h3 style=\"font-size:.95rem\">📊 گزارش ۲۴ ساعت اخیر</h3>\n            <p style=\"color:var(--muted);font-size:.75rem;margin-top:.25rem\" id=\"reportMeta\"></p>\n          </div>\n          <button class=\"btn btn-primary\" onclick=\"triggerReport()\">📧 ارسال به ادمین</button>\n        </div>\n      </div>\n      <div id=\"reportBody\"></div>\n    </div>\n\n    <!-- ─── Logs ─── -->\n    <div class=\"page\" id=\"page-logs\">\n      <div class=\"page-header\">\n        <h2 class=\"page-title\">لاگ‌ها <span class=\"count\" id=\"logsCount\"></span></h2>\n        <button class=\"btn btn-ghost\" onclick=\"loadLogs()\">🔄 به‌روزرسانی</button>\n      </div>\n      <div class=\"card\" style=\"margin-bottom:1rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center\">\n        <select id=\"logActionFilter\" onchange=\"loadLogs()\" style=\"background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:.5rem .8rem;border-radius:8px;font-size:.85rem;font-family:inherit\">\n          <option value=\"\">همه</option>\n          <option value=\"sent\">ارسال شد</option>\n          <option value=\"skipped\">رد شد</option>\n          <option value=\"scanned\">اسکن</option>\n          <option value=\"error\">خطا</option>\n          <option value=\"ai_analyze\">تحلیل AI</option>\n          <option value=\"ai_raw\">پاسخ AI</option>\n          <option value=\"daily_report\">گزارش روزانه</option>\n          <option value=\"report_ad\">گزارش تبلیغ</option>\n          <option value=\"restore\">بازیابی</option>\n        </select>\n        <input class=\"search\" id=\"logSearch\" placeholder=\"جستجو در متن...\" style=\"width:240px\" oninput=\"loadLogs()\" />\n        <label style=\"font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:.3rem\">\n          <input type=\"checkbox\" id=\"logAutoRefresh\" onchange=\"toggleLogAutoRefresh()\" /> به‌روزرسانی خودکار (۳۰ ثانیه)\n        </label>\n      </div>\n      <div id=\"logsHint\" style=\"font-size:.75rem;color:var(--muted);margin-bottom:.5rem\">💡 روی هر لاگ کلیک کنید تا جزئیات (breakdown) نمایش داده شود</div>\n      <div id=\"logsBody\"></div>\n    </div>\n\n    <!-- ─── Quarantine ─── -->\n    <div class=\"page\" id=\"page-quarantine\">\n      <div class=\"page-header\">\n        <h2 class=\"page-title\">قرنطینه</h2>\n        <button class=\"btn btn-ghost\" onclick=\"loadQuarantine()\">🔄 به‌روزرسانی</button>\n      </div>\n      <div id=\"quarantineBody\"></div>\n    </div>\n\n    <!-- ─── Ad Block ─── -->\n    <div class=\"page\" id=\"page-adblock\">\n      <div class=\"page-header\">\n        <h2 class=\"page-title\">سیستم ضد تبلیغات</h2>\n        <button class=\"btn btn-ghost\" onclick=\"loadAdWeights()\">🔄 به‌روزرسانی</button>\n      </div>\n      <div class=\"card\" style=\"margin-bottom:1rem\">\n        <h3 style=\"font-size:.95rem;margin-bottom:.5rem\">➕ افزودن وزن دستی</h3>\n        <div style=\"display:flex;gap:.5rem;flex-wrap:wrap\">\n          <input id=\"adwToken\" placeholder=\"کلمه/لینک/دامنه\" style=\"flex:1;min-width:200px;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:.5rem .75rem;border-radius:8px;font-family:inherit\" />\n          <select id=\"adwType\" style=\"background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:.5rem;border-radius:8px;font-family:inherit\">\n            <option value=\"word\">word</option>\n            <option value=\"link\">link</option>\n            <option value=\"emoji\">emoji</option>\n            <option value=\"domain\">domain</option>\n            <option value=\"bot_id\">bot_id</option>\n            <option value=\"pattern\">pattern</option>\n          </select>\n          <input id=\"adwWeight\" type=\"number\" value=\"30\" style=\"width:80px;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:.5rem;border-radius:8px;font-family:inherit\" />\n          <button class=\"btn btn-primary\" onclick=\"addAdWeight()\">افزودن</button>\n        </div>\n      </div>\n      <div class=\"table-wrap\">\n        <table>\n          <thead><tr><th>توکن</th><th>نوع</th><th>وزن</th><th>hits</th><th>auto</th><th>عملیات</th></tr></thead>\n          <tbody id=\"adWeightsBody\"></tbody>\n        </table>\n      </div>\n    </div>\n\n    <!-- ─── Admins ─── -->\n    <div class=\"page\" id=\"page-admins\">\n      <div class=\"page-header\">\n        <h2 class=\"page-title\">ادمین‌ها</h2>\n        <button class=\"btn btn-primary\" onclick=\"openAddAdmin()\">➕ افزودن ادمین</button>\n      </div>\n      <div class=\"card\" style=\"margin-bottom:1rem\" id=\"mainAdmin\"></div>\n      <h3 style=\"font-size:1rem;margin:.75rem 0\">ادمین‌های فرعی</h3>\n      <div class=\"table-wrap\">\n        <table>\n          <thead><tr><th>آیدی</th><th>افزوده توسط</th><th>دسترسی‌ها</th><th>عملیات</th></tr></thead>\n          <tbody id=\"adminsBody\"></tbody>\n        </table>\n      </div>\n    </div>\n\n    <!-- ─── Backup ─── -->\n    <div class=\"page\" id=\"page-backup\">\n      <div class=\"page-header\"><h2 class=\"page-title\">بکاپ‌گیری و بازیابی</h2></div>\n      <div class=\"grid grid-2\">\n        <div class=\"card\">\n          <h3 style=\"font-size:.95rem;margin-bottom:.75rem\">💾 بکاپ‌گیری</h3>\n          <p style=\"color:var(--muted);font-size:.8rem;margin-bottom:.75rem\">\n            دانلود فایل JSON شامل منابع + وزن‌های ضد تبلیغات + پیکربندی قرنطینه. بدون لاگ‌ها.\n          </p>\n          <button class=\"btn btn-primary\" onclick=\"downloadBackup()\">📥 دانلود بکاپ</button>\n        </div>\n        <div class=\"card\">\n          <h3 style=\"font-size:.95rem;margin-bottom:.75rem\">📤 بازیابی</h3>\n          <p style=\"color:var(--muted);font-size:.8rem;margin-bottom:.75rem\">\n            فایل JSON بکاپ را آپلود کنید تا منابع + وزن‌ها بازیابی شوند.\n          </p>\n          <input type=\"file\" id=\"restoreFile\" accept=\".json\" style=\"margin-bottom:.5rem\" />\n          <button class=\"btn btn-primary\" onclick=\"doRestore()\">📤 بازیابی</button>\n        </div>\n      </div>\n    </div>\n\n  </main>\n</div>\n\n<!-- Modal -->\n<div class=\"modal-overlay\" id=\"modal\" onclick=\"if(event.target===this)closeModal()\">\n  <div class=\"modal\">\n    <div class=\"modal-header\">\n      <h2 id=\"modalTitle\"></h2>\n      <button class=\"icon-btn\" onclick=\"closeModal()\">\n        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"18\" y1=\"6\" x2=\"6\" y2=\"18\"/><line x1=\"6\" y1=\"6\" x2=\"18\" y2=\"18\"/></svg>\n      </button>\n    </div>\n    <div class=\"modal-body\" id=\"modalContent\"></div>\n    <div class=\"modal-actions\" id=\"modalActions\"></div>\n  </div>\n</div>\n\n<div class=\"toast\" id=\"toast\"></div>\n\n<script>\n// ─── متغیرهای سراسری ───\nlet WORKER_URL = localStorage.getItem('workerUrl') || '';\nlet SOURCES = [];\nlet LOGS = [];\nlet logAutoRefreshTimer = null;\nlet aiSelectedSource = null;\nlet aiAnalyzing = false;\nlet pendingSelection = {};\nlet charts = {};\n\n// ─── توابع کمکی ───\nfunction $(s){return document.querySelector(s)}\nfunction $(s){return document.querySelectorAll(s)}\nfunction toast(msg, ok=true){\n  const t = $('#toast');\n  t.textContent = msg;\n  t.className = 'toast show ' + (ok ? 'ok' : 'err');\n  setTimeout(() => t.className = 'toast', 2800);\n}\nasync function api(path, opts={}) {\n  const r = await fetch(WORKER_URL + '/api/' + path, {\n    ...opts,\n    credentials: 'include',\n    headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },\n  });\n  if (r.status === 401) { logout(); throw new Error('Unauthorized'); }\n  const d = await r.json();\n  if (!r.ok) throw new Error(d.error || 'Error');\n  return d;\n}\nfunction esc(s){return String(s||'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}\nfunction fmtDate(ts){if(!ts)return '—';return new Date(ts).toLocaleString('fa-IR',{hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'})}\nfunction safeJson(s, def){if(s===null||s===undefined||s==='')return def;if(typeof s==='object')return s;try{return JSON.parse(s)}catch{return def}}\nfunction modeBadge(m){const n={forward:'فوروارد',deep:'عمیق',viral:'وایرال'}[m]||m;return `<span class=\"badge b-${m}\">${n}</span>`}\n\n// ─── آیکون‌های SVG ───\nconst ICONS = {\n  send:`<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m22 2-7 20-4-9-9-4Z\"/><path d=\"M22 2 11 13\"/></svg>`,\n  skip:`<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"5 4 15 12 5 20 5 4\"/><line x1=\"19\" y1=\"5\" x2=\"19\" y2=\"19\"/></svg>`,\n  error:`<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"16\" x2=\"12.01\" y2=\"16\"/></svg>`,\n  ai:`<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"18\" height=\"10\" x=\"3\" y=\"11\" rx=\"2\"/><circle cx=\"12\" cy=\"5\" r=\"2\"/><path d=\"M12 7v4\"/><line x1=\"8\" y1=\"16\" x2=\"8\" y2=\"16\"/><line x1=\"16\" y1=\"16\" x2=\"16\" y2=\"16\"/></svg>`,\n  eye:`<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>`,\n  bot:`<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"18\" height=\"10\" x=\"3\" y=\"11\" rx=\"2\"/><circle cx=\"12\" cy=\"5\" r=\"2\"/><path d=\"M12 7v4\"/><line x1=\"8\" y1=\"16\" x2=\"8\" y2=\"16\"/><line x1=\"16\" y1=\"16\" x2=\"16\" y2=\"16\"/></svg>`,\n  shield:`<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1Z\"/></svg>`,\n  bug:`<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"8\" height=\"14\" x=\"8\" y=\"6\" rx=\"4\"/><path d=\"m19 7-3 2\"/><path d=\"m5 7 3 2\"/><path d=\"m19 19-3-2\"/><path d=\"m5 19 3-2\"/><path d=\"M20 13h-4\"/><path d=\"M4 13h4\"/><path d=\"m10 4 1 2\"/><path d=\"m14 4-1 2\"/></svg>`,\n  source:`<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 11a9 9 0 0 1 9 9\"/><path d=\"M4 4a16 16 0 0 1 16 16\"/><circle cx=\"5\" cy=\"19\" r=\"1\"/></svg>`,\n};\n\n// ─── Auth ───\nasync function doLogin(){\n  const url = $('#loginWorker').value.trim().replace(/\\/$/, '');\n  const pass = $('#loginPass').value;\n  if(!url || !pass){toast('Worker URL و رمز عبور را وارد کنید', false);return}\n  WORKER_URL = url;\n  try{\n    const r = await fetch(url+'/api/login', {method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body:JSON.stringify({password:pass})});\n    if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error||'ورود ناموفق')}\n    localStorage.setItem('workerUrl', url);\n    $('#login').style.display='none';\n    $('#app').classList.add('active');\n    $('#workerUrl').value = url;\n    $('#hdrWorker').textContent = url.replace(/^https?:\\/\\//,'');\n    loadAll();\n  }catch(e){toast(e.message, false)}\n}\nfunction logout(){document.cookie='session=; Path=/; Max-Age=0';localStorage.removeItem('workerUrl');location.reload()}\nfunction updateWorker(){\n  WORKER_URL = $('#workerUrl').value.trim().replace(/\\/$/, '');\n  localStorage.setItem('workerUrl', WORKER_URL);\n  $('#hdrWorker').textContent = WORKER_URL.replace(/^https?:\\/\\//,'');\n  loadAll();\n}\n\n// اگه قبلاً وارد شده، مستقیم اپ نمایش داده شود\nif(WORKER_URL){\n  fetch(WORKER_URL+'/api/stats', {credentials:'include'})\n    .then(r=>{if(r.ok){$('#login').style.display='none';$('#app').classList.add('active');$('#workerUrl').value=WORKER_URL;$('#hdrWorker').textContent=WORKER_URL.replace(/^https?:\\/\\//,'');loadAll()}})\n    .catch(()=>{});\n}\n\nfunction showPage(name, btn){\n  $('.page').forEach(p=>p.classList.remove('active'));\n  $('#page-'+name).classList.add('active');\n  $('.nav-btn').forEach(b=>b.classList.remove('active'));\n  if(btn) btn.classList.add('active');\n  if(name==='dashboard') loadStats();\n  if(name==='sources') loadSources();\n  if(name==='ai') loadAIPending();\n  if(name==='report') loadReport();\n  if(name==='logs') loadLogs();\n  if(name==='quarantine') loadQuarantine();\n  if(name==='adblock') loadAdWeights();\n  if(name==='admins') loadAdmins();\n}\n\nasync function loadAll(){await loadStats()}\n\n// ─── Dashboard ───\nasync function loadStats(){\n  try{\n    const d = await api('stats');\n    const stats = [\n      {label:'منابع فعال', value:d.sources||0, icon:ICONS.source, color:'var(--accent)'},\n      {label:'پست‌های ارسالی', value:d.sentToday||0, icon:ICONS.send, color:'var(--green)'},\n      {label:'تبلیغات مسدود', value:d.adsBlocked||0, icon:ICONS.shield, color:'var(--red)'},\n      {label:'خطاها', value:d.errorsToday||0, icon:ICONS.error, color:'var(--yellow)'},\n    ];\n    $('#statsGrid').innerHTML = stats.map(s=>`\n      <div class=\"stat-card\">\n        <div class=\"stat-icon\" style=\"background:${s.color}22;color:${s.color}\">${s.icon}</div>\n        <div class=\"stat-label\">${s.label}</div>\n        <div class=\"stat-value\">${s.value}</div>\n      </div>\n    `).join('');\n    if(d.daily) renderDailyChart(d.daily);\n    if(d.byAction) renderActionChart(d.byAction);\n  }catch(e){toast(e.message, false)}\n}\n\nfunction renderDailyChart(daily){\n  const ctx = document.getElementById('dailyChart');\n  if(charts.daily) charts.daily.destroy();\n  charts.daily = new Chart(ctx, {\n    type:'line',\n    data:{\n      labels: daily.map(d=>new Date(d.date).toLocaleDateString('fa-IR',{weekday:'short'})),\n      datasets:[{label:'ارسالی', data:daily.map(d=>d.sent), borderColor:'#06b6d4', backgroundColor:'rgba(6,182,212,0.1)', fill:true, tension:.3}]\n    },\n    options:{responsive:true, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{color:'#94a3b8'}}, x:{ticks:{color:'#94a3b8'}}}}\n  });\n}\nfunction renderActionChart(a){\n  const ctx = document.getElementById('actionChart');\n  if(charts.action) charts.action.destroy();\n  charts.action = new Chart(ctx, {\n    type:'doughnut',\n    data:{\n      labels: Object.keys(a),\n      datasets:[{data: Object.values(a), backgroundColor:['#10b981','#f59e0b','#ef4444','#3b82f6','#a855f7','#06b6d4']}]\n    },\n    options:{responsive:true, plugins:{legend:{position:'bottom', labels:{color:'#94a3b8', font:{size:11}}}}}\n  });\n}\n\n// ─── Sources ───\nasync function loadSources(){\n  try{\n    const d = await api('sources');\n    SOURCES = d.sources || [];\n    $('#sourcesCount').textContent = `(${SOURCES.length} منبع)`;\n    renderSources();\n  }catch(e){toast(e.message, false)}\n}\n\nfunction formatKwList(s){\n  if(s.mode === 'deep'){\n    const isScoring = s.deep_scoring == 1;\n    if(isScoring){\n      const main = safeJson(s.keywords_main, []);\n      const comp = safeJson(s.keywords_complementary, []);\n      const periph = safeJson(s.keywords_peripheral, []);\n      let html = `<div style=\"font-size:.75rem\">✅ اصلی (${main.length}): ${esc(main.join('، '))||'—'}</div>`;\n      if(comp.length) html += `<div style=\"font-size:.75rem;color:var(--purple)\">➕ مکمل (${comp.length}): ${esc(comp.join('، '))}</div>`;\n      if(periph.length) html += `<div style=\"font-size:.75rem;color:var(--yellow)\">⚠️ پیرامونی (${periph.length}): ${esc(periph.join('، '))}</div>`;\n      html += `<div style=\"font-size:.7rem;color:var(--muted);margin-top:.2rem\">📊 آستانه: ${s.deep_threshold||50}</div>`;\n      return html;\n    } else {\n      const pos = safeJson(s.keywords_positive, []);\n      const neg = safeJson(s.keywords_negative, []);\n      let html = `<div style=\"font-size:.75rem\">✅ مثبت‌کننده (${pos.length}): ${esc(pos.join('، '))||'—'}</div>`;\n      if(neg.length) html += `<div style=\"font-size:.75rem;color:var(--red)\">🚫 منفی‌کننده (${neg.length}): ${esc(neg.join('، '))}</div>`;\n      if(s.every_mode) html += `<span class=\"badge b-warn\" style=\"margin-top:.2rem\">every</span>`;\n      return html;\n    }\n  } else if(s.mode === 'viral'){\n    const rules = safeJson(s.viral_reactions, []);\n    if(rules.length){\n      return rules.map(r=>`<div style=\"font-size:.75rem\">${esc(r.emoji)} ≥ ${r.threshold}</div>`).join('') +\n        `<div style=\"font-size:.7rem;color:var(--muted);margin-top:.2rem\">مجموع ری‌اکشن fallback: ≥ ${s.viral_threshold||1000}</div>`;\n    }\n    return `<div style=\"font-size:.75rem;color:var(--yellow)\">⚠️ بدون rule — مجموع ری‌اکشن ≥ ${s.viral_threshold||1000}</div>`;\n  }\n  return '—';\n}\n\nfunction renderSources(){\n  const q = ($('#srcSearch').value || '').toLowerCase();\n  const list = SOURCES.filter(s => !q || (s.channel||'').toLowerCase().includes(q) || (s.mode||'').includes(q));\n  if(!list.length){\n    $('#sourcesBody').innerHTML = '<tr><td colspan=\"9\" class=\"empty\"><div class=\"empty\">📭 منبعی یافت نشد</div></td></tr>';\n    return;\n  }\n  $('#sourcesBody').innerHTML = list.map(s=>{\n    const pendingBadge = (s.pending_positive?.length || s.pending_main?.length) ? `<span class=\"badge b-warn\" style=\"margin-inline-start:.3rem\">🤖 pending</span>` : '';\n    const adIcon = s.block_ads === 0 ? '🔴' : '🟢';\n    const adTitle = s.block_ads === 0 ? 'خاموش — کلیک برای روشن' : 'روشن — کلیک برای خاموش';\n    return `<tr>\n      <td><strong>${s.id}</strong></td>\n      <td><a href=\"https://t.me/${(s.channel||'').replace('@','')}\" target=\"_blank\">@${esc(s.channel)}</a></td>\n      <td style=\"font-size:.75rem\">${esc(s.topic||'—')}${pendingBadge}</td>\n      <td>${modeBadge(s.mode)}</td>\n      <td>${formatKwList(s)}</td>\n      <td style=\"font-size:.7rem\">${esc(s.target_chat_id)}${s.target_topic_id?':'+esc(s.target_topic_id):''}</td>\n      <td><button class=\"icon-btn ${s.block_ads!==0?'success':''}\" title=\"${adTitle}\" onclick=\"toggleAdBlock(${s.id},${s.block_ads===0?1:0})\">${adIcon}</button></td>\n      <td><span class=\"badge ${s.active?'b-on':'b-off'}\">${s.active?'فعال':'غیرفعال'}</span></td>\n      <td><div style=\"display:flex;gap:.2rem\">\n        <button class=\"icon-btn\" title=\"اسکن\" onclick=\"scanSource(${s.id})\">🔍</button>\n        <button class=\"icon-btn\" title=\"ویرایش\" onclick=\"openEditModal(${s.id})\">✏️</button>\n        <button class=\"icon-btn del\" title=\"حذف\" onclick=\"delSource(${s.id})\">🗑</button>\n      </div></td>\n    </tr>`;\n  }).join('');\n}\n\nasync function toggleAdBlock(id, newVal){\n  try{\n    await api('sources/'+id, {method:'PUT', body:JSON.stringify({block_ads:newVal})});\n    const s = SOURCES.find(x=>x.id===id); if(s) s.block_ads = newVal;\n    renderSources();\n    toast(newVal===1?'🟢 ضد تبلیغات روشن شد':'🔴 ضد تبلیغات خاموش شد');\n  }catch(e){toast(e.message, false)}\n}\n\n// ─── Add Modal ───\nfunction openAddModal(){\n  $('#modalTitle').textContent = '➕ افزودن منبع جدید';\n  $('#modalContent').innerHTML = `\n    <div class=\"field\"><label>کانال(ها) — با کاما</label><input id=\"m_channel\" placeholder=\"@chan1,@chan2\" /></div>\n    <div class=\"field\"><label>موضوع (برای AI)</label><input id=\"m_topic_name\" placeholder=\"اخبار رمزارز، تکنولوژی...\" /></div>\n    <div class=\"field\"><label>حالت</label><select id=\"m_mode\" onchange=\"toggleModeFields()\">\n      <option value=\"forward\">📤 فوروارد</option>\n      <option value=\"deep\">🔎 عمیق</option>\n      <option value=\"viral\">👁 وایرال</option>\n    </select></div>\n\n    <div id=\"deepFields\" style=\"display:none\">\n      <div class=\"field\"><label>نوع Deep</label><select id=\"m_deep_type\" onchange=\"toggleDeepFields()\">\n        <option value=\"classic\">📋 Deep Classic (مثبت‌کننده/منفی‌کننده)</option>\n        <option value=\"scoring\">📊 Deep Scoring (اصلی/مکمل/پیرامونی)</option>\n      </select></div>\n      <div id=\"deepClassicFields\">\n        <div class=\"field\"><label>کلیدواژه مثبت‌کننده — +score (با کاما)</label><input id=\"m_pos\" placeholder=\"بیت کوین, ارز دیجیتال\" /></div>\n        <div class=\"field\"><label>کلیدواژه منفی‌کننده — رد پست (با کاما)</label><input id=\"m_neg\" placeholder=\"تبلیغ, اسپانسر\" /></div>\n        <div class=\"field\"><label><input type=\"checkbox\" id=\"m_every\" /> every — همه کلیدواژه‌های مثبت باید باشند (AND)</label></div>\n      </div>\n      <div id=\"deepScoringFields\" style=\"display:none\">\n        <div class=\"field\"><label>کلیدواژه اصلی — +۴۰ (با کاما)</label><input id=\"m_main\" placeholder=\"بیت کوین, ارز دیجیتال\" /></div>\n        <div class=\"field\"><label>کلیدواژه مکمل — +۱۵ (با کاما)</label><input id=\"m_comp\" placeholder=\"بازار, تحلیل, قیمت\" /></div>\n        <div class=\"field\"><label>کلیدواژه پیرامونی — -۳۰ (با کاما)</label><input id=\"m_periph\" placeholder=\"تبلیغ, فروش\" /></div>\n        <div class=\"field\"><label>آستانه امتیاز Deep</label><input id=\"m_deep_threshold\" type=\"number\" value=\"50\" /></div>\n      </div>\n    </div>\n\n    <div id=\"viralFields\" style=\"display:none\">\n      <div class=\"field\">\n        <label>قوانین چند ری‌اکشن (اختیاری)</label>\n        <div class=\"hint\" style=\"margin-bottom:.5rem\">هر ری‌اکشن آستانه مستقل دارد. همه باید عبور کنند (AND). خالی = مجموع همه ری‌اکشن‌ها.</div>\n        <div class=\"reaction-rules\" id=\"m_viral_rules\"></div>\n        <button class=\"btn btn-ghost btn-sm\" style=\"margin-top:.5rem\" onclick=\"addReactionRule('m')\">➕ افزودن ری‌اکشن</button>\n      </div>\n      <div class=\"field\"><label>آستانه مجموع ری‌اکشن‌ها (وقتی rule وجود ندارد)</label><input id=\"m_viral_threshold\" type=\"number\" value=\"1000\" />\n      <div class=\"hint\">معیار Viral Mode فقط ری‌اکشن‌هاست. اگه rule خاص تنظیم نکنید، مجموع همه ری‌اکشن‌ها از این عدد عبور کند → ارسال.</div></div>\n    </div>\n\n    <div class=\"field\"><label>مقصد (chat_id)</label><input id=\"m_target\" placeholder=\"-100123456789\" /></div>\n    <div class=\"field\"><label>تاپیک مقصد (اختیاری)</label><input id=\"m_topic\" placeholder=\"topic_id\" /></div>\n    <div class=\"field\"><label>آستانه Anti-Ad (پیش‌فرض ۷۰)</label><input id=\"m_ad_threshold\" type=\"number\" value=\"70\" /></div>\n    <div class=\"field\"><label><input type=\"checkbox\" id=\"m_block_ads\" checked /> 🛡 ضد تبلیغات روشن</label></div>\n  `;\n  $('#modalActions').innerHTML = `<button class=\"btn btn-ghost\" onclick=\"closeModal()\">انصراف</button><button class=\"btn btn-primary\" onclick=\"saveAddSource()\">ذخیره</button>`;\n  $('#modal').classList.add('active');\n}\n\nfunction toggleModeFields(){\n  const m = $('#m_mode').value;\n  $('#deepFields').style.display = m==='deep' ? 'block' : 'none';\n  $('#viralFields').style.display = m==='viral' ? 'block' : 'none';\n  if(m==='deep') toggleDeepFields();\n  // اگه viral انتخاب شد و هیچ rule وجود ندارد → یک rule پیش‌فرض اضافه کن\n  if(m==='viral'){\n    const container = $('#m_viral_rules');\n    if(container && !container.children.length){\n      addReactionRule('m');\n    }\n  }\n}\nfunction toggleDeepFields(){\n  const dt = $('#m_deep_type')?.value || 'classic';\n  if($('#deepScoringFields')) $('#deepScoringFields').style.display = dt==='scoring' ? 'block' : 'none';\n  if($('#deepClassicFields')) $('#deepClassicFields').style.display = dt==='classic' ? 'block' : 'none';\n}\n\n// ─── لیست ری‌اکشن‌های مجاز تلگرام ───\n// منبع: https://core.telegram.org/api/emoji-reactions\nconst TELEGRAM_REACTIONS = [\n  // ─── استاندارد (همه کاربران) ───\n  { emoji: '👍', name: 'مان بالا' },\n  { emoji: '👎', name: 'مان پایین' },\n  { emoji: '❤', name: 'قلب قرمز' },\n  { emoji: '🔥', name: 'آتش' },\n  { emoji: '🎉', name: 'جشن' },\n  { emoji: '🥰', name: 'قلب‌چشم' },\n  { emoji: '👏', name: 'دست‌زدن' },\n  { emoji: '😂', name: 'خنده' },\n  { emoji: '🙏', name: 'دعای دست' },\n  { emoji: '😍', name: 'عاشق' },\n  { emoji: '😭', name: 'گریه' },\n  { emoji: '😮', name: 'تعجب' },\n  { emoji: '🤔', name: 'فکر' },\n  { emoji: '💯', name: 'صد' },\n  { emoji: '💔', name: 'قلب شکسته' },\n  { emoji: '⚡', name: 'صاعقه' },\n  { emoji: '🏆', name: 'جام' },\n  { emoji: '🤝', name: 'دست‌دهی' },\n  { emoji: '🤡', name: 'دلقک' },\n  { emoji: '😴', name: 'خواب' },\n  { emoji: '🆒', name: 'cool' },\n  { emoji: '🐳', name: 'نهنگ' },\n  { emoji: '🖤', name: 'قلب مشکی' },\n  { emoji: '🤷', name: 'شکست سر' },\n  { emoji: '👀', name: 'چشم' },\n  { emoji: '😇', name: 'هاله' },\n  { emoji: '🤦', name: 'دست‌به‌سر' },\n  { emoji: '🌚', name: 'ماه سیاه' },\n  { emoji: '🌭', name: 'هات‌داگ' },\n  { emoji: '💘', name: 'قلب با کمان' },\n  { emoji: '🤣', name: 'خنده شدید' },\n  { emoji: '😢', name: 'غم' },\n  { emoji: '🥳', name: 'مهمون' },\n  { emoji: '🙈', name: 'میمون دست‌به‌چشم' },\n  { emoji: '💩', name: 'پوپ' },\n  { emoji: '🤯', name: 'منفجر' },\n  { emoji: '😡', name: 'عصبانی' },\n  { emoji: '😱', name: 'ترس' },\n  { emoji: '👿', name: 'شیطان' },\n  // ─── پیشرفته (نمایش به‌صورت custom emoji در چت‌های بزرگ) ───\n  { emoji: '❤‍🔥', name: 'قلب آتشین' },\n  { emoji: '👍🏻', name: 'مان روشن' },\n  { emoji: '👎🏻', name: 'مان روشن - پایین' },\n  { emoji: '🦄', name: 'تک‌شاخ' },\n  { emoji: '🥺', name: 'التماس' },\n  { emoji: '😎', name: 'آفتاب‌عینکی' },\n  { emoji: '🤩', name: 'ستاره‌چشم' },\n  { emoji: '🫡', name: 'سلام نظامی' },\n  { emoji: '🗿', name: 'مجسمه' },\n  { emoji: '🥱', name: 'خمیازه' },\n  { emoji: '🤤', name: 'آب دهان' },\n  { emoji: '🤧', name: 'عطسه' },\n  { emoji: '🤒', name: 'بیمار' },\n  { emoji: '🥶', name: 'سرما' },\n  { emoji: '🤠', name: 'کابوی' },\n  { emoji: '🫶', name: 'دست قلب' },\n  { emoji: '🫂', name: 'آغوش' },\n  { emoji: '🫵', name: 'انگشت به خود' },\n  { emoji: '🐈', name: 'گربه' },\n  { emoji: '🐶', name: 'سگ' },\n  { emoji: '🌸', name: 'گل ساکورا' },\n  { emoji: '🌈', name: 'رنگین‌کمان' },\n  { emoji: '💎', name: 'الماس' },\n  { emoji: '🚀', name: 'موشک' },\n  { emoji: '🧨', name: 'فشفشک' },\n  { emoji: '🍕', name: 'پیتزا' },\n  { emoji: '🍔', name: 'برگر' },\n  { emoji: '🍿', name: 'پاپ‌کورن' },\n  { emoji: '⚽', name: 'فوتبال' },\n  { emoji: '🏀', name: 'بسکتبال' },\n];\n\n// تابع ساخت dropdown از ری‌اکشن‌ها\nfunction buildReactionOptions(selected){\n  return TELEGRAM_REACTIONS.map(r => `<option value=\"${r.emoji}\" ${selected===r.emoji?'selected':''}>${r.emoji} ${r.name}</option>`).join('');\n}\n\nfunction addReactionRule(prefix, opts = {}){\n  const container = $(`#${prefix}_viral_rules`);\n  if(!container) return;\n  const div = document.createElement('div');\n  div.className = 'reaction-rule';\n  const selectedEmoji = opts.emoji || '🔥';\n  const thresholdVal = opts.threshold || 100;\n  div.innerHTML = `\n    <select class=\"vr-emoji\">\n      ${buildReactionOptions(selectedEmoji)}\n    </select>\n    <span style=\"color:var(--muted);font-size:.75rem;white-space:nowrap\">≥</span>\n    <input type=\"number\" placeholder=\"100\" value=\"${thresholdVal}\" class=\"vr-threshold\" min=\"0\" />\n    <button class=\"remove-rule\" onclick=\"this.parentElement.remove()\" title=\"حذف\">✕</button>\n  `;\n  container.appendChild(div);\n}\n\nfunction getViralRules(prefix){\n  const container = $(`#${prefix}_viral_rules`);\n  if(!container) return [];\n  const rules = [];\n  container.querySelectorAll('.reaction-rule').forEach(r=>{\n    const emoji = r.querySelector('.vr-emoji').value.trim();\n    const threshold = parseInt(r.querySelector('.vr-threshold').value, 10) || 0;\n    if(emoji && !isNaN(threshold) && threshold >= 0) rules.push({emoji, threshold});\n  });\n  return rules;\n}\n\nasync function saveAddSource(){\n  try{\n    const body = {\n      channels: $('#m_channel').value,\n      target_chat_id: $('#m_target').value,\n      target_topic_id: $('#m_topic').value || null,\n      mode: $('#m_mode').value,\n      topic: $('#m_topic_name').value || '',\n      block_ads: $('#m_block_ads').checked,\n      ad_threshold: parseInt($('#m_ad_threshold').value, 10) || 70,\n    };\n    if(body.mode === 'deep'){\n      const dt = $('#m_deep_type').value;\n      body.deep_scoring = dt === 'scoring' ? 1 : 0;\n      if(dt === 'scoring'){\n        body.keywords_main = $('#m_main').value.split(',').map(s=>s.trim()).filter(Boolean);\n        body.keywords_complementary = $('#m_comp').value.split(',').map(s=>s.trim()).filter(Boolean);\n        body.keywords_peripheral = $('#m_periph').value.split(',').map(s=>s.trim()).filter(Boolean);\n        body.deep_threshold = parseInt($('#m_deep_threshold').value, 10) || 50;\n      } else {\n        body.keywords_positive = $('#m_pos').value.split(',').map(s=>s.trim()).filter(Boolean);\n        body.keywords_negative = $('#m_neg').value.split(',').map(s=>s.trim()).filter(Boolean);\n        body.every_mode = $('#m_every').checked;\n      }\n    }\n    if(body.mode === 'viral'){\n      body.viral_threshold = parseInt($('#m_viral_threshold').value, 10) || 1000;\n      body.viral_reactions = getViralRules('m');\n    }\n    await api('sources', {method:'POST', body:JSON.stringify(body)});\n    toast('منبع افزوده شد');\n    closeModal();\n    loadSources();\n  }catch(e){toast(e.message, false)}\n}\n\n// ─── Edit Modal ───\nfunction openEditModal(id){\n  const s = SOURCES.find(x=>x.id===id); if(!s) return;\n  const isScoring = s.deep_scoring == 1;\n  const pos = safeJson(s.keywords_positive, []);\n  const neg = safeJson(s.keywords_negative, []);\n  const main = safeJson(s.keywords_main, []);\n  const comp = safeJson(s.keywords_complementary, []);\n  const periph = safeJson(s.keywords_peripheral, []);\n  const viralRules = safeJson(s.viral_reactions, []);\n\n  $('#modalTitle').textContent = `✏️ ویرایش منبع #${s.id}`;\n  $('#modalContent').innerHTML = `\n    <div class=\"field\"><label>کانال</label><input id=\"e_channel\" value=\"${esc(s.channel)}\" /></div>\n    <div class=\"field\"><label>موضوع (برای AI)</label><input id=\"e_topic_name\" value=\"${esc(s.topic||'')}\" placeholder=\"اخبار رمزارز...\" /></div>\n    <div class=\"field\"><label>حالت</label><select id=\"e_mode\" onchange=\"toggleEMode()\">\n      <option value=\"forward\" ${s.mode==='forward'?'selected':''}>📤 فوروارد</option>\n      <option value=\"deep\" ${s.mode==='deep'?'selected':''}>🔎 عمیق</option>\n      <option value=\"viral\" ${s.mode==='viral'?'selected':''}>👁 وایرال</option>\n    </select></div>\n\n    <div id=\"eDeep\" style=\"display:${s.mode==='deep'?'block':'none'}\">\n      <div class=\"field\"><label>نوع Deep</label><select id=\"e_deep_type\" onchange=\"toggleEDeepFields()\">\n        <option value=\"classic\" ${!isScoring?'selected':''}>📋 Deep Classic</option>\n        <option value=\"scoring\" ${isScoring?'selected':''}>📊 Deep Scoring</option>\n      </select></div>\n      <div id=\"eDeepClassicFields\" style=\"display:${!isScoring?'block':'none'}\">\n        <div class=\"field\"><label>کلیدواژه مثبت‌کننده (با کاما)</label><input id=\"e_pos\" value=\"${esc(pos.join(', '))}\" /></div>\n        <div class=\"field\"><label>کلیدواژه منفی‌کننده (با کاما)</label><input id=\"e_neg\" value=\"${esc(neg.join(', '))}\" /></div>\n        <div class=\"field\"><label><input type=\"checkbox\" id=\"e_every\" ${s.every_mode?'checked':''} /> every (AND)</label></div>\n      </div>\n      <div id=\"eDeepScoringFields\" style=\"display:${isScoring?'block':'none'}\">\n        <div class=\"field\"><label>کلیدواژه اصلی — +۴۰</label><input id=\"e_main\" value=\"${esc(main.join(', '))}\" /></div>\n        <div class=\"field\"><label>کلیدواژه مکمل — +۱۵</label><input id=\"e_comp\" value=\"${esc(comp.join(', '))}\" /></div>\n        <div class=\"field\"><label>کلیدواژه پیرامونی — -۳۰</label><input id=\"e_periph\" value=\"${esc(periph.join(', '))}\" /></div>\n        <div class=\"field\"><label>آستانه امتیاز Deep</label><input id=\"e_deep_threshold\" type=\"number\" value=\"${s.deep_threshold||50}\" /></div>\n      </div>\n    </div>\n\n    <div id=\"eViral\" style=\"display:${s.mode==='viral'?'block':'none'}\">\n      <div class=\"field\">\n        <label>قوانین چند ری‌اکشن</label>\n        <div class=\"reaction-rules\" id=\"e_viral_rules\"></div>\n        <button class=\"btn btn-ghost btn-sm\" style=\"margin-top:.5rem\" onclick=\"addReactionRule('e')\">➕ افزودن ری‌اکشن</button>\n      </div>\n      <div class=\"field\"><label>آستانه مجموع ری‌اکشن‌ها</label><input id=\"e_viral_threshold\" type=\"number\" value=\"${s.viral_threshold||1000}\" />\n      <div class=\"hint\">اگه rule خاص تنظیم نکنید، مجموع همه ری‌اکشن‌ها از این عدد عبور کند → ارسال.</div></div>\n    </div>\n\n    <div class=\"field\"><label>مقصد (chat_id)</label><input id=\"e_target\" value=\"${esc(s.target_chat_id)}\" /></div>\n    <div class=\"field\"><label>تاپیک</label><input id=\"e_topic\" value=\"${esc(s.target_topic_id||'')}\" /></div>\n    <div class=\"field\"><label>آستانه Anti-Ad</label><input id=\"e_ad_threshold\" type=\"number\" value=\"${s.ad_threshold||70}\" /></div>\n    <div class=\"field\"><label><input type=\"checkbox\" id=\"e_block_ads\" ${s.block_ads!==0?'checked':''} /> 🛡 ضد تبلیغات</label></div>\n    <div class=\"field\"><label><input type=\"checkbox\" id=\"e_active\" ${s.active?'checked':''} /> فعال</label></div>\n  `;\n\n  // اضافه کردن قوانین viral موجود (یا یک قانون پیش‌فرض اگه خالی است)\n  if(s.mode === 'viral'){\n    setTimeout(()=>{\n      if(viralRules.length){\n        viralRules.forEach(r=>{\n          addReactionRule('e', {emoji: r.emoji, threshold: r.threshold});\n        });\n      } else {\n        // پیش‌فرض: یک قانون خالی\n        addReactionRule('e');\n      }\n    }, 50);\n  }\n\n  $('#modalActions').innerHTML = `<button class=\"btn btn-ghost\" onclick=\"closeModal()\">انصراف</button><button class=\"btn btn-primary\" onclick=\"saveEditSource(${id})\">ذخیره</button>`;\n  $('#modal').classList.add('active');\n}\n\nfunction toggleEMode(){\n  const m = $('#e_mode').value;\n  $('#eDeep').style.display = m==='deep' ? 'block' : 'none';\n  $('#eViral').style.display = m==='viral' ? 'block' : 'none';\n  if(m==='deep') toggleEDeepFields();\n}\nfunction toggleEDeepFields(){\n  const dt = $('#e_deep_type')?.value || 'classic';\n  if($('#eDeepScoringFields')) $('#eDeepScoringFields').style.display = dt==='scoring' ? 'block' : 'none';\n  if($('#eDeepClassicFields')) $('#eDeepClassicFields').style.display = dt==='classic' ? 'block' : 'none';\n}\n\nasync function saveEditSource(id){\n  try{\n    const body = {\n      channel: $('#e_channel').value,\n      target_chat_id: $('#e_target').value,\n      target_topic_id: $('#e_topic').value || null,\n      mode: $('#e_mode').value,\n      topic: $('#e_topic_name').value || '',\n      block_ads: $('#e_block_ads').checked,\n      active: $('#e_active').checked,\n      ad_threshold: parseInt($('#e_ad_threshold').value, 10) || 70,\n    };\n    if(body.mode === 'deep'){\n      const dt = $('#e_deep_type').value;\n      body.deep_scoring = dt === 'scoring' ? 1 : 0;\n      if(dt === 'scoring'){\n        body.keywords_main = $('#e_main').value.split(',').map(s=>s.trim()).filter(Boolean);\n        body.keywords_complementary = $('#e_comp').value.split(',').map(s=>s.trim()).filter(Boolean);\n        body.keywords_peripheral = $('#e_periph').value.split(',').map(s=>s.trim()).filter(Boolean);\n        body.deep_threshold = parseInt($('#e_deep_threshold').value, 10) || 50;\n        body.keywords_positive = [];\n        body.keywords_negative = [];\n      } else {\n        body.keywords_positive = $('#e_pos').value.split(',').map(s=>s.trim()).filter(Boolean);\n        body.keywords_negative = $('#e_neg').value.split(',').map(s=>s.trim()).filter(Boolean);\n        body.every_mode = $('#e_every').checked;\n        body.keywords_main = [];\n        body.keywords_complementary = [];\n        body.keywords_peripheral = [];\n      }\n    }\n    if(body.mode === 'viral'){\n      body.viral_threshold = parseInt($('#e_viral_threshold').value, 10) || 1000;\n      body.viral_reactions = getViralRules('e');\n    }\n    await api('sources/'+id, {method:'PUT', body:JSON.stringify(body)});\n    toast('ذخیره شد');\n    closeModal();\n    loadSources();\n  }catch(e){toast(e.message, false)}\n}\n\nasync function delSource(id){\n  if(!confirm('حذف شود؟')) return;\n  try{await api('sources/'+id, {method:'DELETE'});toast('حذف شد');loadSources()}catch(e){toast(e.message, false)}\n}\nasync function scanSource(id){\n  try{toast('اسکن آغاز شد...');const r=await api('scan', {method:'POST', body:JSON.stringify({source_id:id})});toast(`✅ ${r.sent||0} ارسال / ${r.scanned||0} اسکن`)}catch(e){toast(e.message, false)}\n}\n\n// ─── Bulk Edit ───\nfunction openBulkEdit(){\n  if(!SOURCES.length){toast('منبعی نیست', false);return}\n  $('#modalTitle').textContent = '🔧 ویرایش گروهی';\n  $('#modalContent').innerHTML = `\n    <div class=\"field\">\n      <label>انتخاب منابع</label>\n      <div class=\"check-list\">${SOURCES.map(s=>`<label class=\"check-item\"><input type=\"checkbox\" value=\"${s.id}\" class=\"bulk-chk\" /> #${s.id} @${esc(s.channel)} (${s.mode})</label>`).join('')}</div>\n    </div>\n    <div class=\"field\"><label>حالت جدید (اختیاری)</label><select id=\"b_mode\"><option value=\"\">— تغییر نده —</option><option value=\"forward\">فوروارد</option><option value=\"deep\">عمیق</option><option value=\"viral\">وایرال</option></select></div>\n    <div class=\"field\"><label>Deep Classic — مثبت‌کننده (اختیاری)</label><input id=\"b_pos\" placeholder=\"با کاما\" /></div>\n    <div class=\"field\"><label>Deep Classic — منفی‌کننده (اختیاری)</label><input id=\"b_neg\" placeholder=\"با کاما\" /></div>\n    <div class=\"field\"><label>Deep Scoring — اصلی (اختیاری)</label><input id=\"b_main\" placeholder=\"با کاما\" /></div>\n    <div class=\"field\"><label>Deep Scoring — مکمل (اختیاری)</label><input id=\"b_comp\" placeholder=\"با کاما\" /></div>\n    <div class=\"field\"><label>Deep Scoring — پیرامونی (اختیاری)</label><input id=\"b_periph\" placeholder=\"با کاما\" /></div>\n    <div class=\"field\"><label>آستانه Deep (اختیاری)</label><input id=\"b_deep_threshold\" type=\"number\" placeholder=\"50\" /></div>\n    <div class=\"field\"><label>آستانه مجموع ری‌اکشن‌ها (اختیاری)</label><input id=\"b_viral\" type=\"number\" placeholder=\"مثلا 1000\" />\n    <div class=\"hint\">اگه rule خاص تنظیم نکنید، مجموع ری‌اکشن‌ها از این عدد عبور کند → ارسال.</div></div>\n    <div class=\"field\"><label>آستانه Anti-Ad (اختیاری)</label><input id=\"b_ad_threshold\" type=\"number\" placeholder=\"70\" /></div>\n    <div class=\"field\"><label>🛡 ضد تبلیغات (اختیاری)</label><select id=\"b_block_ads\"><option value=\"\">— تغییر نده —</option><option value=\"1\">🟢 روشن</option><option value=\"0\">🔴 خاموش</option></select></div>\n    <div class=\"field\"><label>وضعیت (اختیاری)</label><select id=\"b_active\"><option value=\"\">— تغییر نده —</option><option value=\"1\">فعال</option><option value=\"0\">غیرفعال</option></select></div>\n  `;\n  $('#modalActions').innerHTML = `<button class=\"btn btn-ghost\" onclick=\"closeModal()\">انصراف</button><button class=\"btn btn-primary\" onclick=\"applyBulk()\">اعمال</button>`;\n  $('#modal').classList.add('active');\n}\n\nasync function applyBulk(){\n  const ids = [...document.querySelectorAll('.bulk-chk:checked')].map(c=>parseInt(c.value,10));\n  if(!ids.length){toast('هیچ منبعی انتخاب نشد', false);return}\n  const body = {ids};\n  if($('#b_mode').value) body.mode = $('#b_mode').value;\n  if($('#b_pos').value) body.keywords_positive = $('#b_pos').value.split(',').map(s=>s.trim()).filter(Boolean);\n  if($('#b_neg').value) body.keywords_negative = $('#b_neg').value.split(',').map(s=>s.trim()).filter(Boolean);\n  if($('#b_main').value) body.keywords_main = $('#b_main').value.split(',').map(s=>s.trim()).filter(Boolean);\n  if($('#b_comp').value) body.keywords_complementary = $('#b_comp').value.split(',').map(s=>s.trim()).filter(Boolean);\n  if($('#b_periph').value) body.keywords_peripheral = $('#b_periph').value.split(',').map(s=>s.trim()).filter(Boolean);\n  if($('#b_deep_threshold').value) body.deep_threshold = parseInt($('#b_deep_threshold').value, 10);\n  if($('#b_viral').value) body.viral_threshold = parseInt($('#b_viral').value, 10);\n  if($('#b_ad_threshold').value) body.ad_threshold = parseInt($('#b_ad_threshold').value, 10);\n  if($('#b_block_ads').value !== '') body.block_ads = parseInt($('#b_block_ads').value, 10);\n  if($('#b_active').value !== '') body.active = parseInt($('#b_active').value, 10);\n  try{\n    const r = await api('sources-bulk-edit', {method:'POST', body:JSON.stringify(body)});\n    toast(`${r.updated} منبع ویرایش شد`);\n    closeModal();\n    loadSources();\n  }catch(e){toast(e.message, false)}\n}\n\n// ─── AI Pending ───\nasync function loadAIPending(){\n  try{\n    const d = await api('ai-pending');\n    const list = d.pending || [];\n    if(!list.length){\n      $('#aiPendingBody').innerHTML = '<div class=\"card\"><div class=\"empty\">✅ کلیدواژه pendingی وجود ندارد</div></div>';\n    } else {\n      $('#aiPendingBody').innerHTML = list.map(s=>{\n        const pos = s.pending_positive || [];\n        const neg = s.pending_negative || [];\n        const main = s.pending_main || [];\n        const comp = s.pending_complementary || [];\n        const periph = s.pending_peripheral || [];\n        const isScoring = main.length || comp.length || periph.length;\n\n        let kwHtml = '';\n        if(isScoring){\n          if(main.length) kwHtml += `<div style=\"color:var(--green);margin-bottom:.4rem;font-weight:600;font-size:.8rem\">✅ اصلی (+۴۰):</div>\n            <div class=\"kw-grid\" id=\"pending_main_${s.id}\">${main.map((k,i)=>`<span class=\"kw-badge kw-main selected\" onclick=\"togglePendingKw(${s.id},'main',${i},this)\">${esc(k)}</span>`).join('')}</div>`;\n          if(comp.length) kwHtml += `<div style=\"color:var(--purple);margin:.6rem 0 .4rem;font-weight:600;font-size:.8rem\">➕ مکمل (+۱۵):</div>\n            <div class=\"kw-grid\" id=\"pending_comp_${s.id}\">${comp.map((k,i)=>`<span class=\"kw-badge kw-comp selected\" onclick=\"togglePendingKw(${s.id},'comp',${i},this)\">${esc(k)}</span>`).join('')}</div>`;\n          if(periph.length) kwHtml += `<div style=\"color:var(--yellow);margin:.6rem 0 .4rem;font-weight:600;font-size:.8rem\">⚠️ پیرامونی (-۳۰):</div>\n            <div class=\"kw-grid\" id=\"pending_periph_${s.id}\">${periph.map((k,i)=>`<span class=\"kw-badge kw-periph selected\" onclick=\"togglePendingKw(${s.id},'periph',${i},this)\">${esc(k)}</span>`).join('')}</div>`;\n        } else {\n          if(pos.length) kwHtml += `<div style=\"color:var(--green);margin-bottom:.4rem;font-weight:600;font-size:.8rem\">✅ مثبت‌کننده:</div>\n            <div class=\"kw-grid\" id=\"pending_pos_${s.id}\">${pos.map((k,i)=>`<span class=\"kw-badge kw-pos selected\" onclick=\"togglePendingKw(${s.id},'pos',${i},this)\">${esc(k)}</span>`).join('')}</div>`;\n          if(neg.length) kwHtml += `<div style=\"color:var(--red);margin:.6rem 0 .4rem;font-weight:600;font-size:.8rem\">🚫 منفی‌کننده:</div>\n            <div class=\"kw-grid\" id=\"pending_neg_${s.id}\">${neg.map((k,i)=>`<span class=\"kw-badge kw-neg selected\" onclick=\"togglePendingKw(${s.id},'neg',${i},this)\">${esc(k)}</span>`).join('')}</div>`;\n        }\n\n        return `<div class=\"ai-pending-card\">\n          <div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;flex-wrap:wrap;gap:.3rem\">\n            <div><strong>@${esc(s.channel)}</strong> <span style=\"font-size:.75rem;color:var(--muted)\">📝 ${esc(s.topic||'—')}</span></div>\n            <span class=\"badge ${isScoring?'b-deep':'b-deep'}\">${isScoring?'Scoring':'Classic'}</span>\n          </div>\n          <div style=\"font-size:.8rem\">${kwHtml}</div>\n          <div style=\"display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.75rem\">\n            <button class=\"btn btn-primary btn-sm\" onclick=\"applyAI(${s.id},'add')\">➕ اضافه</button>\n            <button class=\"btn btn-primary btn-sm\" onclick=\"applyAI(${s.id},'replace')\">🔄 جایگزین</button>\n            <button class=\"btn btn-danger btn-sm\" onclick=\"rejectAI(${s.id})\">❌ رد</button>\n          </div>\n        </div>`;\n      }).join('');\n    }\n    loadAIAnalyzeSources();\n  }catch(e){toast(e.message, false)}\n}\n\nfunction loadAIAnalyzeSources(){\n  const el = $('#aiAnalyzeSources');\n  if(!el) return;\n  if(!SOURCES.length){\n    el.innerHTML = '<div class=\"empty\">⏳ در حال بارگذاری منابع...</div>';\n    loadSources().then(()=>loadAIAnalyzeSources());\n    return;\n  }\n  const active = SOURCES.filter(s=>s.active && s.mode === 'deep');\n  if(!active.length){\n    el.innerHTML = '<div class=\"empty\">منبع فعالی در حالت Deep موجود نیست (AI فقط برای Deep modes)</div>';\n    return;\n  }\n  el.innerHTML = active.map(s=>`\n    <div class=\"check-item\" onclick=\"selectAISource(${s.id})\" style=\"cursor:pointer;${aiSelectedSource===s.id?'background:var(--card-hover)':''}\">\n      <input type=\"radio\" name=\"ai_source\" value=\"${s.id}\" ${aiSelectedSource===s.id?'checked':''} />\n      <div style=\"flex:1\">\n        <div>@${esc(s.channel)}</div>\n        <div style=\"font-size:.7rem;color:var(--muted)\">${esc(s.topic||'بدون موضوع')} • ${s.deep_scoring==1?'Scoring':'Classic'}</div>\n      </div>\n    </div>\n  `).join('');\n}\nfunction selectAISource(id){aiSelectedSource = id; loadAIAnalyzeSources()}\n\nasync function triggerAIAnalyze(){\n  if(!aiSelectedSource){toast('ابتدا یک منبع انتخاب کنید', false);return}\n  if(aiAnalyzing){toast('تحلیل قبلی هنوز در حال انجام است...', false);return}\n  aiAnalyzing = true;\n  const btn = event?.target;\n  if(btn){btn.disabled=true;btn.textContent='⏳ در حال تحلیل...'}\n  const statusEl = $('#aiAnalyzeStatus');\n  if(statusEl) statusEl.innerHTML = '<div style=\"padding:1rem;text-align:center;color:var(--accent)\">🤖 در حال تحلیل... ۵-۳۰ ثانیه</div>';\n  toast('🤖 تحلیل آغاز شد');\n  try{\n    const r = await api('ai-analyze', {method:'POST', body:JSON.stringify({source_id:aiSelectedSource})});\n    if(statusEl){\n      if(r.ok){\n        const total = (r.posKeywords?.length||0) + (r.negKeywords?.length||0) + (r.mainKeywords?.length||0) + (r.compKeywords?.length||0) + (r.periphKeywords?.length||0);\n        statusEl.innerHTML = `<div style=\"padding:1rem;text-align:center;color:var(--green)\">✅ ${total} کلیدواژه استخراج شد — به ادمین ارسال شد</div>`;\n      } else {\n        statusEl.innerHTML = `<div style=\"padding:1rem;text-align:center;color:var(--red)\">❌ ${esc(r.error||'خطا')}</div>`;\n      }\n    }\n    loadAIPending();\n  }catch(e){\n    if(statusEl) statusEl.innerHTML = `<div style=\"padding:1rem;text-align:center;color:var(--red)\">❌ ${esc(e.message)}</div>`;\n    toast(e.message, false);\n  }finally{\n    aiAnalyzing = false;\n    if(btn){btn.disabled=false;btn.textContent='🤖 شروع تحلیل'}\n  }\n}\n\nfunction togglePendingKw(sourceId, type, idx, el){\n  const key = `${sourceId}_${type}_${idx}`;\n  if(!pendingSelection[key]) pendingSelection[key] = true;\n  pendingSelection[key] = !pendingSelection[key];\n  if(pendingSelection[key]) el.classList.replace('deselected','selected');\n  else el.classList.replace('selected','deselected');\n}\n\nasync function applyAI(id, mode){\n  const collect = (containerId) => {\n    const badges = document.querySelectorAll(`#${containerId} .kw-badge`);\n    const result = [];\n    badges.forEach(el => {\n      if(el.classList.contains('selected')) result.push(el.textContent.trim());\n    });\n    return result;\n  };\n  const body = {source_id: id, mode};\n  if(document.getElementById(`pending_main_${id}`)) body.main = collect(`pending_main_${id}`);\n  if(document.getElementById(`pending_comp_${id}`)) body.complementary = collect(`pending_comp_${id}`);\n  if(document.getElementById(`pending_periph_${id}`)) body.peripheral = collect(`pending_periph_${id}`);\n  if(document.getElementById(`pending_pos_${id}`)) body.positive = collect(`pending_pos_${id}`);\n  if(document.getElementById(`pending_neg_${id}`)) body.negative = collect(`pending_neg_${id}`);\n  const total = (body.main||[]).length + (body.complementary||[]).length + (body.peripheral||[]).length + (body.positive||[]).length + (body.negative||[]).length;\n  if(!total){toast('حداقل یک کلیدواژه انتخاب کنید', false);return}\n  try{\n    await api('ai-apply-manual', {method:'POST', body:JSON.stringify(body)});\n    toast(`${total} کلیدواژه ${mode==='add'?'اضافه':'جایگزین'} شد`);\n    loadAIPending();\n    loadSources();\n  }catch(e){toast(e.message, false)}\n}\nasync function rejectAI(id){\n  if(!confirm('رد شود؟')) return;\n  try{await api('ai-reject', {method:'POST', body:JSON.stringify({source_id:id})});toast('رد شد');loadAIPending()}catch(e){toast(e.message, false)}\n}\n\n// ─── Report ───\nasync function loadReport(){\n  try{\n    const d = await api('report');\n    let html = `<div style=\"margin-bottom:1rem;font-size:.85rem;color:var(--muted)\">📈 مجموع ارسال ۲۴ ساعت: <strong style=\"color:var(--accent)\">${d.total||0}</strong></div>`;\n    const topics = Object.entries(d.byTopic||{});\n    if(topics.length){\n      html += '<div style=\"margin-bottom:1rem\"><strong>📂 به تفکیک موضوع:</strong></div>';\n      for(const [topic, td] of topics){\n        const posts = td.posts||[];\n        const chCount = td.channelCount||1;\n        html += `<div class=\"card\" style=\"margin-bottom:.75rem\">\n          <div style=\"display:flex;justify-content:space-between;margin-bottom:.5rem\">\n            <strong>${esc(topic)}</strong>\n            <span style=\"color:var(--muted);font-size:.75rem\">${posts.length} پست • ${chCount} کانال</span>\n          </div>\n          ${posts.slice(0,5).map(p=>`<div style=\"font-size:.78rem;padding:.25rem 0;border-top:1px solid var(--border)\">\n            <a href=\"${esc(p.link)}\" target=\"_blank\">@${esc(p.channel)}</a> — ${esc((p.text||'').slice(0,80))} ${p.views?`👁 ${p.views}`:''}\n          </div>`).join('')}\n        </div>`;\n      }\n    }\n    if(d.viral?.length){\n      html += '<div style=\"margin:1rem 0 .5rem\"><strong>🔥 پست‌های وایرال:</strong></div>';\n      html += d.viral.slice(0,10).map(p=>`<div style=\"font-size:.78rem;padding:.25rem 0\">\n        <a href=\"${esc(p.link)}\" target=\"_blank\">@${esc(p.channel)}</a> — 👁 ${p.views} — ${esc((p.text||'').slice(0,60))}\n      </div>`).join('');\n    }\n    if(!topics.length && !d.viral?.length){\n      html = '<div class=\"card\"><div class=\"empty\">📭 در ۲۴ ساعت گذشته پستی ارسال نشده</div></div>';\n    }\n    $('#reportBody').innerHTML = html;\n    $('#reportMeta').textContent = `${d.total||0} پست • ${topics.length} موضوع • ${d.viral?.length||0} وایرال`;\n  }catch(e){toast(e.message, false)}\n}\nasync function triggerReport(){\n  try{toast('در حال تولید...');await api('report-trigger', {method:'POST'});toast('✅ گزارش به ادمین ارسال شد')}catch(e){toast(e.message, false)}\n}\n\n// ─── Logs ───\nasync function loadLogs(){\n  try{\n    const action = $('#logActionFilter')?.value || '';\n    const q = ($('#logSearch')?.value || '').toLowerCase();\n    let url = 'logs?limit=100';\n    if(action) url += `&action=${action}`;\n    const d = await api(url);\n    let list = d.logs || [];\n    if(q) list = list.filter(l => (l.detail||'').toLowerCase().includes(q) || (l.post_text||'').toLowerCase().includes(q));\n    $('#logsCount').textContent = `(${list.length} رکورد)`;\n    if(!list.length){\n      $('#logsBody').innerHTML = '<div class=\"card\"><div class=\"empty\">📭 لاگی یافت نشد</div></div>';\n      return;\n    }\n    $('#logsBody').innerHTML = list.map(l=>{\n      let breakdown = '';\n      try { breakdown = formatBreakdown(l.breakdown); } catch {}\n      const hasExpandableContent = !!(breakdown || l.ai_raw);\n      const expandableClass = hasExpandableContent ? 'expandable' : 'no-expand';\n      return `<div class=\"log-entry ${expandableClass}\"${hasExpandableContent?` onclick=\"this.classList.toggle('expanded')\"`:''}>\n        <div class=\"log-header\">\n          <div>\n            <span class=\"log-action\">${esc(l.action)}</span>\n            <span class=\"log-badge ${l.action}\">${actionLabel(l.action)}</span>\n            ${l.ad_score?`<span style=\"font-size:.7rem;color:var(--muted);margin-inline-start:.3rem\">🛡 ${l.ad_score}</span>`:''}\n            ${l.ai_provider?`<span style=\"font-size:.7rem;color:var(--purple);margin-inline-start:.3rem\">🤖 ${esc(l.ai_provider)}</span>`:''}\n            ${hasExpandableContent?'<span style=\"font-size:.7rem;color:var(--accent);margin-inline-start:.3rem;opacity:.7\">▾ جزئیات</span>':''}\n          </div>\n          <span class=\"log-time\">${fmtDate(l.created_at)}</span>\n        </div>\n        <div class=\"log-detail\">${esc(l.detail||'')}</div>\n        ${l.source_id?`<div style=\"font-size:.7rem;color:var(--muted);margin-top:.2rem\">منبع #${l.source_id}${l.post_link?` • <a href=\"${esc(l.post_link)}\" target=\"_blank\" onclick=\"event.stopPropagation()\">لینک</a>`:''}</div>`:''}\n        ${breakdown?`<div class=\"log-breakdown\">${esc(breakdown)}</div>`:''}\n        ${l.ai_raw?`<div class=\"log-ai-raw\">${esc(l.ai_raw)}</div>`:''}\n        ${!hasExpandableContent?'<div style=\"font-size:.7rem;color:var(--muted);margin-top:.3rem;font-style:italic\">این لاگ قدیمی است و فیلد breakdown ندارد (قبل از آپدیت ربات ساخته شده).</div>':''}\n      </div>`;\n    }).join('');\n    // به‌روزرسانی hint بر اساس محتوا\n    const hintEl = $('#logsHint');\n    if(hintEl){\n      const hasExpandable = list.some(l => {\n        let bd = '';\n        try { bd = formatBreakdown(l.breakdown); } catch {}\n        return bd || l.ai_raw;\n      });\n      hintEl.textContent = hasExpandable\n        ? '💡 روی لاگ‌های با علامت «▾ جزئیات» کلیک کنید تا breakdown نمایش داده شود'\n        : '⚠️ لاگ‌های فعلی قدیمی هستند و breakdown ندارند. پس از آپدیت و اسکن جدید، لاگ‌های جدید با جزئیات نمایش داده می‌شوند.';\n    }\n  }catch(e){toast(e.message, false)}\n}\n\nfunction actionLabel(a){\n  return {\n    sent:'ارسال', skipped:'رد', scanned:'اسکن', error:'خطا',\n    ai_analyze:'تحلیل AI', ai_raw:'پاسخ AI', ai_approve:'تأیید AI',\n    daily_report:'گزارش', report_ad:'گزارش تبلیغ', restore:'بازیابی',\n    decision:'تصمیم',\n  }[a] || a;\n}\n\nfunction formatBreakdown(b){\n  if(!b) return '';\n  if(typeof b === 'string'){\n    try { b = JSON.parse(b); } catch { return b; }\n  }\n  if(!b || typeof b !== 'object') return '';\n\n  const lines = [];\n\n  // ── Deep Scoring breakdown ──\n  if(b.type === 'deep_scoring' || Array.isArray(b)){\n    let total = 0;\n    const arr = Array.isArray(b) ? b : (b.items || b.breakdown || []);\n    if(Array.isArray(arr)){\n      for(const item of arr){\n        const sign = item.value >= 0 ? '+' : '';\n        const label = {main:'اصلی', main_position:'موقعیت اصلی', complementary:'مکمل', peripheral:'پیرامونی', media_bonus:'رسانه', length_bonus:'طول متن'}[item.type] || item.type;\n        lines.push(`${label} «${item.kw||''}» ${sign}${item.value}`);\n        total += item.value || 0;\n      }\n    }\n    if(b.threshold !== undefined){\n      lines.push('────────────────');\n      lines.push(`امتیاز نهایی: ${b.score !== undefined ? b.score : total}`);\n      lines.push(`حداقل امتیاز: ${b.threshold}`);\n      const passed = (b.score !== undefined ? b.score : total) >= b.threshold;\n      lines.push(passed ? '✓ ارسال شد' : '✗ رد شد');\n    }\n    // اضافه کردن Anti-Ad breakdown\n    if(b.ad_breakdown){\n      lines.push('');\n      lines.push(...formatAdBreakdown(b.ad_breakdown));\n    }\n    return lines.join('\\n');\n  }\n\n  // ── Deep Classic breakdown ──\n  if(b.type === 'deep_classic'){\n    if(b.positive_match?.length) lines.push(`مثبت‌کننده: ${b.positive_match.join('، ')}`);\n    if(b.negative_match?.length) lines.push(`منفی‌کننده: ${b.negative_match.join('، ')}`);\n    if(b.logic) lines.push(`منطق: ${b.logic}`);\n    // اضافه کردن Anti-Ad breakdown\n    if(b.ad_breakdown){\n      lines.push('');\n      lines.push(...formatAdBreakdown(b.ad_breakdown));\n    }\n    return lines.join('\\n');\n  }\n\n  // ── Viral breakdown ──\n  if(b.type === 'viral' || b.viral_rules){\n    if(b.viral_rules?.length){\n      for(const r of b.viral_rules) lines.push(`${r.emoji} ${r.count}/${r.threshold} ${r.passed?'✓':'✗'}`);\n    } else if(b.total_count !== undefined){\n      lines.push(`مجموع ری‌اکشن: ${b.total_count}/${b.threshold}`);\n    }\n    if(b.failed_rule) lines.push(`رد به دلیل: ${b.failed_rule.emoji} ${b.failed_rule.count}/${b.failed_rule.threshold}`);\n    // اضافه کردن Anti-Ad breakdown\n    if(b.ad_breakdown){\n      lines.push('');\n      lines.push(...formatAdBreakdown(b.ad_breakdown));\n    }\n    return lines.join('\\n');\n  }\n\n  // ── Forward ──\n  if(b.type === 'forward'){\n    if(b.ad_breakdown){\n      lines.push('Forward — همیشه ارسال');\n      lines.push(...formatAdBreakdown(b.ad_breakdown));\n      return lines.join('\\n');\n    }\n    return 'Forward — همیشه ارسال';\n  }\n\n  return JSON.stringify(b, null, 2);\n}\n\n// ─── فرمت Anti-Ad breakdown (طبق سند: بخش‌به‌بخش) ───\nfunction formatAdBreakdown(ad){\n  if(!ad) return [];\n  const lines = ['🛡 Anti-Ad:'];\n  // reasons آرایه‌ای از امتیازدهی بخش‌به‌بخش است\n  if(ad.reasons && Array.isArray(ad.reasons)){\n    for(const r of ad.reasons){\n      lines.push(`  ${r}`);\n    }\n  }\n  // thresholdها\n  if(ad.threshold_block !== undefined){\n    lines.push(`  ────────────────`);\n    lines.push(`  آستانه Block: ${ad.threshold_block}`);\n    lines.push(`  آستانه Quarantine: ${ad.threshold_quarantine}`);\n  }\n  return lines;\n}\n\nfunction toggleLogAutoRefresh(){\n  if(logAutoRefreshTimer){clearInterval(logAutoRefreshTimer);logAutoRefreshTimer=null;return}\n  if($('#logAutoRefresh').checked){\n    logAutoRefreshTimer = setInterval(loadLogs, 30000);\n  }\n}\n\n// ─── Quarantine ───\nasync function loadQuarantine(){\n  try{\n    const d = await api('quarantine?status=pending');\n    const list = d.items || [];\n    if(!list.length){\n      $('#quarantineBody').innerHTML = '<div class=\"card\"><div class=\"empty\">✅ پست قرنطینه‌ای در انتظار نیست</div></div>';\n      return;\n    }\n    $('#quarantineBody').innerHTML = list.map(q=>`\n      <div class=\"card\" style=\"margin-bottom:.5rem\">\n        <div style=\"display:flex;justify-content:space-between;margin-bottom:.5rem;flex-wrap:wrap;gap:.3rem\">\n          <div><strong>@${esc(q.channel)}</strong> <span style=\"color:var(--muted);font-size:.75rem\">${fmtDate(q.created_at)}</span></div>\n          <span class=\"badge b-warn\">امتیاز: ${q.score||0}</span>\n        </div>\n        <div style=\"font-size:.8rem;margin-bottom:.5rem\">${esc((q.post_text||'').slice(0,300))}</div>\n        <div style=\"display:flex;gap:.3rem;flex-wrap:wrap\">\n          <a class=\"btn btn-ghost btn-sm\" href=\"${esc(q.post_link)}\" target=\"_blank\">🔗 مشاهده</a>\n          <button class=\"btn btn-danger btn-sm\" onclick=\"quarantineAction(${q.id},'ad')\">❌ تبلیغ</button>\n          <button class=\"btn btn-primary btn-sm\" onclick=\"quarantineAction(${q.id},'clean')\">✅ پاک</button>\n        </div>\n      </div>\n    `).join('');\n  }catch(e){toast(e.message, false)}\n}\nasync function quarantineAction(id, action){\n  try{await api('quarantine', {method:'POST', body:JSON.stringify({id, action})});toast(action==='ad'?'تبلیغ تأیید شد':'پاک تأیید شد');loadQuarantine()}catch(e){toast(e.message, false)}\n}\n\n// ─── Ad Weights ───\nasync function loadAdWeights(){\n  try{\n    const d = await api('ad-weights?limit=100');\n    const list = d.items || [];\n    if(!list.length){\n      $('#adWeightsBody').innerHTML = '<tr><td colspan=\"6\" class=\"empty\">📭 وزنی ثبت نشده</td></tr>';\n      return;\n    }\n    $('#adWeightsBody').innerHTML = list.map(w=>`<tr>\n      <td><code>${esc(w.token)}</code></td>\n      <td><span class=\"badge b-deep\">${esc(w.type)}</span></td>\n      <td><strong>${w.weight}</strong></td>\n      <td>${w.hits||0}</td>\n      <td>${w.auto?'🤖':'👤'}</td>\n      <td><button class=\"icon-btn del\" onclick=\"delAdWeight('${esc(w.token)}')\">🗑</button></td>\n    </tr>`).join('');\n  }catch(e){toast(e.message, false)}\n}\nasync function addAdWeight(){\n  const token = $('#adwToken').value.trim().toLowerCase();\n  if(!token){toast('توکن را وارد کنید', false);return}\n  try{\n    await api('ad-weights', {method:'POST', body:JSON.stringify({token, type:$('#adwType').value, weight:parseInt($('#adwWeight').value,10)||30})});\n    toast('افزوده شد');\n    $('#adwToken').value = '';\n    loadAdWeights();\n  }catch(e){toast(e.message, false)}\n}\nasync function delAdWeight(token){\n  try{await api('ad-weights', {method:'DELETE', body:JSON.stringify({token})});toast('حذف شد');loadAdWeights()}catch(e){toast(e.message, false)}\n}\n\n// ─── Admins ───\nasync function loadAdmins(){\n  try{\n    const d = await api('admins');\n    const mainUserPart = d.main_username ? ` <span style=\"color:var(--accent);font-size:.8rem\">(@${esc(d.main_username)})</span>` : '';\n    const mainNamePart = d.main_name ? ` — <strong>${esc(d.main_name)}</strong>${mainUserPart}` : '';\n    $('#mainAdmin').innerHTML = `<div style=\"display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem\">\n      <div><span class=\"badge b-on\">🟢 ادمین اصلی</span> <code style=\"font-size:.9rem\">${esc(d.main)}</code>${mainNamePart}</div>\n      <span style=\"font-size:.7rem;color:var(--green)\">Full Access</span>\n    </div>`;\n    const list = d.admins || [];\n    if(!list.length){\n      $('#adminsBody').innerHTML = '<tr><td colspan=\"4\" class=\"empty\">ادمین فرعی وجود ندارد</td></tr>';\n      return;\n    }\n    $('#adminsBody').innerHTML = list.map(a=>{\n      const perms = typeof a.permissions === 'string' ? safeJson(a.permissions, {}) : (a.permissions || {});\n      const permCount = Object.values(perms).filter(v=>v).length;\n      const displayName = a.name ? esc(a.name) : '';\n      const userPart = a.username ? `<span style=\"color:var(--accent);font-size:.75rem\">@${esc(a.username)}</span>` : '';\n      return `<tr>\n        <td>\n          <div style=\"display:flex;flex-direction:column;gap:.15rem\">\n            <div style=\"font-weight:600;display:flex;align-items:center;gap:.4rem\">\n              <span>${displayName || '—'}</span>\n              ${userPart}\n            </div>\n            <code style=\"font-size:.75rem;color:var(--muted)\">${esc(a.user_id)}</code>\n          </div>\n        </td>\n        <td style=\"font-size:.75rem\">${esc(a.added_by||'—')}</td>\n        <td><span class=\"badge b-on\">${permCount}/۱۲ فعال</span></td>\n        <td>\n          <button class=\"icon-btn\" title=\"دسترسی‌ها\" onclick=\"openPermissions(${a.user_id})\">⚙️</button>\n          <button class=\"icon-btn del\" onclick=\"delAdmin(${a.user_id})\">🗑</button>\n        </td>\n      </tr>`;\n    }).join('');\n  }catch(e){toast(e.message, false)}\n}\n\nfunction openAddAdmin(){\n  $('#modalTitle').textContent = '➕ افزودن ادمین فرعی';\n  $('#modalContent').innerHTML = `<div class=\"field\"><label>آیدی عددی کاربر</label><input id=\"newAdminId\" placeholder=\"123456789\" /></div>`;\n  $('#modalActions').innerHTML = `<button class=\"btn btn-ghost\" onclick=\"closeModal()\">انصراف</button><button class=\"btn btn-primary\" onclick=\"saveAdmin()\">افزودن</button>`;\n  $('#modal').classList.add('active');\n}\nasync function saveAdmin(){\n  const id = $('#newAdminId').value.trim();\n  if(!id){toast('آیدی را وارد کنید', false);return}\n  try{await api('admins', {method:'POST', body:JSON.stringify({user_id:id})});toast('ادمین افزوده شد');closeModal();loadAdmins()}catch(e){toast(e.message, false)}\n}\nasync function delAdmin(id){\n  if(!confirm('حذف شود؟'))return;\n  try{await api('admins/'+id, {method:'DELETE'});toast('حذف شد');loadAdmins()}catch(e){toast(e.message, false)}\n}\nfunction openPermissions(adminId){\n  toast('ویرایش دسترسی از طریق /setpermissions در تلگرام انجام می‌شود');\n}\n\n// ─── Backup ───\nasync function downloadBackup(){\n  try{\n    const d = await api('backup');\n    const blob = new Blob([JSON.stringify(d, null, 2)], {type:'application/json'});\n    const url = URL.createObjectURL(blob);\n    const a = document.createElement('a');\n    a.href = url;\n    a.download = `backup-${new Date().toISOString().slice(0,10)}.json`;\n    a.click();\n    URL.revokeObjectURL(url);\n    toast('✅ بکاپ دانلود شد');\n  }catch(e){toast(e.message, false)}\n}\nasync function doRestore(){\n  const file = $('#restoreFile').files[0];\n  if(!file){toast('فایل را انتخاب کنید', false);return}\n  if(!confirm('بازیابی باعث بازنویسی منابع و وزن‌ها می‌شود. ادامه؟'))return;\n  try{\n    const text = await file.text();\n    const data = JSON.parse(text);\n    const r = await api('restore', {method:'POST', body:JSON.stringify(data)});\n    toast(`✅ ${r.restored} منبع + ${r.weights||0} وزن بازیابی شد`);\n    loadSources();\n  }catch(e){toast(e.message, false)}\n}\n\n// ─── Modal helpers ───\nfunction closeModal(){$('#modal').classList.remove('active')}\ndocument.addEventListener('keydown', e=>{if(e.key==='Escape')closeModal()});\n\n// ─── Keyboard shortcut: Enter on login ───\ndocument.addEventListener('DOMContentLoaded', ()=>{\n  const loginInput = $('#loginWorker');\n  if(loginInput && !loginInput.value){\n    // Try to pre-fill from saved URL\n    if(localStorage.getItem('workerUrl')) loginInput.value = localStorage.getItem('workerUrl');\n  }\n});\n</script>\n</body>\n</html>\n";
+
+
 // ─── ثابت‌های پیکربندی ──────────────────────────────────────────────────────
 const DEDUP_TTL = 604800;        // ۷ روز (ثانیه)
 const SESSION_TTL = 86400;       // ۲۴ ساعت
@@ -32,12 +36,32 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    // پیش‌پاسخ CORS برای پنل (روی Pages)
+    // پیش‌پاسخ CORS برای پنل
     if (request.method === 'OPTIONS') return cors(request);
+
+    // ذخیره خودکار URL ورکر در دیتابیس برای مینی‌اپ تلگرام
+    const origin = url.origin;
+    if (origin && origin.startsWith('http') && !origin.includes('localhost') && !origin.includes('127.0.0.1')) {
+      ctx.waitUntil((async () => {
+        try {
+          await env.DB.prepare("INSERT OR REPLACE INTO kv_meta (key, value) VALUES ('worker_origin', ?)").bind(origin).run();
+        } catch {}
+      })());
+    }
 
     // وب‌هوک تلگرام
     if (url.pathname === '/webhook' && request.method === 'POST') {
       return handleWebhook(request, env, ctx);
+    }
+
+    // سرو کردن مستقیم پنل وب و Telegram Mini App
+    if (url.pathname === '/panel' || url.pathname === '/app' || (url.pathname === '/' && (request.headers.get('Accept') || '').includes('text/html'))) {
+      return new Response(PANEL_HTML, {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Cache-Control': 'no-cache',
+        },
+      });
     }
 
     // سلامت سیستم
@@ -104,6 +128,7 @@ async function react(chatId, messageId, env) {
 async function setupCommands(env) {
   const commands = [
     { command: 'start', description: 'شروع و نمایش منو' },
+    { command: 'panel', description: '📱 ورود به مینی‌اپ پنل مدیریت' },
     { command: 'help', description: 'راهنمای دسته‌بندی‌شده' },
     { command: 'ping', description: 'تست فعال بودن ربات در این چت' },
     { command: 'check', description: 'بررسی وضعیت نصب و ادمین بودن ربات' },
@@ -243,6 +268,101 @@ async function setPermissions(userId, permissions, env) {
     .bind(JSON.stringify(permissions), String(userId)).run();
 }
 
+// ─── کش اطلاعات و نام ادمین‌ها در حافظه موقت ─────────────────────────────
+const adminInfoCache = new Map();
+
+async function getAdminInfo(userId, env) {
+  const uid = String(userId || '').trim();
+  if (!uid) return { name: '', username: '' };
+  if (uid === 'panel') return { name: 'پنل وب', username: '' };
+  if (adminInfoCache.has(uid)) return adminInfoCache.get(uid);
+
+  // ۱. بررسی جدول admins
+  try {
+    const row = await env.DB.prepare('SELECT name, username FROM admins WHERE user_id=?').bind(uid).first();
+    if (row && (row.name || row.username)) {
+      const info = { name: row.name || '', username: row.username || '' };
+      adminInfoCache.set(uid, info);
+      return info;
+    }
+  } catch {}
+
+  // ۲. بررسی kv_meta
+  try {
+    const metaRow = await env.DB.prepare("SELECT value FROM kv_meta WHERE key=?").bind(`admin_info:${uid}`).first();
+    if (metaRow?.value) {
+      const parsed = JSON.parse(metaRow.value);
+      adminInfoCache.set(uid, parsed);
+      return parsed;
+    }
+  } catch {}
+
+  // ۳. استعلام مستقیم از تلگرام
+  try {
+    const res = await tg('getChat', { chat_id: Number(uid) }, env);
+    if (res.ok && res.result) {
+      const u = res.result;
+      const fullName = [u.first_name, u.last_name].filter(Boolean).join(' ') || u.title || '';
+      const uname = u.username ? `@${u.username.replace(/^@/, '')}` : '';
+      const info = { name: fullName, username: uname };
+      adminInfoCache.set(uid, info);
+
+      // ذخیره در kv_meta
+      try {
+        await env.DB.prepare("INSERT OR REPLACE INTO kv_meta (key, value) VALUES (?,?)")
+          .bind(`admin_info:${uid}`, JSON.stringify(info)).run();
+      } catch {}
+
+      // به روزرسانی جدول admins در صورت وجود
+      try {
+        await env.DB.prepare("UPDATE admins SET name=?, username=? WHERE user_id=?")
+          .bind(fullName, uname, uid).run();
+      } catch {}
+
+      return info;
+    }
+  } catch {}
+
+  return { name: '', username: '' };
+}
+
+async function formatAdminDisplay(userId, env) {
+  const uid = String(userId || '').trim();
+  if (!uid) return '—';
+  if (uid === 'panel') return '🌐 <b>پنل وب</b>';
+  const isMain = String(env.MAIN_ADMIN_ID) === uid;
+  const prefix = isMain ? '👑' : '👤';
+  const info = await getAdminInfo(uid, env);
+
+  let label = '';
+  if (info.name && info.username) {
+    label = `${escHtml(info.name)} (${escHtml(info.username)})`;
+  } else if (info.name) {
+    label = escHtml(info.name);
+  } else if (info.username) {
+    label = escHtml(info.username);
+  }
+
+  if (label) {
+    return `${prefix} <b>${label}</b> (<code>${escHtml(uid)}</code>)`;
+  }
+  return `${prefix} <code>${escHtml(uid)}</code>`;
+}
+
+// دریافت آدرس پنل وب / مینی‌اپ (اولویت اول: متغیر محیطی PANEL_URL کلادفلر)
+async function getPanelUrl(env) {
+  if (env?.PANEL_URL && typeof env.PANEL_URL === 'string' && env.PANEL_URL.trim()) {
+    return env.PANEL_URL.trim().replace(/\/$/, '');
+  }
+  try {
+    const custom = await getMeta('panel_url', env);
+    if (custom) return custom.replace(/\/$/, '');
+    const origin = await getMeta('worker_origin', env);
+    if (origin) return `${origin.replace(/\/$/, '')}/panel`;
+  } catch {}
+  return '';
+}
+
 // ─── ثبت فعالیت ادمین ──────────────────────────────────────────────────────
 async function logAdminActivity(adminId, action, detail, env, sourceId = null) {
   await env.DB.prepare(
@@ -262,8 +382,9 @@ async function logAdminActivity(adminId, action, detail, env, sourceId = null) {
     restore: '📥 بازیابی بکاپ',
   };
   const label = actionLabels[action] || action;
-  let msg = `🔔 <b>فعالیت ادمین فرعی</b>\n\n`;
-  msg += `👤 ادمین: <code>${adminId}</code>\n`;
+  const adminDisplay = await formatAdminDisplay(adminId, env);
+  let msg = `🔔 <b>فعالیت ادمین</b>\n\n`;
+  msg += `👤 ادمین: ${adminDisplay}\n`;
   msg += `📋 عمل: ${label}`;
   if (detail) msg += `\n📝 ${detail}`;
   if (sourceId) msg += `\n🆔 منبع: ${sourceId}`;
@@ -272,8 +393,37 @@ async function logAdminActivity(adminId, action, detail, env, sourceId = null) {
 }
 
 async function addAdmin(userId, by, env) {
-  await env.DB.prepare('INSERT OR IGNORE INTO admins (user_id, added_by, created_at) VALUES (?,?,?)')
-    .bind(String(userId), String(by), Date.now()).run();
+  const uid = String(userId).trim();
+  const byStr = String(by || '').trim();
+  
+  // استعلام نام و یوزرنیم از تلگرام
+  let name = '';
+  let username = '';
+  try {
+    const info = await getAdminInfo(uid, env);
+    name = info.name || '';
+    username = info.username || '';
+  } catch {}
+
+  try {
+    await env.DB.prepare(
+      'INSERT INTO admins (user_id, name, username, added_by, created_at) VALUES (?,?,?,?,?)' +
+      ' ON CONFLICT(user_id) DO UPDATE SET name=excluded.name, username=excluded.username'
+    ).bind(uid, name, username, byStr, Date.now()).run();
+  } catch {
+    // در صورتی که ستون‌های name/username هنوز ساخته نشده بودند
+    try {
+      await env.DB.prepare('ALTER TABLE admins ADD COLUMN name TEXT').run();
+      await env.DB.prepare('ALTER TABLE admins ADD COLUMN username TEXT').run();
+      await env.DB.prepare(
+        'INSERT INTO admins (user_id, name, username, added_by, created_at) VALUES (?,?,?,?,?)' +
+        ' ON CONFLICT(user_id) DO UPDATE SET name=excluded.name, username=excluded.username'
+      ).bind(uid, name, username, byStr, Date.now()).run();
+    } catch {
+      await env.DB.prepare('INSERT OR IGNORE INTO admins (user_id, added_by, created_at) VALUES (?,?,?)')
+        .bind(uid, byStr, Date.now()).run();
+    }
+  }
 }
 
 async function removeAdmin(userId, env) {
@@ -281,7 +431,11 @@ async function removeAdmin(userId, env) {
 }
 
 async function listAdmins(env) {
-  return env.DB.prepare('SELECT * FROM admins ORDER BY created_at').all();
+  try {
+    return await env.DB.prepare('SELECT * FROM admins ORDER BY created_at').all();
+  } catch {
+    return { results: [] };
+  }
 }
 
 // ===========================================================================
@@ -359,73 +513,91 @@ function parseReactions(block) {
 }
 
 function parsePostBlock(block) {
-  const idMatch = block.match(/data-post="([^"]+)"/);
+  // ۱. شناسایی دقیق شناسه اصلی پست A از تگ والد
+  const idMatch = block.match(/<div[^>]*class="[^"]*tgme_widget_message\b[^"]*"[^>]*data-post="([^"]+)"/i)
+    || block.match(/data-post="([^"]+)"/);
   if (!idMatch) return null;
   const dataPost = idMatch[1]; // channel/123
   const parts = dataPost.split('/');
   const channel = parts[0];
   const msgId = parseInt(parts[1] || '0', 10);
 
-  // متن پست — حفظ فرمت‌بندی تلگرام (bold, italic, spoiler, quote, ...)
-  const textMatch = block.match(/class="tgme_widget_message_text[^"]*"[^>]*>([\s\S]*?)<\/div>/);
-  let text = '';
-  if (textMatch) {
-    text = convertTelegramHtml(textMatch[1]);
-  }
-
-  // تشخیص ریپلای
+  // ۲. استخراج بخش ریپلای / نقل‌قول پست قبلی (پست B) و جداسازی کامل آن
   let isReply = false;
   let replyToText = '';
   let replyToAuthor = '';
-  if (/tgme_widget_message_reply/.test(block)) {
+  let replyToLink = '';
+
+  // بررسی تگ ریپلای تلگرام: <a class="tgme_widget_message_reply" ...>...</a>
+  const replyMatch = block.match(/<a[^>]*class="[^"]*tgme_widget_message_reply\b[^"]*"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/i);
+  if (replyMatch) {
     isReply = true;
-    const replyTextMatch = block.match(/class="tgme_widget_message_reply_text"[^>]*>([\s\S]*?)<\/span>/);
-    if (replyTextMatch) replyToText = convertTelegramHtml(replyTextMatch[1]);
-    const replyAuthorMatch = block.match(/class="tgme_widget_message_reply_author"[^>]*>([\s\S]*?)<\/a>/);
-    if (replyAuthorMatch) replyToAuthor = convertTelegramHtml(replyAuthorMatch[1]);
-  }
-  if (/quoted_inline_message|tgme_widget_message_quote/.test(block)) {
-    isReply = true;
-    const quoteMatch = block.match(/class="tgme_widget_message_quote_text"[^>]*>([\s\S]*?)<\/div>/);
-    if (quoteMatch) replyToText = convertTelegramHtml(quoteMatch[1]);
-  }
-  if (!isReply && /tgme_widget_message_link_preview/.test(block)) {
-    const previewMatch = block.match(/class="tgme_widget_message_link_preview[^"]*"[^>]*href="([^"]+)"/);
-    if (previewMatch && previewMatch[1].includes('t.me/')) {
-      isReply = true;
-      replyToText = previewMatch[1];
-    }
+    replyToLink = replyMatch[1] || '';
+    const replyInner = replyMatch[2];
+    const authorMatch = replyInner.match(/class="[^"]*tgme_widget_message_reply_author\b[^"]*"[^>]*>([\s\S]*?)<\/(?:span|div|a)>/i);
+    if (authorMatch) replyToAuthor = convertTelegramHtml(authorMatch[1]).replace(/<[^>]+>/g, '').trim();
+    const rTextMatch = replyInner.match(/class="[^"]*tgme_widget_message_reply_text\b[^"]*"[^>]*>([\s\S]*?)<\/(?:span|div)>/i);
+    if (rTextMatch) replyToText = convertTelegramHtml(rTextMatch[1]).trim();
   }
 
-  // نوع رسانه
+  // بررسی نقل قول مدرن: <blockquote class="tgme_widget_message_quote"...>...</blockquote>
+  const quoteMatch = block.match(/<blockquote[^>]*class="[^"]*(?:tgme_widget_message_quote|quoted_inline_message)\b[^"]*"[^>]*>([\s\S]*?)<\/blockquote>/i);
+  if (quoteMatch) {
+    isReply = true;
+    const qInner = quoteMatch[1];
+    const qTextMatch = qInner.match(/class="[^"]*tgme_widget_message_quote_text\b[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
+    if (qTextMatch && !replyToText) replyToText = convertTelegramHtml(qTextMatch[1]).trim();
+  }
+
+  // ۳. کلید حل باگ ریپلای: پاکسازی کامل بلوک ریپلای/کوت از HTML تا متن و مدیا متعلق به پست اصلی A استخراج شود
+  let cleanBlock = block;
+  if (replyMatch) {
+    cleanBlock = cleanBlock.replace(replyMatch[0], ' ');
+  }
+  if (quoteMatch) {
+    cleanBlock = cleanBlock.replace(quoteMatch[0], ' ');
+  }
+  // حذف لینک‌های پیش‌نمایش درونی که ممکن است متون embed داشته باشند
+  cleanBlock = cleanBlock.replace(/<div[^>]*class="[^"]*tgme_widget_message_link_preview\b[^"]*"[\s\S]*?<\/div>\s*<\/div>/gi, ' ');
+
+  // ۴. استخراج متن اصلی پست A از cleanBlock
+  let text = '';
+  const textMatch = cleanBlock.match(/class="[^"]*\b(?:js-message_text|tgme_widget_message_text)\b[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
+  if (textMatch) {
+    text = convertTelegramHtml(textMatch[1]).trim();
+  }
+
+  // ۵. نوع رسانه فقط از پست اصلی (cleanBlock)
   let mediaType = 'text';
-  if (/tgme_widget_message_photo/.test(block)) mediaType = 'photo';
-  else if (/tgme_widget_message_video|tgme_widget_message_video_player/.test(block)) mediaType = 'video';
-  else if (/tgme_widget_message_document/.test(block)) mediaType = 'file';
-  else if (/tgme_widget_message_audio/.test(block)) mediaType = 'audio';
-  else if (/tgme_widget_message_sticker/.test(block)) mediaType = 'sticker';
-  else if (/tgme_widget_message_poll/.test(block)) mediaType = 'poll';
-  else if (/tgme_widget_message_roundvideo/.test(block)) mediaType = 'video';
+  if (/tgme_widget_message_photo/.test(cleanBlock)) mediaType = 'photo';
+  else if (/tgme_widget_message_video|tgme_widget_message_video_player/.test(cleanBlock)) mediaType = 'video';
+  else if (/tgme_widget_message_document/.test(cleanBlock)) mediaType = 'file';
+  else if (/tgme_widget_message_audio/.test(cleanBlock)) mediaType = 'audio';
+  else if (/tgme_widget_message_sticker/.test(cleanBlock)) mediaType = 'sticker';
+  else if (/tgme_widget_message_poll/.test(cleanBlock)) mediaType = 'poll';
+  else if (/tgme_widget_message_roundvideo/.test(cleanBlock)) mediaType = 'video';
 
-  // بازدید
-  const viewsMatch = block.match(/class="tgme_widget_message_views[^"]*"[^>]*>([^<]+)</);
+  // ۶. بازدید
+  const viewsMatch = cleanBlock.match(/class="tgme_widget_message_views[^"]*"[^>]*>([^<]+)</);
   let views = 0;
   if (viewsMatch) views = parseViews(viewsMatch[1]);
 
-  // لینک پست
+  // ۷. لینک مستقیم به پست اصلی A (مطمئن می‌شویم لینک پست B ریپلای شده نباشد)
   let link = `https://t.me/${dataPost}`;
-  const linkMatch = block.match(/class="tgme_widget_message_date"[^>]*href="([^"]+)"/)
-    || block.match(/class="tgme_widget_message_link"[^>]*href="([^"]+)"/);
-  if (linkMatch) link = linkMatch[1];
+  const linkMatch = cleanBlock.match(/class="tgme_widget_message_date"[^>]*href="([^"]+)"/)
+    || cleanBlock.match(/class="tgme_widget_message_link"[^>]*href="([^"]+)"/);
+  if (linkMatch && linkMatch[1].includes(`/${msgId}`)) {
+    link = linkMatch[1];
+  }
 
   // زمان
-  const dateMatch = block.match(/datetime="([^"]+)"/);
+  const dateMatch = cleanBlock.match(/datetime="([^"]+)"/);
   const datetime = dateMatch ? dateMatch[1] : null;
 
   // ری‌اکشن‌ها
-  const reactions = parseReactions(block);
+  const reactions = parseReactions(cleanBlock);
 
-  return { dataPost, channel, msgId, text, mediaType, views, reactions, link, datetime, isReply, replyToText, replyToAuthor };
+  return { dataPost, channel, msgId, text, mediaType, views, reactions, link, datetime, isReply, replyToText, replyToAuthor, replyToLink };
 }
 
 function parseViews(str) {
@@ -633,11 +805,15 @@ function normalizeText(text) {
  * خروجی: { match, reason, found_positive, found_negative, breakdown }
  */
 function matchDeep(post, source, normalizedText) {
-  const text = (normalizedText || post.text || '').toLowerCase();
-  const pos = safeJson(source.keywords_positive, []);
-  const neg = safeJson(source.keywords_negative, []);
+  const norm = normalizedText ? normalizedText : normalizeText(post.text || '');
+  const text = norm.toLowerCase();
+  const pos = safeKeywords(source.keywords_positive);
+  const neg = safeKeywords(source.keywords_negative);
 
-  const foundNegative = neg.filter(kw => text.includes(String(kw).toLowerCase()));
+  const foundNegative = neg.filter(kw => {
+    const k = normalizeText(kw).toLowerCase();
+    return k && text.includes(k);
+  });
   // ⚠️ Negative Match → همیشه Reject (حتی با وجود Positive)
   if (foundNegative.length > 0) {
     return {
@@ -654,7 +830,10 @@ function matchDeep(post, source, normalizedText) {
     };
   }
 
-  const foundPositive = pos.filter(kw => text.includes(String(kw).toLowerCase()));
+  const foundPositive = pos.filter(kw => {
+    const k = normalizeText(kw).toLowerCase();
+    return k && text.includes(k);
+  });
   let match = false;
   let logic = '';
   if (source.every_mode) {
@@ -697,18 +876,19 @@ function matchDeep(post, source, normalizedText) {
  * خروجی: { match, score, threshold, breakdown }
  */
 function matchDeepScoring(post, source, normalizedText) {
-  const text = (normalizedText || post.text || '').toLowerCase();
-  const main = safeJson(source.keywords_main, []);
-  const comp = safeJson(source.keywords_complementary, []);
-  const periph = safeJson(source.keywords_peripheral, []);
+  const norm = normalizedText ? normalizedText : normalizeText(post.text || '');
+  const text = norm.toLowerCase();
+  const main = safeKeywords(source.keywords_main);
+  const comp = safeKeywords(source.keywords_complementary);
+  const periph = safeKeywords(source.keywords_peripheral);
 
   let score = 0;
   const breakdown = [];
 
   // ── کلیدواژه‌های اصلی — +۴۰ هر کلمه + ۱۵ position bonus ──
   for (const kw of main) {
-    const k = String(kw).toLowerCase();
-    if (text.includes(k)) {
+    const k = normalizeText(kw).toLowerCase();
+    if (k && text.includes(k)) {
       score += 40;
       breakdown.push({ kw, type: 'main', value: 40 });
       if (text.indexOf(k) < 50) {
@@ -720,8 +900,8 @@ function matchDeepScoring(post, source, normalizedText) {
 
   // ── کلیدواژه‌های مکمل — +۱۵ هر کلمه ──
   for (const kw of comp) {
-    const k = String(kw).toLowerCase();
-    if (text.includes(k)) {
+    const k = normalizeText(kw).toLowerCase();
+    if (k && text.includes(k)) {
       score += 15;
       breakdown.push({ kw, type: 'complementary', value: 15 });
     }
@@ -729,8 +909,8 @@ function matchDeepScoring(post, source, normalizedText) {
 
   // ── کلیدواژه‌های پیرامونی — -۳۰ هر کلمه ──
   for (const kw of periph) {
-    const k = String(kw).toLowerCase();
-    if (text.includes(k)) {
+    const k = normalizeText(kw).toLowerCase();
+    if (k && text.includes(k)) {
       score -= 30;
       breakdown.push({ kw, type: 'peripheral', value: -30 });
     }
@@ -1144,89 +1324,102 @@ function mediaEmoji(t) {
 function formatPost(post, source, ctx = {}) {
   // ctx: { foundKeywords, viralInfo, dispatchBreakdown, adScore, adVerdict }
   const mediaLabel = mediaEmoji(post.mediaType);
-  const viewsLabel = post.views > 0 ? `👁 ${formatViews(post.views)}` : '';
-  const timeLabel = post.datetime ? `🕐 ${post.datetime}` : '';
+  const viewsLabel = post.views > 0 ? `👁 <code>${formatViews(post.views)}</code>` : '';
+  const timeLabel = post.datetime ? `🕐 <i>${escapeHtml(post.datetime.replace('T', ' ').slice(0, 16))}</i>` : '';
 
-  // ─── اطلاعات کامل در ابتدای پیام ───
-  let info = `🔗 <a href="${post.link}">منبع: @${post.channel}</a>\n`;
-  info += `${mediaLabel} نوع: ${mediaName(post.mediaType)}`;
-  if (viewsLabel) info += `  •  ${viewsLabel}`;
-  if (timeLabel) info += `  •  ${timeLabel}`;
-  info += `\n🧭 حالت: ${modeName(source.mode)}`;
+  // ─── کادر متادیتای فوق‌العاده شیک با استانداردهای مدرن تلگرام ───
+  let meta = '<blockquote>';
+  meta += `📡 <b>منبع:</b> <a href="${post.link}">@${escapeHtml(post.channel)}</a>  •  ${mediaLabel} <i>${mediaName(post.mediaType)}</i>\n`;
+  meta += `🧭 <b>حالت:</b> <code>${modeName(source.mode, source.deep_scoring)}</code>`;
+  if (viewsLabel) meta += `  •  ${viewsLabel}`;
+  if (timeLabel) meta += `  •  ${timeLabel}`;
 
-  // ─── اطلاعات mode-specific (طبق سند — قسمت ارسال پست) ───
-  // Forward: چیزی اضافه نمی‌شود
-  // Viral: نوع و تعداد ری‌اکشن + آستانه
-  // Deep Classic: کلیدواژه‌های تشخیص داده شده
-  // Deep Scoring: امتیاز بخش‌به‌بخش (خلاصه)
+  // ─── اطلاعات اختصاصی هر حالت ───
   if (source.mode === 'viral' && ctx.viralInfo) {
     const v = ctx.viralInfo;
     if (v.viral_rules && v.viral_rules.length) {
-      info += `\n👁 ری‌اکشن‌ها:`;
-      for (const r of v.viral_rules) {
-        const status = r.passed ? '✓' : '✗';
-        info += `\n  ${r.emoji} ${r.count}/${r.threshold} ${status}`;
-      }
+      meta += `\n🔥 <b>ری‌اکشن‌ها:</b> `;
+      const rItems = v.viral_rules.map(r => `${r.emoji} <code>${r.count}/${r.threshold}</code> ${r.passed ? '✓' : '✗'}`).join('  ');
+      meta += rItems;
     } else if (v.total_count !== undefined) {
-      info += `\n👁 مجموع ری‌اکشن: <b>${v.total_count}</b>/${v.threshold}`;
+      meta += `\n🔥 <b>مجموع واکنش:</b> <code>${v.total_count}</code> / حداقل <code>${v.threshold}</code>`;
     }
   } else if (source.mode === 'deep' && ctx.dispatchBreakdown) {
     const bd = ctx.dispatchBreakdown;
     const isScoring = bd.type === 'deep_scoring';
     if (isScoring) {
-      info += `\n📊 امتیاز: <b>${bd.score}</b>/${bd.threshold}`;
-      // نمایش خلاصه کلیدواژه‌های تطبیق‌شده
+      meta += `\n📊 <b>امتیاز موضوعی:</b> <code>${bd.score}/${bd.threshold}</code>`;
       const mainKw = (bd.items || []).filter(i => i.type === 'main').map(i => i.kw);
       const compKw = (bd.items || []).filter(i => i.type === 'complementary').map(i => i.kw);
-      if (mainKw.length) info += `\n✅ اصلی: ${mainKw.join('، ')}`;
-      if (compKw.length) info += `\n➕ مکمل: ${compKw.join('، ')}`;
+      if (mainKw.length || compKw.length) {
+        const parts = [];
+        if (mainKw.length) parts.push(`اصلی: <b>${escapeHtml(mainKw.join('، '))}</b>`);
+        if (compKw.length) parts.push(`مکمل: <i>${escapeHtml(compKw.join('، '))}</i>`);
+        meta += `\n<tg-spoiler>🔍 ${parts.join(' | ')}</tg-spoiler>`;
+      }
     } else if (bd.type === 'deep_classic') {
-      if (bd.positive_match?.length) info += `\n✅ مثبت‌کننده: ${bd.positive_match.join('، ')}`;
-      if (bd.negative_match?.length) info += `\n🚫 منفی‌کننده: ${bd.negative_match.join('، ')}`;
+      if (bd.positive_match?.length) meta += `\n✅ <b>کلیدواژه مثبت:</b> <code>${escapeHtml(bd.positive_match.join('، '))}</code>`;
+      if (bd.negative_match?.length) meta += `\n🚫 <b>منفی‌کننده:</b> <code>${escapeHtml(bd.negative_match.join('، '))}</code>`;
     }
   }
 
-  // ─── اطلاعات Anti-Ad ───
-  if (ctx.adVerdict && ctx.adVerdict !== 'clean' && ctx.adVerdict !== 'block') {
-    info += `\n🛡 Anti-Ad: ${ctx.adScore} (${ctx.adVerdict})`;
-  } else if (ctx.adScore !== undefined && ctx.adScore > 0) {
-    info += `\n🛡 Anti-Ad: ${ctx.adScore}/۱۰۰ — ✅ پاک`;
+  // ─── اطلاعات Anti-Ad با نمایش شاخص سلامت ───
+  if (ctx.adScore !== undefined && ctx.adScore > 0) {
+    const cleanPercent = Math.max(0, 100 - ctx.adScore);
+    const badge = ctx.adScore >= 70 ? '🚫 مسدود' : ctx.adScore >= 40 ? '⚠️ مشکوک' : '🛡 پاک';
+    meta += `\n🛡 <b>شاخص سلامت:</b> <code>${cleanPercent}%</code> (${badge}) <tg-spoiler>[ریسک: ${ctx.adScore}/100]</tg-spoiler>`;
   }
 
-  // ─── نمایش ریپلای ───
+  // ─── نمایش دقیق ریپلای به همراه لینک به پست قبلی ───
   if (post.isReply) {
-    info += `\n↩️ ریپلای به: `;
-    if (post.replyToAuthor) info += escapeHtml(post.replyToAuthor);
+    const authorName = post.replyToAuthor ? escapeHtml(post.replyToAuthor) : 'پست قبلی';
+    const replyUrl = post.replyToLink || post.link;
+    meta += `\n↩️ <b>پاسخ به:</b> <a href="${replyUrl}"><i>${authorName}</i></a>`;
     if (post.replyToText) {
-      const rt = post.replyToText.length > 80 ? post.replyToText.slice(0, 80) + '…' : post.replyToText;
-      info += ` «${rt}»`;
+      const cleanSnippet = post.replyToText.replace(/<[^>]+>/g, '').trim();
+      const rt = cleanSnippet.length > 70 ? cleanSnippet.slice(0, 70) + '…' : cleanSnippet;
+      meta += `\n<tg-spoiler>💬 «${escapeHtml(rt)}»</tg-spoiler>`;
     }
-    if (!post.replyToAuthor && !post.replyToText) info += 'پست دیگر';
   }
 
-  // ─── کلیدواژه‌های پیدا شده (برای Deep Classic) ───
+  // ─── کلیدواژه‌های پیدا شده ───
   if (ctx.foundKeywords && ctx.foundKeywords.length && source.mode === 'deep') {
-    info += `\n🔑 کلیدواژه: ` + ctx.foundKeywords.map(k => `#${k.replace(/\s+/g, '_')}`).join(' ');
+    const tags = ctx.foundKeywords.map(k => `<code>#${escapeHtml(k.replace(/\s+/g, '_'))}</code>`).join(' ');
+    meta += `\n🏷 <b>برچسب‌ها:</b> ${tags}`;
   }
 
-  // ─── جداکننده ───
-  info += '\n━━━━━━━━━━━━━';
+  meta += '</blockquote>';
 
-  // ─── متن پست (با حفظ فرمت‌بندی تلگرام) ───
+  // ─── متن پست اصلی A (با حفظ فرمت‌بندی غنی تلگرام) ───
   let body = '';
   if (post.text) {
-    const t = post.text.length > 3500 ? post.text.slice(0, 3500) + '\n…' : post.text;
-    body = `\n\n${t}`;
+    let t = post.text;
+    if (t.length > 3400) {
+      t = t.slice(0, 3400) + '\n…';
+    }
+    // بستن تگ‌هایی که احیاناً در اثر برش باز مانده‌اند
+    t = balanceHtmlTags(t);
+    body = `\n${t}`;
   }
 
-  return `${info}${body}`;
+  const finalHtml = `${meta}${body}`;
+  return balanceHtmlTags(finalHtml);
 }
 
 function mediaName(t) {
   return { photo: 'عکس', video: 'ویدیو', file: 'فایل', audio: 'صوت', sticker: 'استیکر', poll: 'نظرسنجی', text: 'متن' }[t] || 'متن';
 }
-function modeName(m) {
-  return { forward: 'فوروارد', deep: 'عمیق', viral: 'وایرال' }[m] || m;
+function modeName(m, deepScoring = 0) {
+  if (typeof m === 'object' && m !== null) {
+    deepScoring = m.deep_scoring;
+    m = m.mode;
+  }
+  if (m === 'forward') return '📤 فوروارد (Forward)';
+  if (m === 'viral') return '👁 وایرال (Viral)';
+  if (m === 'deep') {
+    return Number(deepScoring) === 1 ? '📊 عمیق هوشمند (Deep Scoring)' : '📋 عمیق کلاسیک (Deep Classic)';
+  }
+  return m || '—';
 }
 function formatViews(v) {
   if (v >= 1000000) return (v / 1000000).toFixed(1) + 'M';
@@ -1338,7 +1531,7 @@ async function sendToQuarantine(post, source, adResult, env) {
   return tg('sendMessage', params, env);
 }
 
-// ارسال واقعی با پشتیبانی از تاپیک و context mode-specific
+// ارسال واقعی با پشتیبانی از تاپیک، context mode-specific و Fallback هوشمند در صورت خطای HTML تلگرام
 async function deliverPost(post, source, ctx, env) {
   const text = formatPost(post, source, ctx);
   const keyboard = { inline_keyboard: [
@@ -1353,7 +1546,31 @@ async function deliverPost(post, source, ctx, env) {
     reply_markup: keyboard,
   };
   if (source.target_topic_id) params.message_thread_id = source.target_topic_id;
-  return tg('sendMessage', params, env);
+  
+  const res = await tg('sendMessage', params, env);
+  
+  // اگر خطای تلگرام مربوط به عدم توانایی در Parse کردن تگ‌های HTML بود (Bad Request: can't parse entities)
+  if (!res.ok && res.description && /can't parse entities|character.*is reserved/i.test(res.description)) {
+    console.warn(`[deliverPost] HTML parse error: ${res.description}. Retrying with sanitized text fallback.`);
+    // ارسال مجدد بدون parse_mode و با حذف تگ‌های خراب برای جلوگیری از سوختن پست
+    const cleanText = text
+      .replace(/<blockquote[^>]*>/gi, '\n> ')
+      .replace(/<\/blockquote>/gi, '\n')
+      .replace(/<[^>]+>/g, '')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"');
+    
+    const fallbackParams = {
+      ...params,
+      text: cleanText.trim(),
+      parse_mode: undefined,
+    };
+    return tg('sendMessage', fallbackParams, env);
+  }
+  
+  return res;
 }
 
 // ===========================================================================
@@ -1731,7 +1948,6 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 // ⚠️ gemini-1.5-* و gemini-2.0-flash-lite قدیمی شده‌اند (404)
 // منبع: https://ai.google.dev/gemini-api/docs/models (Sep 2026)
 const GEMINI_MODELS = [
-  'gemini-3.8-flash',           // جدیدترین Stable — بهترین گزینه
   'gemini-3.7-flash',           // Stable، نسخه قبلی
   'gemini-3.6-flash',           // Stable، تعادل
   'gemini-3.5-flash',           // Stable، پایه
@@ -2373,6 +2589,34 @@ async function handleWebhook(request, env, ctx) {
   catch { return json({ ok: false }); }
 
   try {
+    // کش کردن URL پنل برای ساخت دکمه‌های وب‌اپ (مینی‌اپ تلگرام)
+    if (env?.PANEL_URL && typeof env.PANEL_URL === 'string' && env.PANEL_URL.trim()) {
+      cachedPanelUrl = env.PANEL_URL.trim().replace(/\/$/, '');
+    } else if (!cachedPanelUrl) {
+      ctx.waitUntil((async () => {
+        const u = await getPanelUrl(env);
+        if (u) cachedPanelUrl = u;
+      })());
+    }
+
+    // سینک خودکار نام و یوزرنیم کاربر ارسال‌کننده
+    const sender = update.message?.from || update.callback_query?.from;
+    if (sender && sender.id) {
+      const sId = String(sender.id);
+      const fullName = [sender.first_name, sender.last_name].filter(Boolean).join(' ') || sender.username || '';
+      const uname = sender.username ? `@${sender.username.replace(/^@/, '')}` : '';
+      if (fullName || uname) {
+        adminInfoCache.set(sId, { name: fullName, username: uname });
+        ctx.waitUntil((async () => {
+          try {
+            await env.DB.prepare("UPDATE admins SET name=?, username=? WHERE user_id=?").bind(fullName, uname, sId).run();
+            await env.DB.prepare("INSERT OR REPLACE INTO kv_meta (key, value) VALUES (?,?)")
+              .bind(`admin_info:${sId}`, JSON.stringify({ name: fullName, username: uname })).run();
+          } catch {}
+        })());
+      }
+    }
+
     if (update.callback_query) {
       ctx.waitUntil(handleCallback(update.callback_query, env));
     } else if (update.message) {
@@ -2492,6 +2736,8 @@ async function handleMessage(message, env, ctx) {
         setpermissions: cmdSetPermissions,
         adblock: cmdAdBlock,
         balancad: cmdBalancAd,
+        panel: cmdPanel,
+        setpanelurl: cmdSetPanelUrl,
       };
       // پاک کردن state قبلی چون کاربر دستور جدیدی زده
       await clearState(userId, env);
@@ -2592,12 +2838,12 @@ async function handleStateMessage(message, state, env) {
     }
     // ── Deep Classic: کلیدواژه‌های مثبت‌کننده ──
     case 'add_keywords_pos': {
-      const kw = text.split(',').map(s => s.trim()).filter(Boolean);
+      const kw = parseKeywordsInput(text);
       await setState(userId, { ...state, step: 'add_keywords_neg', keywords_positive: kw }, env);
       return sendWizardPrompt(chatId, '🚫 <b>کلیدواژه‌های منفی‌کننده</b>\n\n<blockquote>کلماتی که اگر در پست باشند، محتوا ارسال نشود (حتی اگه کلیدواژه مثبت هم داشته باشد).\nبا کاما جدا کنید.\n\nبرای رد شدن بفرستید: <code>-</code></blockquote>', env, threadId);
     }
     case 'add_keywords_neg': {
-      const neg = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
+      const neg = text.trim() === '-' ? [] : parseKeywordsInput(text);
       // ⚠️ حذف مرحله مقصد — مستقیماً finalize با مقصد = همین چت
       await finalizeAddSource(userId, { ...state, keywords_negative: neg, target_chat_id: String(chatId), target_topic_id: threadId || null }, env);
       return;
@@ -2605,17 +2851,17 @@ async function handleStateMessage(message, state, env) {
 
     // ── Deep Scoring: کلیدواژه‌های اصلی ──
     case 'add_keywords_main': {
-      const kw = text.split(',').map(s => s.trim()).filter(Boolean);
+      const kw = parseKeywordsInput(text);
       await setState(userId, { ...state, step: 'add_keywords_comp', keywords_main: kw }, env);
-      return sendWizardPrompt(chatId, '➕ <b>کلیدواژه‌های مکمل</b>\n\n<blockquote>کلماتی که موضوع اصلی را تقویت می‌کنند.\nبا کاما جدا کنید.\n\n<b>امتیاز:</b> +۱۵ هر کلمه\n\nبرای رد شدن بفرستید: <code>-</code></blockquote>', env, threadId);
+      return sendWizardPrompt(chatId, '➕ <b>کلیدواژه‌های مکمل</b>\n\n<blockquote>کلماتی که موضوع اصلی را تقویت می‌کنند.\nبا کاما یا ویرگول جدا کنید (تعداد نامحدود).\n\n<b>امتیاز:</b> +۱۵ هر کلمه\n\nبرای رد شدن بفرستید: <code>-</code></blockquote>', env, threadId);
     }
     case 'add_keywords_comp': {
-      const comp = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
+      const comp = text.trim() === '-' ? [] : parseKeywordsInput(text);
       await setState(userId, { ...state, step: 'add_keywords_periph', keywords_complementary: comp }, env);
-      return sendWizardPrompt(chatId, '⚠️ <b>کلیدواژه‌های پیرامونی</b>\n\n<blockquote>کلماتی که در اطراف موضوع دیده می‌شوند اما ارزش اصلی را نشان نمی‌دهند — باعث کاهش امتیاز می‌شوند.\nبا کاما جدا کنید.\n\n<b>امتیاز:</b> -۳۰ هر کلمه\n\nبرای رد شدن بفرستید: <code>-</code></blockquote>', env, threadId);
+      return sendWizardPrompt(chatId, '⚠️ <b>کلیدواژه‌های پیرامونی</b>\n\n<blockquote>کلماتی که در اطراف موضوع دیده می‌شوند اما ارزش اصلی را نشان نمی‌دهند — باعث کاهش امتیاز می‌شوند.\nبا کاما یا ویرگول جدا کنید (تعداد نامحدود).\n\n<b>امتیاز:</b> -۳۰ هر کلمه\n\nبرای رد شدن بفرستید: <code>-</code></blockquote>', env, threadId);
     }
     case 'add_keywords_periph': {
-      const periph = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
+      const periph = text.trim() === '-' ? [] : parseKeywordsInput(text);
       await setState(userId, { ...state, step: 'add_deep_threshold', keywords_peripheral: periph }, env);
       return sendWizardPrompt(chatId, '📊 <b>آستانه امتیاز Deep Scoring</b>\n\n<blockquote>حداقل امتیاز لازم برای ارسال پست.\nپیش‌فرض: <code>50</code>\n\nیک عدد بفرستید:</blockquote>', env, threadId);
     }
@@ -2675,27 +2921,32 @@ async function handleStateMessage(message, state, env) {
       return sendMsg(chatId, '🔧 چه فیلدی را ویرایش کنیم؟', env, editFieldKb(), 'HTML', threadId);
     }
     case 'edit_keywords_pos': {
-      const kw = text.split(',').map(s => s.trim()).filter(Boolean);
+      const kw = text.trim() === '-' ? [] : parseKeywordsInput(text);
       await setState(userId, { ...state, step: 'edit_keywords_neg', keywords_positive: kw }, env);
-      return sendWizardPrompt(chatId, '🚫 کلیدواژه‌های منفی جدید (یا - برای خالی):', env, threadId);
+      return sendWizardPrompt(chatId, '🚫 <b>کلیدواژه‌های منفی جدید</b>\n\n<blockquote>کلماتی که نباید در محتوا باشند (یا <code>-</code> برای خالی):</blockquote>', env, threadId);
     }
     case 'edit_keywords_neg': {
-      const neg = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
+      const neg = text.trim() === '-' ? [] : parseKeywordsInput(text);
       await setState(userId, { ...state, step: 'edit_confirm', keywords_negative: neg }, env);
-      return showEditConfirm(userId, { ...state, threadId }, env);
+      return showEditConfirm(userId, { ...state, keywords_negative: neg, threadId }, env);
+    }
+    case 'edit_keywords_main': {
+      const kw = text.trim() === '-' ? [] : parseKeywordsInput(text);
+      await setState(userId, { ...state, step: 'edit_keywords_comp', keywords_main: kw }, env);
+      return sendWizardPrompt(chatId, '➕ <b>کلیدواژه‌های مکمل جدید</b>\n\n<blockquote>کلماتی که امتیاز مثبت دارند (+۱۵) (یا <code>-</code> برای خالی):</blockquote>', env, threadId);
     }
     case 'edit_keywords_comp': {
-      const kw = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
-      await setState(userId, { ...state, step: 'edit_confirm', keywords_complementary: kw }, env);
-      return showEditConfirm(userId, { ...state, keywords_complementary: kw, threadId }, env);
+      const comp = text.trim() === '-' ? [] : parseKeywordsInput(text);
+      await setState(userId, { ...state, step: 'edit_keywords_periph', keywords_complementary: comp }, env);
+      return sendWizardPrompt(chatId, '⚠️ <b>کلیدواژه‌های پیرامونی جدید</b>\n\n<blockquote>کلماتی که امتیاز منفی دارند (-۳۰) (یا <code>-</code> برای خالی):</blockquote>', env, threadId);
     }
     case 'edit_keywords_periph': {
-      const kw = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
-      await setState(userId, { ...state, step: 'edit_confirm', keywords_peripheral: kw }, env);
-      return showEditConfirm(userId, { ...state, keywords_peripheral: kw, threadId }, env);
+      const periph = text.trim() === '-' ? [] : parseKeywordsInput(text);
+      await setState(userId, { ...state, step: 'edit_deep_threshold_input', keywords_peripheral: periph }, env);
+      return sendWizardPrompt(chatId, '📊 <b>آستانه امتیاز جدید</b>\n\n<blockquote>حداقل امتیاز برای ارسال (مثلاً <code>50</code> یا <code>-</code> برای بدون تغییر):</blockquote>', env, threadId);
     }
     case 'edit_deep_threshold_input': {
-      const n = parseInt(text, 10);
+      const n = text.trim() === '-' ? (state.deep_threshold || 50) : parseInt(text, 10);
       if (isNaN(n) || n <= 0) return sendWizardPrompt(chatId, '⚠️ عدد معتبر بفرستید.', env, threadId);
       await setState(userId, { ...state, step: 'edit_confirm', deep_threshold: n }, env);
       return showEditConfirm(userId, { ...state, deep_threshold: n, threadId }, env);
@@ -2917,7 +3168,7 @@ async function finalizeAddSource(userId, state, env) {
 
 async function showEditConfirm(userId, state, env) {
   const fields = [];
-  if (state.mode) fields.push(`حالت: ${modeName(state.mode)}`);
+  if (state.mode) fields.push(`حالت: ${modeName(state.mode, state.deep_scoring)}`);
   // Deep Classic
   if (state.keywords_positive) fields.push(`مثبت‌کننده: ${state.keywords_positive.join(', ')}`);
   if (state.keywords_negative) fields.push(`منفی‌کننده: ${state.keywords_negative.join(', ')}`);
@@ -3008,6 +3259,30 @@ async function handleCallback(query, env) {
     case 'menu':
       await clearState(userId, env);
       return editMsg(chatId, messageId, '🏠 منوی اصلی', env, mainMenuKb());
+
+    case 'panel_info': {
+      const panelUrl = await getPanelUrl(env);
+      if (panelUrl) {
+        const kb = {
+          inline_keyboard: [
+            [{ text: '🚀 باز کردن پنل مدیریت (Mini App)', web_app: { url: panelUrl } }],
+            [{ text: '🌐 باز کردن در مرورگر وب', url: panelUrl }],
+            [{ text: '🏠 منو', callback_data: 'menu' }],
+          ],
+        };
+        return editMsg(chatId, messageId, `📱 <b>پنل مدیریت ربات (Mini App)</b>\n\n<blockquote>🔗 آدرس فعال: <code>${escHtml(panelUrl)}</code>\n\nبرای دسترسی به پنل بدون خروج از تلگرام روی دکمه زیر بزنید.</blockquote>`, env, kb, 'HTML');
+      }
+      return editMsg(
+        chatId,
+        messageId,
+        `⚠️ <b>متغیر PANEL_URL در کلادفلر تنظیم نشده است</b>\n\n` +
+        `<blockquote>برای اتصال خودکار پنل و مینی‌اپ، کافیست در داشبورد کلودفلر از مسیر <b>Settings > Variables and Secrets</b> یا در فایل <code>wrangler.toml</code> در بخش <code>[vars]</code> متغیر زیر را تعریف کنید:\n\n` +
+        `<code>PANEL_URL = "https://your-worker.workers.dev/panel"</code></blockquote>`,
+        env,
+        { inline_keyboard: [[{ text: '🏠 منو', callback_data: 'menu' }]] },
+        'HTML'
+      );
+    }
 
     case 'help':
       return editMsg(chatId, messageId, helpText('main'), env, helpKb());
@@ -3104,34 +3379,13 @@ async function handleCallback(query, env) {
       await setState(userId, { ...state, deep_scoring: isScoring ? 1 : 0, step: isScoring ? 'edit_keywords_main' : 'edit_keywords_pos', threadId }, env);
       if (isScoring) {
         let msg = '📊 <b>Deep Scoring — کلیدواژه‌های اصلی جدید</b>\n\n';
-        msg += '<blockquote>با کاما بفرستید. <b>امتیاز:</b> +۴۰ هر کلمه (+۱۵ position bonus)\n\nبرای پاک‌کردن: <code>-</code></blockquote>';
+        msg += '<blockquote>کلماتی که مستقیماً موضوع اصلی هستند (+۴۰ امتیاز).\nبا کاما یا ویرگول بفرستید (یا <code>-</code> برای پاک‌کردن):</blockquote>';
         return editMsg(chatId, messageId, msg, env, null, 'HTML');
       } else {
         let msg = '📋 <b>Deep Classic — کلیدواژه‌های مثبت‌کننده جدید</b>\n\n';
-        msg += '<blockquote>با کاما بفرستید.\n\nبرای پاک‌کردن: <code>-</code></blockquote>';
+        msg += '<blockquote>با کاما یا ویرگول بفرستید (یا <code>-</code> برای پاک‌کردن):</blockquote>';
         return editMsg(chatId, messageId, msg, env, null, 'HTML');
       }
-    }
-    // ─── Deep Scoring keywords در ویرایش گروهی ───
-    case 'edit_keywords_main': {
-      const kw = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
-      await setState(userId, { ...state, step: 'edit_keywords_comp', keywords_main: kw }, env);
-      return sendWizardPrompt(chatId, '➕ کلیدواژه‌های مکمل جدید (یا -):', env, threadId);
-    }
-    case 'edit_keywords_comp': {
-      const comp = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
-      await setState(userId, { ...state, step: 'edit_keywords_periph', keywords_complementary: comp }, env);
-      return sendWizardPrompt(chatId, '⚠️ کلیدواژه‌های پیرامونی جدید (یا -):', env, threadId);
-    }
-    case 'edit_keywords_periph': {
-      const periph = text === '-' ? [] : text.split(',').map(s => s.trim()).filter(Boolean);
-      await setState(userId, { ...state, step: 'edit_deep_threshold_input', keywords_peripheral: periph }, env);
-      return sendWizardPrompt(chatId, '📊 آستانه امتیاز Deep (عدد، پیش‌فرض ۵۰):', env, threadId);
-    }
-    case 'edit_deep_threshold_input': {
-      const n = parseInt(text, 10) || 50;
-      await setState(userId, { ...state, step: 'edit_confirm', deep_threshold: n }, env);
-      return showEditConfirm(userId, { ...state, threadId }, env);
     }
 
     // ─── انتخاب ری‌اکشن از picker (هم برای addsource و هم editsource) ───
@@ -3760,7 +4014,7 @@ async function handleCallback(query, env) {
       const src = q.source_id ? await env.DB.prepare('SELECT * FROM sources WHERE id=?').bind(q.source_id).first() : null;
       if (src) {
         const post = { text: q.post_text, link: q.post_link, mediaType: 'text', views: 0, channel: q.channel, datetime: null, isReply: false, replyToText: '', replyToAuthor: '' };
-        try { await deliverPost(post, src, [], env); } catch {}
+        try { await deliverPost(post, src, { foundKeywords: [], adScore: 0, adVerdict: 'clean' }, env); } catch {}
       }
       return editMsg(chatId, messageId, `✅ <b>پست پاک تأیید شد.</b>\n\n<blockquote>به مقصد اصلی ارسال شد.</blockquote>`, env, { inline_keyboard: [[{ text: '🏠 منو', callback_data: 'menu' }]] });
     }
@@ -3873,15 +4127,48 @@ async function deleteSourceCompletely(sourceId, env) {
 // ===========================================================================
 //  کیبوردهای شیشه‌ای (Inline Keyboards)
 // ===========================================================================
-function mainMenuKb() {
-  return { inline_keyboard: [
-    [{ text: '➕ افزودن منبع', callback_data: 'add_start' }, { text: '📝 تنظیم موضوع', callback_data: 'settopic_start' }],
-    [{ text: '🔁 تغییر مقصد', callback_data: 'settarget_start' }, { text: '🗑 حذف منبع', callback_data: 'del_start' }],
-    [{ text: '🔍 اسکن تک‌منبع', callback_data: 'scan_pick' }, { text: '📋 لیست منابع', callback_data: 'list_sources' }],
-    [{ text: '🤖 تحلیل AI', callback_data: 'aianalyze_start' }, { text: '📊 آمار', callback_data: 'stats' }],
-    [{ text: '🛡 ضد تبلیغات', callback_data: 'adblock_menu' }, { text: '🛡 ادمین‌ها', callback_data: 'admin_list' }],
-    [{ text: '💾 بکاپ', callback_data: 'backup' }, { text: '❓ راهنما', callback_data: 'help' }],
-  ]};
+let cachedPanelUrl = '';
+
+function mainMenuKb(param = '') {
+  let url = '';
+  if (typeof param === 'string' && param.startsWith('http')) {
+    url = param;
+  }
+  if (!url && cachedPanelUrl) {
+    url = cachedPanelUrl;
+  }
+
+  const rows = [];
+  if (url) {
+    rows.push([{ text: '📱 ورود به پنل مدیریت (Mini App)', web_app: { url } }]);
+  } else {
+    rows.push([{ text: '📱 پنل مدیریت (Mini App)', callback_data: 'panel_info' }]);
+  }
+  rows.push([
+    { text: '➕ افزودن منبع', callback_data: 'add_start' },
+    { text: '📝 تنظیم موضوع', callback_data: 'settopic_start' },
+  ]);
+  rows.push([
+    { text: '🔁 تغییر مقصد', callback_data: 'settarget_start' },
+    { text: '🗑 حذف منبع', callback_data: 'del_start' },
+  ]);
+  rows.push([
+    { text: '🔍 اسکن تک‌منبع', callback_data: 'scan_pick' },
+    { text: '📋 لیست منابع', callback_data: 'list_sources' },
+  ]);
+  rows.push([
+    { text: '🤖 تحلیل AI', callback_data: 'aianalyze_start' },
+    { text: '📊 آمار', callback_data: 'stats' },
+  ]);
+  rows.push([
+    { text: '🛡 ضد تبلیغات', callback_data: 'adblock_menu' },
+    { text: '🛡 ادمین‌ها', callback_data: 'admin_list' },
+  ]);
+  rows.push([
+    { text: '💾 بکاپ', callback_data: 'backup' },
+    { text: '❓ راهنما', callback_data: 'help' },
+  ]);
+  return { inline_keyboard: rows };
 }
 
 function cancelKb() {
@@ -4035,7 +4322,8 @@ async function cmdAddAdmin({ chatId, userId, args, message, env }) {
   const tid = message?.message_thread_id || null;
   if (args && /^\d+$/.test(args.trim())) {
     await addAdmin(args.trim(), userId, env);
-    return sendMsg(chatId, `✅ ادمین ${args.trim()} افزوده شد.`, env, null, 'HTML', tid);
+    const display = await formatAdminDisplay(args.trim(), env);
+    return sendMsg(chatId, `✅ ادمین ${display} افزوده شد.`, env, null, 'HTML', tid);
   }
   await setState(userId, { step: 'addadmin_input', chatId, threadId: tid }, env);
   return sendWizardPrompt(chatId, '➕ آیدی عددی ادمین جدید را بفرستید:', env, tid);
@@ -4044,8 +4332,9 @@ async function cmdAddAdmin({ chatId, userId, args, message, env }) {
 async function cmdDelAdmin({ chatId, userId, args, message, env }) {
   const tid = message?.message_thread_id || null;
   if (args && /^\d+$/.test(args.trim())) {
+    const display = await formatAdminDisplay(args.trim(), env);
     await removeAdmin(args.trim(), env);
-    return sendMsg(chatId, `🗑 ادمین ${args.trim()} حذف شد.`, env, null, 'HTML', tid);
+    return sendMsg(chatId, `🗑 ادمین ${display} حذف شد.`, env, null, 'HTML', tid);
   }
   await setState(userId, { step: 'deladmin_input', chatId, threadId: tid }, env);
   return sendWizardPrompt(chatId, '🗑 آیدی عددی ادمین را بفرستید:', env, tid);
@@ -4053,6 +4342,94 @@ async function cmdDelAdmin({ chatId, userId, args, message, env }) {
 
 async function cmdAdmins({ chatId, message, env }) {
   return showAdmins(chatId, null, env, message?.message_thread_id || null);
+}
+
+async function cmdPanel({ chatId, message, env }) {
+  const tid = message?.message_thread_id || null;
+  const panelUrl = await getPanelUrl(env);
+  if (panelUrl) {
+    try {
+      await tg('setChatMenuButton', {
+        chat_id: chatId,
+        menu_button: {
+          type: 'web_app',
+          text: '📱 پنل مدیریت',
+          web_app: { url: panelUrl },
+        },
+      }, env);
+    } catch {}
+
+    const kb = {
+      inline_keyboard: [
+        [{ text: '🚀 ورود به پنل مدیریت (Mini App)', web_app: { url: panelUrl } }],
+        [{ text: '🌐 باز کردن در مرورگر وب', url: panelUrl }],
+        [{ text: '🏠 بازگشت به منو', callback_data: 'menu' }],
+      ],
+    };
+    return sendMsg(
+      chatId,
+      `📱 <b>پنل مدیریت ربات (Mini App)</b>\n\n` +
+      `<blockquote>🔗 آدرس فعال: <code>${escHtml(panelUrl)}</code>\n\n` +
+      `بدون نیاز به خروج از تلگرام، تمامی تنظیمات، منابع، لاگ‌ها و سیستم ضدتبلیغ را از طریق مینی‌اپ مدیریت کنید.</blockquote>`,
+      env, kb, 'HTML', tid
+    );
+  } else {
+    return sendMsg(
+      chatId,
+      `⚠️ <b>متغیر PANEL_URL در کلادفلر تنظیم نشده است.</b>\n\n` +
+      `<blockquote>برای اتصال خودکار پنل مینی‌اپ، کافیست در داشبورد کلودفلر (مسیر Settings > Variables and Secrets) یا در فایل <code>wrangler.toml</code> در بخش <code>[vars]</code> متغیر زیر را اضافه کنید:\n\n` +
+      `<code>PANEL_URL = "https://your-worker.workers.dev/panel"</code>\n\n` +
+      `پس از ذخیره یا دیپلوی، دکمه ورود به پنل در تلگرام بلافاصله فعال می‌شود.</blockquote>`,
+      env, null, 'HTML', tid
+    );
+  }
+}
+
+async function cmdSetPanelUrl({ chatId, userId, args, message, env }) {
+  const tid = message?.message_thread_id || null;
+  const isMain = String(env.MAIN_ADMIN_ID) === String(userId);
+  if (!isMain) {
+    return sendMsg(chatId, '⛔ فقط ادمین اصلی می‌تواند آدرس پنل را تغییر دهد.', env, null, 'HTML', tid);
+  }
+
+  const urlInput = (args || '').trim();
+  if (!urlInput || !urlInput.startsWith('http')) {
+    return sendMsg(
+      chatId,
+      `ℹ️ <b>راهنمای تنظیم آدرس پنل / مینی‌اپ:</b>\n\n` +
+      `<blockquote>دستور را به همراه لینک بفرستید:\n<code>/setpanelurl https://your-worker.workers.dev/panel</code></blockquote>`,
+      env, null, 'HTML', tid
+    );
+  }
+
+  const cleanUrl = urlInput.replace(/\/$/, '');
+  await env.DB.prepare("INSERT OR REPLACE INTO kv_meta (key, value) VALUES ('panel_url', ?)").bind(cleanUrl).run();
+  cachedPanelUrl = cleanUrl;
+
+  try {
+    await tg('setChatMenuButton', {
+      chat_id: chatId,
+      menu_button: {
+        type: 'web_app',
+        text: '📱 پنل مدیریت',
+        web_app: { url: cleanUrl },
+      },
+    }, env);
+  } catch {}
+
+  const kb = {
+    inline_keyboard: [
+      [{ text: '📱 تست و باز کردن پنل (Mini App)', web_app: { url: cleanUrl } }],
+      [{ text: '🏠 منوی اصلی', callback_data: 'menu' }],
+    ],
+  };
+
+  return sendMsg(
+    chatId,
+    `✅ <b>آدرس پنل با موفقیت ذخیره شد!</b>\n\n` +
+    `<blockquote>🔗 آدرس جدید: <code>${escHtml(cleanUrl)}</code>\n\nدکمه منوی پایین تلگرام و دکمه‌های شیشه‌ای ربات به‌روزرسانی شدند.</blockquote>`,
+    env, kb, 'HTML', tid
+  );
 }
 
 // ── /setpermissions : تنظیم دسترسی ادمین فرعی از تلگرام ──
@@ -4343,7 +4720,7 @@ async function showSourcesList(chatId, messageId, env, page = 0, threadId = null
     const periph = safeJson(s.keywords_peripheral, []);
     const viralRules = safeJson(s.viral_reactions, []);
     text += `🆔 ${s.id} | @${s.channel}\n`;
-    text += `   ${modeName(s.mode)}${s.active ? '' : ' (غیرفعال)'} → ${s.target_chat_id}${s.target_topic_id ? ':' + s.target_topic_id : ''}\n`;
+    text += `   ${modeName(s.mode, s.deep_scoring)}${s.active ? '' : ' (غیرفعال)'} → ${s.target_chat_id}${s.target_topic_id ? ':' + s.target_topic_id : ''}\n`;
     if (s.mode === 'deep') {
       // ⚠️ نمایش بر اساس نوع Deep (Classic یا Scoring)
       const isScoring = s.deep_scoring == 1;
@@ -4378,14 +4755,14 @@ async function showSourcesList(chatId, messageId, env, page = 0, threadId = null
 }
 
 async function showSourcePicker(chatId, messageId, env, callbackAction, threadId = null) {
-  const res = await env.DB.prepare('SELECT id, channel, mode FROM sources ORDER BY id DESC LIMIT 20').all();
+  const res = await env.DB.prepare('SELECT id, channel, mode, deep_scoring FROM sources ORDER BY id DESC LIMIT 20').all();
   if (!res.results.length) {
     const t = '📋 منبعی وجود ندارد.';
     return messageId ? editMsg(chatId, messageId, t, env, mainMenuKb()) : sendMsg(chatId, t, env, mainMenuKb(), 'HTML', threadId);
   }
   const kb = { inline_keyboard: [] };
   for (const s of res.results) {
-    kb.inline_keyboard.push([{ text: `#${s.id} @${s.channel} (${modeName(s.mode)})`, callback_data: `${callbackAction}:${s.id}` }]);
+    kb.inline_keyboard.push([{ text: `#${s.id} @${s.channel} (${modeName(s.mode, s.deep_scoring)})`, callback_data: `${callbackAction}:${s.id}` }]);
   }
   kb.inline_keyboard.push([{ text: '🏠 منو', callback_data: 'menu' }]);
   const t = '🔍 یک منبع را انتخاب کنید:';
@@ -4486,27 +4863,75 @@ async function doBackup(chatId, env, threadId = null, adminId = null) {
 
 async function restoreFromFile(message, chatId, env) {
   const tid = message.message_thread_id || null;
+  const nowStr = new Date().toLocaleString('fa-IR', { timeZone: 'Asia/Tehran' });
+  let sourcesCount = 0;
+  let weightsCount = 0;
   try {
     const fileId = message.document.file_id;
     const f = await fetch(`${BOT_API}${env.BOT_TOKEN}/getFile?file_id=${fileId}`);
     const fj = await f.json();
     const file = await fetch(`${BOT_API}${env.BOT_TOKEN}/file/bot/${fj.result.file_path}`);
     const data = await file.json();
-    let count = 0;
+
+    // ۱) بازیابی منابع با تمام فیلدهای v4
     for (const s of (data.sources || [])) {
-      await env.DB.prepare(
-        `INSERT OR REPLACE INTO sources (id, channel, target_chat_id, target_topic_id, mode, keywords_positive, keywords_negative, every_mode, viral_threshold, active, created_at)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?)`
-      ).bind(s.id, s.channel, s.target_chat_id, s.target_topic_id, s.mode, s.keywords_positive, s.keywords_negative, s.every_mode, s.viral_threshold, s.active, s.created_at || Date.now()).run();
-      count++;
+      try {
+        await env.DB.prepare(
+          `INSERT OR REPLACE INTO sources (
+            id, channel, target_chat_id, target_topic_id, mode, topic,
+            keywords_positive, keywords_negative,
+            keywords_main, keywords_complementary, keywords_peripheral,
+            pending_keywords_positive, pending_keywords_negative,
+            pending_keywords_main, pending_keywords_complementary, pending_keywords_peripheral,
+            every_mode, deep_scoring, deep_threshold,
+            viral_threshold, viral_reactions,
+            block_ads, ad_threshold,
+            active, created_by, created_at
+          ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+        ).bind(
+          s.id, s.channel, s.target_chat_id, s.target_topic_id, s.mode, s.topic || '',
+          s.keywords_positive || '[]', s.keywords_negative || '[]',
+          s.keywords_main || '[]', s.keywords_complementary || '[]', s.keywords_peripheral || '[]',
+          s.pending_keywords_positive || '', s.pending_keywords_negative || '',
+          s.pending_keywords_main || '', s.pending_keywords_complementary || '', s.pending_keywords_peripheral || '',
+          s.every_mode ? 1 : 0, s.deep_scoring ? 1 : 0, s.deep_threshold || 50,
+          s.viral_threshold || 0, s.viral_reactions || '[]',
+          s.block_ads === undefined ? 1 : s.block_ads, s.ad_threshold || 70,
+          s.active === undefined ? 1 : s.active, s.created_by || '', s.created_at || Date.now()
+        ).run();
+        sourcesCount++;
+      } catch (eSrc) {
+        console.error('restore source error:', eSrc);
+      }
     }
-    // ⚠️ طبق سند: «هنگام بازیابی، اگر موفق بوده یا نبوده، به همراه اطلاعاتی که بازیابی شده در سیستم لاگ ثبت شود»
-    await logAction(0, 'restore', `بازیابی موفق: ${count} منبع`, env);
-    return sendMsg(chatId, `✅ ${count} منبع بازیابی شد.`, env, mainMenuKb(), 'HTML', tid);
+
+    // ۲) بازیابی ad_weights (کلمات، دامنه‌ها، ایموجی‌ها، وزن‌ها)
+    for (const w of (data.ad_weights || [])) {
+      try {
+        await env.DB.prepare(
+          'INSERT OR REPLACE INTO ad_weights (token, type, weight, hits, auto, created_at) VALUES (?,?,?,?,?,?)'
+        ).bind(w.token, w.type || 'word', w.weight || 30, w.hits || 0, w.auto || 0, w.created_at || Date.now()).run();
+        weightsCount++;
+      } catch {}
+    }
+
+    // ۳) بازیابی quarantine_config
+    if (data.quarantine_config) {
+      try {
+        await env.DB.prepare("INSERT OR REPLACE INTO kv_meta (key, value) VALUES ('quarantine_config', ?)")
+          .bind(JSON.stringify(data.quarantine_config)).run();
+      } catch {}
+    }
+
+    // ⚠️ طبق سند معماری:
+    // «در صورت موفقیت آمیز بودن در لاگ سیستم ثبت شود: بازیابی با موفقیت انجام شد همراه با تاریخ و ساعت»
+    await logAction(0, 'restore', `بازیابی با موفقیت انجام شد همراه با تاریخ و ساعت: ${nowStr} (${sourcesCount} منبع + ${weightsCount} وزن)`, env);
+    return sendMsg(chatId, `✅ <b>بازیابی با موفقیت انجام شد</b>\n\n<blockquote>📅 زمان: ${nowStr}\n📡 منابع: ${sourcesCount}\n⚖️ وزن‌های ضد تبلیغ: ${weightsCount}</blockquote>`, env, mainMenuKb(), 'HTML', tid);
   } catch (e) {
-    // ثبت خطای بازیابی در لاگ (طبق سند: «اگر موفق بوده یا نبوده»)
-    await logAction(0, 'restore', `خطا در بازیابی: ${e.message}`, env);
-    return sendMsg(chatId, `❌ خطا در بازیابی: ${e.message}`, env, null, 'HTML', tid);
+    // ⚠️ طبق سند معماری:
+    // «در صورت ناموفق بودن در لاگ سیستم ثبت شود: بازیابی ناموفق بود همراه با جزییات و تاریخ و ساعت»
+    await logAction(0, 'restore', `بازیابی ناموفق بود همراه با جزییات و تاریخ و ساعت: ${nowStr} — خطا: ${e.message}`, env);
+    return sendMsg(chatId, `❌ <b>بازیابی ناموفق بود</b>\n\n<blockquote>📅 زمان: ${nowStr}\n⚠️ خطا: ${escHtml(e.message)}</blockquote>`, env, null, 'HTML', tid);
   }
 }
 
@@ -4514,6 +4939,32 @@ function safeJson(s, def) {
   if (s === null || s === undefined || s === '') return def;
   if (typeof s === 'object') return s;
   try { return JSON.parse(s); } catch { return def; }
+}
+
+function parseKeywordsInput(input) {
+  if (!input) return [];
+  if (Array.isArray(input)) {
+    return input.map(s => String(s).trim()).filter(Boolean);
+  }
+  if (typeof input === 'string') {
+    const trimmed = input.trim();
+    if (trimmed === '-' || !trimmed) return [];
+    if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (Array.isArray(parsed)) return parsed.map(s => String(s).trim()).filter(Boolean);
+      } catch {}
+    }
+    return trimmed
+      .split(/[,،؛;\n\r]+/)
+      .map(s => s.trim().replace(/^["'«»“”]/, '').replace(/["'«»“”]$/, '').trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+function safeKeywords(s) {
+  return parseKeywordsInput(s);
 }
 
 // ===========================================================================
@@ -4840,6 +5291,7 @@ async function apiAddSource(request, env) {
 }
 
 async function apiUpdateSource(request, env, id) {
+  await getSourceColumns(env);
   const b = await request.json();
   // ⚠️ Patch-based update: فقط فیلدهای ارسال‌شده را تغییر بده
   // این کار باعث می‌شود اگه ستونی وجود نداشت، بقیه ذخیره شوند
@@ -4920,11 +5372,12 @@ async function apiBulkDelete(request, env) {
 }
 
 async function apiBulkEdit(request, env) {
+  await getSourceColumns(env);
   const {
     ids, mode,
     keywords_positive, keywords_negative,
     keywords_main, keywords_complementary, keywords_peripheral,
-    every_mode, deep_threshold,
+    deep_scoring, every_mode, deep_threshold,
     viral_threshold, viral_reactions,
     active, block_ads, ad_threshold,
   } = await request.json();
@@ -4937,6 +5390,7 @@ async function apiBulkEdit(request, env) {
   if (keywords_main !== undefined) { sets.push('keywords_main=?'); binds.push(JSON.stringify(keywords_main || [])); }
   if (keywords_complementary !== undefined) { sets.push('keywords_complementary=?'); binds.push(JSON.stringify(keywords_complementary || [])); }
   if (keywords_peripheral !== undefined) { sets.push('keywords_peripheral=?'); binds.push(JSON.stringify(keywords_peripheral || [])); }
+  if (deep_scoring !== undefined) { sets.push('deep_scoring=?'); binds.push(deep_scoring ? 1 : 0); }
   if (every_mode !== undefined) { sets.push('every_mode=?'); binds.push(every_mode ? 1 : 0); }
   if (deep_threshold !== undefined) { sets.push('deep_threshold=?'); binds.push(deep_threshold); }
   // Viral
@@ -4968,34 +5422,27 @@ async function apiBulkEdit(request, env) {
 
 async function apiGetAdmins(env) {
   const res = await listAdmins(env);
-  // گرفتن نام ادمین اصلی
-  let mainName = '';
-  try {
-    const mainInfo = await tg('getChat', { chat_id: Number(env.MAIN_ADMIN_ID) }, env);
-    if (mainInfo.ok && mainInfo.result) {
-      const u = mainInfo.result;
-      mainName = [u.first_name, u.last_name].filter(Boolean).join(' ') || u.username || '';
-    }
-  } catch {}
+  // گرفتن نام و یوزرنیم ادمین اصلی
+  const mainInfo = await getAdminInfo(env.MAIN_ADMIN_ID, env);
 
-  // گرفتن نام هر ادمین فرعی
+  // گرفتن نام هر ادمین فرعی با getAdminInfo
   const admins = [];
   for (const a of res.results || []) {
-    let adminName = '';
-    try {
-      const info = await tg('getChat', { chat_id: Number(a.user_id) }, env);
-      if (info.ok && info.result) {
-        const u = info.result;
-        adminName = [u.first_name, u.last_name].filter(Boolean).join(' ') || u.username || '';
-      }
-    } catch {}
+    const info = await getAdminInfo(a.user_id, env);
     admins.push({
       ...a,
+      name: info.name || a.name || '',
+      username: info.username || a.username || '',
+      display_name: info.name || a.name || '',
       permissions: safeJson(a.permissions, {}),
-      display_name: adminName,
     });
   }
-  return json({ main: env.MAIN_ADMIN_ID, main_name: mainName, admins });
+  return json({
+    main: env.MAIN_ADMIN_ID,
+    main_name: mainInfo.name || '',
+    main_username: mainInfo.username || '',
+    admins
+  });
 }
 
 async function apiAddAdminApi(request, env) {
@@ -5148,12 +5595,14 @@ async function apiRestore(request, env) {
       } catch {}
     }
 
-    // ⚠️ طبق سند: «هنگام بازیابی، اگر موفق بوده یا نبوده، به همراه اطلاعاتی که بازیابی شده در سیستم لاگ ثبت شود»
-    await logAction(0, 'restore', `بازیابی موفق: ${sourcesCount} منبع + ${weightsCount} وزن`, env);
+    // ⚠️ طبق سند: «در صورت موفقیت‌آمیز بودن در لاگ سیستم ثبت شود: بازیابی با موفقیت انجام شد همراه با تاریخ و ساعت»
+    const nowStr = new Date().toLocaleString('fa-IR', { timeZone: 'Asia/Tehran' });
+    await logAction(0, 'restore', `بازیابی با موفقیت انجام شد همراه با تاریخ و ساعت: ${nowStr} (${sourcesCount} منبع + ${weightsCount} وزن)`, env);
     return json({ ok: true, restored: sourcesCount, weights: weightsCount });
   } catch (e) {
-    // ثبت خطای بازیابی در لاگ (طبق سند: «اگر موفق بوده یا نبوده»)
-    await logAction(0, 'restore', `خطا در بازیابی: ${e.message} — تا الان: ${sourcesCount} منبع + ${weightsCount} وزن`, env);
+    // ⚠️ طبق سند: «در صورت ناموفق بودن در لاگ سیستم ثبت شود: بازیابی ناموفق بود همراه با جزییات و تاریخ و ساعت»
+    const nowStr = new Date().toLocaleString('fa-IR', { timeZone: 'Asia/Tehran' });
+    await logAction(0, 'restore', `بازیابی ناموفق بود همراه با جزییات و تاریخ و ساعت: ${nowStr} — خطا: ${e.message} — تا الان: ${sourcesCount} منبع + ${weightsCount} وزن`, env);
     return json({ error: e.message, restored: sourcesCount, weights: weightsCount }, 500);
   }
 }
@@ -5345,6 +5794,7 @@ async function apiApproveAIKeywords(request, env) {
 
 // ─── API: اعمال دستی کلیدواژه‌های انتخاب‌شده از پنل ───
 async function apiApplyManualAIKeywords(request, env) {
+  await getSourceColumns(env);
   const { source_id, mode, positive, negative, main, complementary, peripheral } = await request.json();
   const src = await env.DB.prepare('SELECT * FROM sources WHERE id=?').bind(source_id).first();
   if (!src) return json({ error: 'منبع یافت نشد' }, 404);

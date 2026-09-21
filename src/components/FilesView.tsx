@@ -11,18 +11,18 @@ const FILES_LIST: FileItem[] = [
     id: 'worker',
     name: 'worker.js',
     path: 'cloudflare-bot/worker.js',
-    size: '۲۸۷ کیلوبایت (~۵۵۰۰ خط)',
-    badge: 'کد اصلی ورکر',
-    description: 'کد هسته ربات تلگرام روی Cloudflare Workers. شامل رفع باگ پارس ری‌اکشن‌ها، اصلاح ویزارد، حذف مرحله مقصد، اصلاح بایند SQL، و Auto-Migration ستون‌های D1.',
+    size: '۳۹۶ کیلوبایت (تک‌فایلی مستقل و خودکفا)',
+    badge: 'تک‌فایلی آماده کپی در ادیتور کلادفلر',
+    description: 'کد هسته ربات تلگرام روی Cloudflare Workers به صورت کاملاً مستقل و Self-Contained. قالب HTML پنل و مینی‌اپ مستقیماً درون خود فایل امبد شده و نیازی به هیچ ماژول یا فایل مجزای دیگری در کلادفلر ندارد.',
     downloadUrl: '/files/worker.js'
   },
   {
     id: 'panel',
     name: 'panel/index.html',
     path: 'cloudflare-bot/panel/index.html',
-    size: '۶۰ کیلوبایت (تک فایلی)',
-    badge: 'پنل مدیریت تحت وب',
-    description: 'پنل کاربری واکنش‌گرا و سریع برای Cloudflare Pages. شامل رفع باگ safeJson و رفع مشکل ورود اعداد برای آستانه ری‌اکشن‌ها در حالت وایرال.',
+    size: '۹۳ کیلوبایت (تک فایلی)',
+    badge: 'پنل مدیریت تحت وب و تلگرام',
+    description: 'پنل کاربری واکنش‌گرا هماهنگ با Telegram WebApp SDK. شامل نمایش نام و یوزرنیم ادمین‌ها کنار آیدی، تم تاریک و روشن هماهنگ با تلگرام، و دسترسی مستقیم بدون خروج از تلگرام.',
     downloadUrl: '/files/panel-index.html'
   },
   {

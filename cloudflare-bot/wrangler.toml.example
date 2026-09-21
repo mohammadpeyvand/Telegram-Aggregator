@@ -17,6 +17,7 @@ crons = ["*/2 * * * *", "30 22 * * *", "30 23 * * *"]
 # ─── متغیرهای عمومی (غیر حساس) ───
 [vars]
 MAIN_ADMIN_ID = "123456789"          # آیدی عددی ادمین اصلی تلگرام
+PANEL_URL = "https://telegram-aggregator.YOUR_SUBDOMAIN.workers.dev/panel"  # آدرس پنل مدیریت و مینی‌اپ تلگرام (یا آدرس Cloudflare Pages)
 
 # ⚠️ متغیرهای حساس را با wrangler secret set کنید:
 #   wrangler secret put BOT_TOKEN

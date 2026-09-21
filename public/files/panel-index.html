@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>پنل مدیریت ربات تجمیع‌کننده</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   /* ─── متغیرهای رنگ ─── */
@@ -1726,8 +1727,10 @@ async function delAdWeight(token){
 async function loadAdmins(){
   try{
     const d = await api('admins');
+    const mainUserPart = d.main_username ? ` <span style="color:var(--accent);font-size:.8rem">(@${esc(d.main_username)})</span>` : '';
+    const mainNamePart = d.main_name ? ` — <strong>${esc(d.main_name)}</strong>${mainUserPart}` : '';
     $('#mainAdmin').innerHTML = `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
-      <div><span class="badge b-on">🟢 ادمین اصلی</span> <code style="font-size:.9rem">${esc(d.main)}</code> ${d.main_name?`— <strong>${esc(d.main_name)}</strong>`:''}</div>
+      <div><span class="badge b-on">🟢 ادمین اصلی</span> <code style="font-size:.9rem">${esc(d.main)}</code>${mainNamePart}</div>
       <span style="font-size:.7rem;color:var(--green)">Full Access</span>
     </div>`;
     const list = d.admins || [];
@@ -1738,8 +1741,18 @@ async function loadAdmins(){
     $('#adminsBody').innerHTML = list.map(a=>{
       const perms = typeof a.permissions === 'string' ? safeJson(a.permissions, {}) : (a.permissions || {});
       const permCount = Object.values(perms).filter(v=>v).length;
+      const displayName = a.name ? esc(a.name) : '';
+      const userPart = a.username ? `<span style="color:var(--accent);font-size:.75rem">@${esc(a.username)}</span>` : '';
       return `<tr>
-        <td><code>${esc(a.user_id)}</code></td>
+        <td>
+          <div style="display:flex;flex-direction:column;gap:.15rem">
+            <div style="font-weight:600;display:flex;align-items:center;gap:.4rem">
+              <span>${displayName || '—'}</span>
+              ${userPart}
+            </div>
+            <code style="font-size:.75rem;color:var(--muted)">${esc(a.user_id)}</code>
+          </div>
+        </td>
         <td style="font-size:.75rem">${esc(a.added_by||'—')}</td>
         <td><span class="badge b-on">${permCount}/۱۲ فعال</span></td>
         <td>

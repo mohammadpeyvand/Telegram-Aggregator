@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>پنل مدیریت ربات تجمیع‌کننده</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   /* ─── متغیرهای رنگ تم تاریک (پیش‌فرض) ─── */
@@ -893,7 +894,7 @@
       <h3 style="font-size:1rem;margin:.75rem 0">ادمین‌های فرعی</h3>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>آیدی</th><th>افزوده توسط</th><th>دسترسی‌ها</th><th>عملیات</th></tr></thead>
+          <thead><tr><th>نام و آیدی ادمین</th><th>افزوده توسط</th><th>دسترسی‌ها</th><th>عملیات</th></tr></thead>
           <tbody id="adminsBody"></tbody>
         </table>
       </div>
@@ -941,8 +942,13 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── متغیرهای سراسری ───
-let WORKER_URL = localStorage.getItem('workerUrl') || '';
+// ─── متغیرهای سراسری و تلگرام مینی‌اپ ───
+const tgWebApp = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
+let defaultOrigin = '';
+if (typeof window !== 'undefined' && window.location && window.location.origin && window.location.origin.startsWith('http') && !window.location.origin.includes('localhost:3000') && !window.location.origin.includes('127.0.0.1')) {
+  defaultOrigin = window.location.origin;
+}
+let WORKER_URL = localStorage.getItem('workerUrl') || defaultOrigin;
 let SOURCES = [];
 let LOGS = [];
 let logAutoRefreshTimer = null;
@@ -950,6 +956,25 @@ let aiSelectedSource = null;
 let aiAnalyzing = false;
 let pendingSelection = {};
 let charts = {};
+
+// راه‌اندازی Telegram Mini App در صورت باز شدن در تلگرام
+if (tgWebApp) {
+  try {
+    tgWebApp.ready();
+    tgWebApp.expand();
+    if (tgWebApp.setHeaderColor) tgWebApp.setHeaderColor('#0a0e1a');
+    if (tgWebApp.setBackgroundColor) tgWebApp.setBackgroundColor('#0a0e1a');
+    if (tgWebApp.colorScheme === 'light' && !localStorage.getItem('panel_theme')) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  } catch(e) {}
+}
+
+function closeMiniApp() {
+  if (tgWebApp) {
+    try { tgWebApp.close(); } catch(e) {}
+  }
+}
 
 // ─── توابع کمکی ───
 function $(s){return document.querySelector(s)}
@@ -1069,6 +1094,11 @@ function updateWorker(){
   localStorage.setItem('workerUrl', WORKER_URL);
   $('#hdrWorker').textContent = WORKER_URL.replace(/^https?:\/\//,'');
   loadAll();
+}
+
+// پر کردن خودکار فیلد ورودی Worker URL در صفحه لاگین در صورت وجود
+if($('#loginWorker') && !$('#loginWorker').value && defaultOrigin){
+  $('#loginWorker').value = defaultOrigin;
 }
 
 // اگه قبلاً وارد شده، مستقیم اپ نمایش داده شود
@@ -2059,21 +2089,38 @@ async function delAdWeight(token){
 async function loadAdmins(){
   try{
     const d = await api('admins');
-    $('#mainAdmin').innerHTML = `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
-      <div><span class="badge b-on">🟢 ادمین اصلی</span> <code style="font-size:.9rem">${esc(d.main)}</code> ${d.main_name?`— <strong>${esc(d.main_name)}</strong>`:''}</div>
-      <span style="font-size:.7rem;color:var(--green)">Full Access</span>
+    const mainAdminName = d.main_name || 'ادمین اصلی';
+    $('#mainAdmin').innerHTML = `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
+      <div style="display:flex;align-items:center;gap:.6rem">
+        <span class="badge b-on">👑 ادمین اصلی</span>
+        <div style="display:flex;flex-direction:column">
+          <strong style="font-size:.95rem;color:var(--text)">👤 ${esc(mainAdminName)}</strong>
+          <code style="font-size:.78rem;color:var(--muted)">آیدی: ${esc(d.main)}</code>
+        </div>
+      </div>
+      <span class="badge b-on" style="font-size:.72rem">Full Access (دسترسی کامل)</span>
     </div>`;
     const list = d.admins || [];
     if(!list.length){
-      $('#adminsBody').innerHTML = '<tr><td colspan="4" class="empty">ادمین فرعی وجود ندارد</td></tr>';
+      $('#adminsBody').innerHTML = '<tr><td colspan="4" class="empty">ادمین فرعی تعریف نشده است</td></tr>';
       return;
     }
     $('#adminsBody').innerHTML = list.map(a=>{
       const perms = typeof a.permissions === 'string' ? safeJson(a.permissions, {}) : (a.permissions || {});
       const permCount = Object.values(perms).filter(v=>v).length;
+      const adminName = a.display_name || a.name || 'ادمین فرعی';
+      const usernameHtml = a.username ? `<span style="font-size:.75rem;color:var(--accent);font-weight:normal;margin-inline-start:.35rem">@${esc(a.username.replace('@',''))}</span>` : '';
+      const addedByDisplay = a.added_by_name ? `<div>${esc(a.added_by_name)}</div><code style="font-size:.72rem;color:var(--muted)">${esc(a.added_by)}</code>` : `<code style="font-size:.78rem">${esc(a.added_by||'—')}</code>`;
       return `<tr>
-        <td><code>${esc(a.user_id)}</code></td>
-        <td style="font-size:.75rem">${esc(a.added_by||'—')}</td>
+        <td>
+          <div style="font-weight:600;display:flex;align-items:center;gap:.35rem;font-size:.9rem">
+            <span>👤</span>
+            <span>${esc(adminName)}</span>
+            ${usernameHtml}
+          </div>
+          <code style="font-size:.75rem;color:var(--muted)">آیدی: ${esc(a.user_id)}</code>
+        </td>
+        <td style="font-size:.8rem">${addedByDisplay}</td>
         <td><span class="badge b-on">${permCount}/۱۲ فعال</span></td>
         <td>
           <button class="icon-btn" title="دسترسی‌ها" onclick="openPermissions(${a.user_id})">⚙️</button>

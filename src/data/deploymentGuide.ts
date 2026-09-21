@@ -58,10 +58,12 @@ export const DEPLOYMENT_STEPS: DeploymentStep[] = [
     stepNumber: 4,
     title: 'تنظیم متغیرهای محیطی و کلیدهای محرمانه (Environment Variables)',
     badge: 'Secrets & Env',
-    description: 'تنظیم توکن ربات تلگرام، آیدی ادمین، رمز پنل و کلید هوش مصنوعی.',
+    description: 'تنظیم توکن ربات تلگرام، آیدی ادمین، آدرس پنل مینی‌اپ، رمز پنل و کلید هوش مصنوعی.',
     substeps: [
       'در صفحه ورکر به تب Settings > Variables and Secrets بروید.',
       'روی Add در بخش Environment Variables کلیک کنید و مقادیر جدول زیر را وارد کنید.',
+      'متغیر PANEL_URL (بسیار مهم): آدرس ورکر خود را با پسوند /panel قرار دهید (مثلاً https://telegram-aggregator.YOUR_SUBDOMAIN.workers.dev/panel) تا دکمه Mini App در تلگرام به صورت کاملاً خودکار و تمیز فعال شود و نیازی به هیچ تنظیم دستی در چت تلگرام نباشد.',
+      'متغیر MAIN_ADMIN_ID: آیدی عددی ادمین اصلی را به صورت Text وارد کنید.',
       'برای BOT_TOKEN و PANEL_PASSWORD توصیه می‌شود نوع را Secret (رمزگذاری‌شده) انتخاب کنید.'
     ]
   },
@@ -83,15 +85,12 @@ export const DEPLOYMENT_STEPS: DeploymentStep[] = [
   {
     id: 'deploy-panel',
     stepNumber: 6,
-    title: 'دیپلوی پنل وب روی Cloudflare Pages',
-    badge: 'Cloudflare Pages',
-    description: 'بارگذاری پنل مدیریت زیبا و سبک با استفاده از Direct Upload.',
+    title: 'نحوه دسترسی به پنل مدیریت و Telegram Mini App',
+    badge: 'Mini App & Web',
+    description: 'پنل مدیریت به صورت پیش‌فرض درون خود ورکر در مسیر /panel تعبیه شده است و همچنین روی Cloudflare Pages نیز قابل دیپلوی است.',
     substeps: [
-      'در داشبورد کلودفلر به Workers & Pages بروید و روی Create application > Pages کلیک کنید.',
-      'گزینه Direct Upload را انتخاب کنید.',
-      'پوشه panel/ شامل فایل index.html را آپلود کنید (می‌توانید مستقیماً فایل index.html موجود در پوشه panel را انتخاب کنید).',
-      'نام پروژه را aggregator-panel بگذارید و Deploy را بزنید.',
-      'آدرس پنل به فرم https://aggregator-panel.pages.dev تولید می‌شود.'
+      'روش ۱ (مستقیم در ورکر — پیشنهادی): مسیر /panel در ورکر شما مستقیماً پنل را باز می‌کند. با ست کردن متغیر PANEL_URL به آدرس ورکر خود (مثلاً https://my-bot.workers.dev/panel)، تلگرام دکمه مینی‌اپ را به شکل مستقیم نمایش می‌دهد.',
+      'روش ۲ (Cloudflare Pages): در صورت تمایل به هاست مجزا، می‌توانید فایل panel/index.html را در Cloudflare Pages با Direct Upload دیپلوی کنید و سپس آدرس Pages را در متغیر PANEL_URL قرار دهید.'
     ]
   },
   {
@@ -103,8 +102,8 @@ export const DEPLOYMENT_STEPS: DeploymentStep[] = [
     substeps: [
       'آدرس ورکر خود را در مرورگر باز کرده و انتهای آن عبارت /setup-commands را اضافه کنید:',
       'مثال: https://telegram-aggregator.<subdomain>.workers.dev/setup-commands',
-      'پیام تایید «✅ ۱۶ دستور در تلگرام ثبت شد» نمایش داده می‌شود.',
-      'اکنون در ربات تلگرام دستور /start را ارسال کنید تا ربات شروع به کار کند!'
+      'پیام تایید «✅ دستورات در تلگرام ثبت شد» نمایش داده می‌شود.',
+      'اکنون در ربات تلگرام دستور /start را ارسال کنید تا ربات و دکمه Mini App شروع به کار کنند!'
     ]
   }
 ];
@@ -112,6 +111,7 @@ export const DEPLOYMENT_STEPS: DeploymentStep[] = [
 export const ENV_VARS = [
   { name: 'BOT_TOKEN', type: 'Secret', required: true, desc: 'توکن ربات تلگرام از @BotFather', example: '123456789:ABCdef...' },
   { name: 'MAIN_ADMIN_ID', type: 'Text / Env', required: true, desc: 'آیدی عددی تلگرام ادمین اصلی (از @userinfobot)', example: '987654321' },
+  { name: 'PANEL_URL', type: 'Text / Env', required: false, desc: 'آدرس مستقیم پنل مینی‌اپ در ورکر (مثلاً https://my-bot.workers.dev/panel) جهت فعال‌سازی خودکار دکمه WebApp تلگرام', example: 'https://telegram-aggregator.xyz.workers.dev/panel' },
   { name: 'PANEL_PASSWORD', type: 'Secret', required: true, desc: 'رمز عبور ورود به پنل تحت وب', example: 'MyStrongPass@2026' },
   { name: 'GEMINI_API_KEY', type: 'Secret', required: false, desc: 'کلید رایگان Gemini API از Google AI Studio برای ویژگی‌های هوشمند', example: 'AIzaSy...' }
 ];

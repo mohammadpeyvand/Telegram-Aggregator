@@ -150,6 +150,8 @@ export const GuideView: React.FC = () => {
                   <td className="py-3 px-3">
                     {v.required ? (
                       <span className="text-xs font-semibold text-rose-600">بله (الزامی)</span>
+                    ) : v.name === 'PANEL_URL' ? (
+                      <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">پیشنهادی (مینی‌اپ)</span>
                     ) : (
                       <span className="text-xs text-slate-500">اختیاری (برای AI)</span>
                     )}

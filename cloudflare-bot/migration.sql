@@ -109,3 +109,7 @@ CREATE TABLE IF NOT EXISTS audit_log (
 );
 CREATE INDEX IF NOT EXISTS idx_audit_table   ON audit_log(table_name);
 CREATE INDEX IF NOT EXISTS idx_audit_created ON audit_log(created_at);
+
+-- ─── ۸. اضافه کردن نام و یوزرنیم ادمین‌ها به جدول admins ───
+ALTER TABLE admins ADD COLUMN name TEXT DEFAULT '';
+ALTER TABLE admins ADD COLUMN username TEXT DEFAULT '';
