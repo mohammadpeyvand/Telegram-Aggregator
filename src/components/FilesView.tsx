@@ -11,43 +11,52 @@ const FILES_LIST: FileItem[] = [
     id: 'worker',
     name: 'worker.js',
     path: 'cloudflare-bot/worker.js',
-    size: '۳۹۶ کیلوبایت (تک‌فایلی مستقل و خودکفا)',
+    size: '۵۱۶ کیلوبایت (تک‌فایلی مستقل و خودکفا)',
     badge: 'تک‌فایلی آماده کپی در ادیتور کلادفلر',
-    description: 'کد هسته ربات تلگرام روی Cloudflare Workers به صورت کاملاً مستقل و Self-Contained. قالب HTML پنل و مینی‌اپ مستقیماً درون خود فایل امبد شده و نیازی به هیچ ماژول یا فایل مجزای دیگری در کلادفلر ندارد.',
+    description: 'کد کامل هسته ربات تلگرام روی Cloudflare Workers به صورت کاملاً مستقل و Self-Contained. قالب HTML پنل و فلوچارت مستقیماً درون خود فایل امبد شده و نیازی به هیچ ماژول یا فایل مجزای دیگری در کلادفلر ندارد.',
     downloadUrl: '/files/worker.js'
   },
   {
     id: 'panel',
     name: 'panel/index.html',
     path: 'cloudflare-bot/panel/index.html',
-    size: '۹۳ کیلوبایت (تک فایلی)',
+    size: '۱۱۴ کیلوبایت (تک فایلی)',
     badge: 'پنل مدیریت تحت وب و تلگرام',
-    description: 'پنل کاربری واکنش‌گرا هماهنگ با Telegram WebApp SDK. شامل نمایش نام و یوزرنیم ادمین‌ها کنار آیدی، تم تاریک و روشن هماهنگ با تلگرام، و دسترسی مستقیم بدون خروج از تلگرام.',
+    description: 'پنل کاربری واکنش‌گرا هماهنگ با Telegram WebApp SDK. شامل مدیریت کامل منابع و کلیدواژه‌ها، دکمه بررسی هوشمند آستانه ری‌اکشن وایرال (/api/viral-suggest)، سیستم ضد تبلیغات و قرنطینه.',
     downloadUrl: '/files/panel-index.html'
+  },
+  {
+    id: 'flowchart',
+    name: 'flowchart.html',
+    path: 'cloudflare-bot/flowchart.html',
+    size: '۵۳ کیلوبایت (تعاملی)',
+    badge: 'فلوچارت تعاملی معماری ربات',
+    description: 'نمودار کامل و تعاملی ۵ فاز معماری ربات، خط لوله اسکرپ، سیستم ضد تبلیغات ۴ لایه، موتور رهگیری رشد وایرال و هوش مصنوعی دوگانه همراه با قطعه‌کدهای اجرایی.',
+    downloadUrl: '/files/flowchart.html'
   },
   {
     id: 'migration',
     name: 'migration.sql',
     path: 'cloudflare-bot/migration.sql',
-    size: '۴ کیلوبایت',
+    size: '۵.۱ کیلوبایت',
     badge: 'اسکریپت مایگریشن D1',
-    description: 'کوئری‌های لازم برای به‌روزرسانی دیتابیس موجود به نسخه جدید بدون پاک شدن داده‌ها و منابع ذخیره شده قبلی.',
+    description: 'کوئری‌های لازم برای به‌روزرسانی دیتابیس موجود به نسخه جدید (شامل جدول viral_tracking و ایندکس‌ها) بدون پاک شدن داده‌ها و منابع ذخیره شده قبلی.',
     downloadUrl: '/files/migration.sql'
   },
   {
     id: 'schema',
     name: 'schema.sql',
     path: 'cloudflare-bot/schema.sql',
-    size: '۱۴.۵ کیلوبایت',
+    size: '۱۵.۶ کیلوبایت',
     badge: 'اسکیمای کامل اولیه',
-    description: 'ساختار کامل دیتابیس D1 شامل تمام جداول sources، logs، admins، ad_weights، quarantine و ai_suggestions برای ساخت دیتابیس جدید از صفر.',
+    description: 'ساختار کامل دیتابیس D1 شامل تمام جداول sources، logs، admins، ad_weights، quarantine، viral_tracking و ai_suggestions برای ساخت دیتابیس جدید از صفر.',
     downloadUrl: '/files/schema.sql'
   },
   {
     id: 'wrangler',
     name: 'wrangler.toml.example',
     path: 'cloudflare-bot/wrangler.toml.example',
-    size: '۲.۶ کیلوبایت',
+    size: '۲.۸ کیلوبایت',
     badge: 'نمونه تنظیمات خط فرمان',
     description: 'نمونه فایل پیکربندی برای افرادی که تمایل دارند از ابزار خط فرمان Wrangler CLI برای دیپلوی یا بایندینگ‌ها استفاده کنند.',
     downloadUrl: '/files/wrangler.toml.example'

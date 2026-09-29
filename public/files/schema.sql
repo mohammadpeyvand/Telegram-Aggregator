@@ -62,6 +62,9 @@ CREATE TABLE IF NOT EXISTS sources (
   block_ads                INTEGER DEFAULT 1,    -- ۱=روشن، ۰=خاموش
   ad_threshold             INTEGER DEFAULT 70,    -- آستانه امتیاز تبلیغاتی
 
+  -- ─── پذیرش و پیشنهاد هوش مصنوعی ───
+  ai_keywords_enabled      INTEGER DEFAULT 1,    -- ۱=پذیرش و پیشنهاد هوش مصنوعی فعال، ۰=غیرفعال (پرش)
+
   active                   INTEGER DEFAULT 1,
   created_by               TEXT    DEFAULT '',   -- آیدی عددی ادمین که منبع را اضافه کرده
   created_at               INTEGER
@@ -76,6 +79,8 @@ CREATE TABLE IF NOT EXISTS admins (
   id           INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id      TEXT    UNIQUE NOT NULL,
   added_by     TEXT,
+  name         TEXT    DEFAULT '',     -- نام ادمین در تلگرام
+  username     TEXT    DEFAULT '',     -- یوزرنیم @ تلگرام
   permissions  TEXT    DEFAULT '{}',   -- JSON: {addsource, editsource, ...}
   created_at   INTEGER
 );
@@ -234,6 +239,24 @@ CREATE TABLE IF NOT EXISTS audit_log (
 
 CREATE INDEX IF NOT EXISTS idx_audit_table ON audit_log(table_name);
 CREATE INDEX IF NOT EXISTS idx_audit_created ON audit_log(created_at);
+
+-- جدول رهگیری و بررسی رشد ری‌اکشن در حالت Viral Mode
+CREATE TABLE IF NOT EXISTS viral_tracking (
+  id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  source_id       INTEGER NOT NULL,
+  data_post       TEXT    NOT NULL UNIQUE,   -- channel/123
+  post_link       TEXT    NOT NULL,
+  check_count     INTEGER DEFAULT 1,
+  first_seen_at   INTEGER NOT NULL,
+  last_checked_at INTEGER NOT NULL,
+  reactions_history TEXT  DEFAULT '[]',      -- JSON: [{ check, time, counts: {}, total }]
+  growth_observed INTEGER DEFAULT 0,         -- 1 = رشد تایید شده در بررسی‌های متوالی
+  status          TEXT    DEFAULT 'tracking',-- tracking | sent | expired
+  created_at      INTEGER
+);
+
+CREATE INDEX IF NOT EXISTS idx_viral_track_status ON viral_tracking(status);
+CREATE INDEX IF NOT EXISTS idx_viral_track_source ON viral_tracking(source_id);
 
 -- ============================================================================
 --  Migration (برای کاربرانی که نسخه v3 را نصب کرده‌اند):

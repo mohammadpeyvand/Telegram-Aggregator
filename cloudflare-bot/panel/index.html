@@ -772,7 +772,7 @@
         <table>
           <thead>
             <tr>
-              <th>#</th><th>کانال</th><th>موضوع</th><th>حالت</th><th>کلیدواژه‌ها</th><th>مقصد</th><th>ضد تبلیغ</th><th>وضعیت</th><th>عملیات</th>
+              <th>#</th><th>کانال</th><th>موضوع</th><th>حالت</th><th>کلیدواژه‌ها</th><th>مقصد</th><th>ضد تبلیغ</th><th>کلیدواژه AI</th><th>وضعیت</th><th>عملیات</th>
             </tr>
           </thead>
           <tbody id="sourcesBody"></tbody>
@@ -1238,6 +1238,11 @@ function renderSources(){
       <td>${formatKwList(s)}</td>
       <td style="font-size:.7rem">${esc(s.target_chat_id)}${s.target_topic_id?':'+esc(s.target_topic_id):''}</td>
       <td><button class="icon-btn ${s.block_ads!==0?'success':''}" title="${adTitle}" onclick="toggleAdBlock(${s.id},${s.block_ads===0?1:0})">${adIcon}</button></td>
+      <td>
+        <button class="icon-btn ${s.ai_keywords_enabled!==0?'success':''}" title="${s.ai_keywords_enabled===0?'پذیرش AI خاموش — کلیک برای روشن':'پذیرش AI روشن — کلیک برای خاموش (پرش)'}" onclick="toggleAIKeywords(${s.id},${s.ai_keywords_enabled===0?1:0})">
+          ${s.ai_keywords_enabled===0?'❌':'🤖'}
+        </button>
+      </td>
       <td><span class="badge ${s.active?'b-on':'b-off'}">${s.active?'فعال':'غیرفعال'}</span></td>
       <td><div style="display:flex;gap:.2rem">
         <button class="icon-btn" title="اسکن" onclick="scanSource(${s.id})">🔍</button>
@@ -1254,6 +1259,14 @@ async function toggleAdBlock(id, newVal){
     const s = SOURCES.find(x=>x.id===id); if(s) s.block_ads = newVal;
     renderSources();
     toast(newVal===1?'🟢 ضد تبلیغات روشن شد':'🔴 ضد تبلیغات خاموش شد');
+  }catch(e){toast(e.message, false)}
+}
+async function toggleAIKeywords(id, newVal){
+  try{
+    await api('sources/'+id, {method:'PUT', body:JSON.stringify({ai_keywords_enabled:newVal})});
+    const s = SOURCES.find(x=>x.id===id); if(s) s.ai_keywords_enabled = newVal;
+    renderSources();
+    toast(newVal===1?'🤖 پذیرش کلیدواژه هوش مصنوعی فعال شد':'❌ پیشنهاد و پذیرش کلیدواژه AI غیرفعال (پرش) شد');
   }catch(e){toast(e.message, false)}
 }
 
@@ -1289,13 +1302,17 @@ function openAddModal(){
 
     <div id="viralFields" style="display:none">
       <div class="field">
-        <label>قوانین چند ری‌اکشن (اختیاری)</label>
-        <div class="hint" style="margin-bottom:.5rem">هر ری‌اکشن آستانه مستقل دارد. همه باید عبور کنند (AND). خالی = مجموع همه ری‌اکشن‌ها.</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+          <label style="margin:0">قوانین چند ری‌اکشن (اختیاری)</label>
+          <button type="button" class="btn btn-ghost btn-sm" onclick="checkViralThresholds('m')">📊 بررسی آستانه ری‌اکشن (روز قبل)</button>
+        </div>
+        <div id="m_viral_suggest_box" style="display:none;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.3);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.75rem"></div>
+        <div class="hint" style="margin-bottom:.5rem">هر ری‌اکشن آستانه مستقل دارد. همه باید عبور کنند (AND). رشد ری‌اکشن در چند بررسی متوالی رصد می‌شود.</div>
         <div class="reaction-rules" id="m_viral_rules"></div>
         <button class="btn btn-ghost btn-sm" style="margin-top:.5rem" onclick="addReactionRule('m')">➕ افزودن ری‌اکشن</button>
       </div>
       <div class="field"><label>آستانه مجموع ری‌اکشن‌ها (وقتی rule وجود ندارد)</label><input id="m_viral_threshold" type="number" value="1000" />
-      <div class="hint">معیار Viral Mode فقط ری‌اکشن‌هاست. اگه rule خاص تنظیم نکنید، مجموع همه ری‌اکشن‌ها از این عدد عبور کند → ارسال.</div></div>
+      <div class="hint">معیار Viral Mode فقط ری‌اکشن‌هاست. اگه rule خاص تنظیم نکنید، مجموع همه ری‌اکشن‌ها با اثبات رشد از این عدد عبور کند → ارسال.</div></div>
     </div>
 
     <div class="field"><label>مقصد (chat_id)</label><input id="m_target" placeholder="-100123456789" /></div>
@@ -1437,6 +1454,71 @@ function getViralRules(prefix){
   return rules;
 }
 
+// ─── بررسی هوشمند آستانه ری‌اکشن بر اساس ۲۰ پست روز قبل (بدون AI) ───
+async function checkViralThresholds(prefix){
+  const channelInput = $(`#${prefix}_channel`);
+  const rawChannel = channelInput ? channelInput.value : '';
+  const channel = rawChannel.split(',')[0].trim().replace(/^@/, '');
+  if(!channel){
+    toast('ابتدا آیدی کانال را در فیلد بالا وارد کنید', false);
+    return;
+  }
+  const box = $(`#${prefix}_viral_suggest_box`);
+  if(box){
+    box.style.display = 'block';
+    box.innerHTML = '<div style="font-size:.8rem;color:var(--accent)">⏳ در حال واکشی و تحلیل ۲۰ پست روز قبل کانال... لطفاً صبر کنید</div>';
+  }
+  // استخراج ری‌اکشن‌های فعلی فرم
+  const container = $(`#${prefix}_viral_rules`);
+  const emojis = [];
+  if(container){
+    container.querySelectorAll('.reaction-rule').forEach(r=>{
+      const em = r.querySelector('.vr-emoji')?.value;
+      if(em && !emojis.includes(em)) emojis.push(em);
+    });
+  }
+  try{
+    const res = await api('viral-suggest', {
+      method: 'POST',
+      body: JSON.stringify({ channel, emojis: emojis.length ? emojis : ['🔥', '❤️', '👍'] }),
+    });
+    if(!res.ok) throw new Error(res.error || 'خطا در بررسی آستانه');
+
+    let html = `<div style="font-size:.8rem;font-weight:600;margin-bottom:.4rem;color:var(--text)">📊 پیشنهاد آستانه (تحلیل ${res.posts_analyzed} پست آخر روز قبل - ${esc(res.date_sample)}):</div>`;
+    html += `<div style="display:flex;flex-direction:column;gap:.35rem;margin-bottom:.6rem">`;
+    for(const s of res.suggestions){
+      html += `<div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg2);padding:.35rem .6rem;border-radius:6px;font-size:.8rem">
+        <span>${esc(s.emoji)} آستانه پیشنهادی: <strong style="color:var(--accent);font-size:.9rem">${s.recommended}</strong></span>
+        <span style="font-size:.7rem;color:var(--muted)">میانگین: ${s.avg} | بیشترین: ${s.max}</span>
+      </div>`;
+    }
+    html += `</div>`;
+    html += `<div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem">⚡ پیشنهاد آستانه مجموع: <strong>${res.total_suggestion}</strong></div>`;
+    html += `<div style="display:flex;gap:.5rem">
+      <button type="button" class="btn btn-primary btn-sm" onclick="applyViralSuggestions('${prefix}', ${JSON.stringify(res.suggestions).replace(/"/g, '&quot;')}, ${res.total_suggestion})">✅ اعمال مقادیر پیشنهادی در فرم</button>
+      <button type="button" class="btn btn-ghost btn-sm" onclick="$('#${prefix}_viral_suggest_box').style.display='none'">بستن</button>
+    </div>`;
+    box.innerHTML = html;
+  }catch(e){
+    if(box) box.innerHTML = `<div style="font-size:.8rem;color:var(--red)">❌ خطا: ${esc(e.message)}</div>`;
+    toast(e.message, false);
+  }
+}
+
+function applyViralSuggestions(prefix, suggestions, totalSug){
+  const container = $(`#${prefix}_viral_rules`);
+  if(!container) return;
+  container.innerHTML = '';
+  for(const s of suggestions){
+    addReactionRule(prefix, { emoji: s.emoji, threshold: s.recommended });
+  }
+  const totInput = $(`#${prefix}_viral_threshold`);
+  if(totInput && totalSug) totInput.value = totalSug;
+  const box = $(`#${prefix}_viral_suggest_box`);
+  if(box) box.style.display = 'none';
+  toast('✅ مقادیر پیشنهادی با موفقیت در فرم درج شدند');
+}
+
 function parseKwInput(val){
   if(!val) return [];
   if(Array.isArray(val)) return val.map(s=>String(s).trim()).filter(Boolean);
@@ -1524,12 +1606,16 @@ function openEditModal(id){
 
     <div id="eViral" style="display:${s.mode==='viral'?'block':'none'}">
       <div class="field">
-        <label>قوانین چند ری‌اکشن</label>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+          <label style="margin:0">قوانین چند ری‌اکشن</label>
+          <button type="button" class="btn btn-ghost btn-sm" onclick="checkViralThresholds('e')">📊 بررسی آستانه ری‌اکشن (روز قبل)</button>
+        </div>
+        <div id="e_viral_suggest_box" style="display:none;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.3);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.75rem"></div>
         <div class="reaction-rules" id="e_viral_rules"></div>
         <button class="btn btn-ghost btn-sm" style="margin-top:.5rem" onclick="addReactionRule('e')">➕ افزودن ری‌اکشن</button>
       </div>
       <div class="field"><label>آستانه مجموع ری‌اکشن‌ها</label><input id="e_viral_threshold" type="number" value="${s.viral_threshold||1000}" />
-      <div class="hint">اگه rule خاص تنظیم نکنید، مجموع همه ری‌اکشن‌ها از این عدد عبور کند → ارسال.</div></div>
+      <div class="hint">اگه rule خاص تنظیم نکنید، مجموع همه ری‌اکشن‌ها با اثبات رشد از این عدد عبور کند → ارسال.</div></div>
     </div>
 
     <div class="field"><label>مقصد (chat_id)</label><input id="e_target" value="${esc(s.target_chat_id)}" /></div>

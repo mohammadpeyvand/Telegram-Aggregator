@@ -21,6 +21,7 @@ ALTER TABLE sources ADD COLUMN deep_scoring INTEGER DEFAULT 0;
 ALTER TABLE sources ADD COLUMN deep_threshold INTEGER DEFAULT 50;
 ALTER TABLE sources ADD COLUMN viral_reactions TEXT DEFAULT '[]';
 ALTER TABLE sources ADD COLUMN ad_threshold INTEGER DEFAULT 70;
+ALTER TABLE sources ADD COLUMN ai_keywords_enabled INTEGER DEFAULT 1;
 
 -- ─── ۲. اضافه کردن ستون‌های جدید به جدول logs ───
 ALTER TABLE logs ADD COLUMN breakdown TEXT;

@@ -3,12 +3,13 @@ import { Header } from './components/Header';
 import { MigrationView } from './components/MigrationView';
 import { FilesView } from './components/FilesView';
 import { GuideView } from './components/GuideView';
+import { FlowchartView } from './components/FlowchartView';
 import { CodeModal } from './components/CodeModal';
 import { ActiveTab, FileItem } from './types';
-import { Database, FileCode, BookOpen, Sparkles, Download, Check } from 'lucide-react';
+import { Database, FileCode, BookOpen, Sparkles, Download, Check, GitBranch } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('migration');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('flowchart');
   const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
   const [isDownloadingAll, setIsDownloadingAll] = useState(false);
 
@@ -41,6 +42,21 @@ export default function App() {
         {/* Navigation Tabs */}
         <div className="flex border-b border-slate-200 bg-white rounded-t-xl px-4 pt-3 shadow-xs gap-2">
           <button
+            onClick={() => setActiveTab('flowchart')}
+            className={`flex items-center gap-2 py-3 px-4 font-semibold text-sm rounded-t-lg transition-all cursor-pointer border-b-2 -mb-px ${
+              activeTab === 'flowchart'
+                ? 'border-cyan-600 text-cyan-700 bg-cyan-50/50'
+                : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+            }`}
+          >
+            <GitBranch className="w-4 h-4 text-cyan-600" />
+            <span>فلوچارت معماری نهایی (Flowchart)</span>
+            <span className="px-1.5 py-0.2 rounded text-[11px] font-bold bg-cyan-100 text-cyan-800">
+              ۵ فاز تعاملی
+            </span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('migration')}
             className={`flex items-center gap-2 py-3 px-4 font-semibold text-sm rounded-t-lg transition-all cursor-pointer border-b-2 -mb-px ${
               activeTab === 'migration'
@@ -66,7 +82,7 @@ export default function App() {
             <FileCode className="w-4 h-4" />
             <span>فایل‌های پروژه (کدها و اسکریپت‌ها)</span>
             <span className="px-1.5 py-0.2 rounded text-[11px] font-bold bg-slate-200 text-slate-700">
-              ۵ فایل
+              ۶ فایل
             </span>
           </button>
 
@@ -88,6 +104,7 @@ export default function App() {
 
         {/* Tab Content Box */}
         <div className="bg-white rounded-b-xl border-x border-b border-slate-200 p-6 shadow-xs min-h-[500px]">
+          {activeTab === 'flowchart' && <FlowchartView />}
           {activeTab === 'migration' && <MigrationView />}
           {activeTab === 'files' && <FilesView onViewCode={(file) => setSelectedFile(file)} />}
           {activeTab === 'guide' && <GuideView />}

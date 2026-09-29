@@ -1,4 +1,4 @@
-export type ActiveTab = 'migration' | 'files' | 'guide' | 'env';
+export type ActiveTab = 'migration' | 'files' | 'guide' | 'flowchart' | 'env';
 
 export interface FileItem {
   id: string;
